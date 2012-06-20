@@ -35,8 +35,6 @@ function [Delta GDelta HDelta] = TDEDiscriminant(TDEs,MICS,samplingPeriod,C)
 %     X. Alameda-Pineda and R. Horaud. Geometrically-constrained time delay
 %     estimation-based sound source localisation (gTDESSL). Research Report 
 %     RR-7988, INRIA, June 2012.
-%
-%   see TDEGeometricDirect TDEGeometricInverse
 
 % Copyright 2012, Xavier Alameda-Pineda
 % INRIA Grenoble Rhône-Alpes
@@ -67,7 +65,7 @@ function [Delta GDelta HDelta] = TDEDiscriminant(TDEs,MICS,samplingPeriod,C)
            samplingPeriod = 0;
             % Error, bad usage
             if nargin < 2
-                error('Usage: [Delta JDelta] = TDEDiscriminant(TDEs,MICS[, samplingPeriod, C])');
+                error('Usage: [Delta GDelta HDelta] = TDEDiscriminant(TDEs,MICS[, samplingPeriod, C])');
             end
         else
             if samplingPeriod > 0
