@@ -83,7 +83,7 @@ function [J GJ HJ] = gTDECriterion(TDEs,PCCC,microphones,samplingPeriod)
         index = TDEis(1,ss,NMics);
         % The cross-correlation function should be interpolated at
         % -t_{1,ss} not at t_{1,ss}
-        [r(index,:) rd(index,index,:) rdd(index,index,:)] = CCInterpolation(PCCC{1,ss},-TDEs(index,:),samplingPeriod);
+        [r(index,:) rd(index,index,:) rdd(index,index,:)] = CrossCorrelationInterpolation(PCCC{1,ss},-TDEs(index,:),samplingPeriod);
     end
     
     % Matrix R
@@ -96,13 +96,13 @@ function [J GJ HJ] = gTDECriterion(TDEs,PCCC,microphones,samplingPeriod)
     % Fill the three matrices
     for mic1 = 2:NMics,
         % Autocorrelation
-        R(mic1-1,mic1-1,:) = CCInterpolation(PCCC{mic1,mic1},0,samplingPeriod);
+        R(mic1-1,mic1-1,:) = CrossCorrelationInterpolation(PCCC{mic1,mic1},0,samplingPeriod);
         for mic2 = mic1+1:NMics
             % Crosscorrelation
             TDEmic1mic2 = TDEs(TDEis(1,mic2,NMics),:)-TDEs(TDEis(1,mic1,NMics),:);
             % The cross-correlation function should be interpolated at
             % -t_{mic1,mic2} not at t_{mic1,mic2}
-            [R(mic1-1,mic2-1,:) RD(mic1-1,mic2-1,:) RDD(mic1-1,mic2-1,:)] = CCInterpolation(PCCC{mic1,mic2},-TDEmic1mic2,samplingPeriod);
+            [R(mic1-1,mic2-1,:) RD(mic1-1,mic2-1,:) RDD(mic1-1,mic2-1,:)] = CrossCorrelationInterpolation(PCCC{mic1,mic2},-TDEmic1mic2,samplingPeriod);
             % Symmetrize the matrices
             R(mic2-1,mic1-1,:) = R(mic1-1,mic2-1,:);
             RD(mic2-1,mic1-1,:) = RD(mic1-1,mic2-1,:);
@@ -114,7 +114,7 @@ function [J GJ HJ] = gTDECriterion(TDEs,PCCC,microphones,samplingPeriod)
 
     % 0. RTilde matrix
     RTilde = zeros(NMics,NMics,NTDEs);
-    RTilde(1,1,:) = CCInterpolation(PCCC{1,1},0,samplingPeriod);
+    RTilde(1,1,:) = CrossCorrelationInterpolation(PCCC{1,1},0,samplingPeriod);
     RTilde(1,2:end,:) = r;
     RTilde(2:end,1,:) = r;
     RTilde(2:end,2:end,:) = R;

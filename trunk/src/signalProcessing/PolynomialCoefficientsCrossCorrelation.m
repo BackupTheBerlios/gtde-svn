@@ -25,7 +25,7 @@ function PCCC = PolynomialCoefficientsCrossCorrelation(firstCoefficients,secondC
 %     estimation-based sound source localisation (gTDESSL). Research Report 
 %     RR-7988, INRIA, June 2012.
 %
-%   see also InterpolateCrossCorrelation
+%   see also InterpolateCrossCorrelation, DiscreteCrossCorrelation
 
 % Copyright 2012, Xavier Alameda-Pineda
 % INRIA Grenoble Rhône-Alpes
@@ -71,10 +71,9 @@ function PCCC = PolynomialCoefficientsCrossCorrelation(firstCoefficients,secondC
     %%% Computation
     for m1 = 1:M1,
         for m2 = 1:M2,
-            PCCC(m1,m2,:) = xcorr(firstCoefficients(:,m1),...
+            PCCC(m1,m2,:) = DiscreteCrossCorrelation(firstCoefficients(:,m1),...
                                   secondCoefficients(:,m2),...
-                                  MaxLag,...
-                                  'none');
+                                  MaxLag);
         end
     end
 
