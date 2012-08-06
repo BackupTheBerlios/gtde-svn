@@ -5,12 +5,26 @@ function batchTDEExperiments(experimentOptions)
 % USAGE: batchTDEExperiments(experimentOptions)
 %
 % PARAMETERS:
-%   experimentOptions ~ options of the experiment
+%   experimentOptions ~ structure containint several structures describing 
+%     the options of the experiment. The sub-structures are described here.
 %
-% TODO: describe the options
-%
-%
-%   see also 
+%     1) globalOptions ~ structure with the following fields.
+%         rootFolder [M] ~ the root folder for data and results.
+%         dimension [M] ~ dimension of the experiment (2 or 3).
+% 
+%     2) sourcePositionOptions ~ options for the generation of the sound source 
+%         positions. Please see SpecifyPositions.
+% 
+%     3) microphonePositionOptions ~ options to specify the microphone positions.
+%         Please see SpecifyMicrophones.
+% 
+%     4) ismOptions ~ options to specify the ISM filters. Please see SpecifyISMFilters.
+% 
+%     5) dataOptions ~ options to specify the used data. Please see SpecifyData.
+% 
+%     6) methodOptions ~ options to specify the used method. Please see SpecifyMethod.
+% 
+%   see also checkExperimentOptions
 
 % Copyright 2012, Xavier Alameda-Pineda
 % INRIA Grenoble Rhône-Alpes
@@ -163,114 +177,6 @@ function batchTDEExperiments(experimentOptions)
     save(fileName,'experimentOptions','foundTDEs');
     
 end % function
-
-function checkExperimentOptions(experimentOptions)
-    
-    % Check that there is the kind of data used and the type of sensor
-    mandatoryFields = {'dataUsed','sensorType','dimension','method',...
-        'sourcePositionOptions','snrValues','ism','rootFolder','room',...
-        'microphoneOffset','sourceMotion','length','generateISMData','generateSourcePositions'};
-    for f = 1:numel(mandatoryFields),
-        if ~isfield(experimentOptions,mandatoryFields{f})
-            error(['Field ' mandatoryFields{f} ' is mandatory.']);
-        end
-    end
-
-    data = {'synthetic','simulated','real'};
-    % Check the data specified
-    dataFlag = 0;
-    for d = 1:numel(data)
-        dataFlag = dataFlag + strcmp(experimentOptions.dataUsed,data{d});
-    end
-    if dataFlag == 0
-        error('Data specified not known.');
-    end
-    
-    method =  {'gtde','tde','init','bypairs'};
-    % Check the method specified
-    methodFlag = 0;
-    for d = 1:numel(method)
-        methodFlag = methodFlag + strcmp(experimentOptions.method,method{d});
-    end
-    if methodFlag == 0
-        error('Method specified not known.');
-    end
-    
-    % Particular fields needed
-    if strcmp(experimentOptions.dataUsed,'synthetic')
-        mandatoryFields = {'samplingFrequency'};
-        for f = 1:numel(mandatoryFields),
-            if ~isfield(experimentOptions,mandatoryFields{f})
-                error(['Field ' mandatoryFields{f} ' is mandatory when using synthetic data.']);
-            end
-        end
-    end
-    if strcmp(experimentOptions.dataUsed,'simulated')
-        mandatoryFields = {'wavFolder'};
-        for f = 1:numel(mandatoryFields),
-            if ~isfield(experimentOptions,mandatoryFields{f})
-                error(['Field ' mandatoryFields{f} ' is mandatory when using simulated data.']);
-            end
-        end
-    end
-    if strcmp(experimentOptions.dataUsed,'real')
-        mandatoryFields = {'field','panIndices','tiltIndices'};
-        for f = 1:numel(mandatoryFields),
-            if ~isfield(experimentOptions,mandatoryFields{f})
-                error(['Field ' mandatoryFields{f} ' is mandatory when using real data.']);
-            end
-        end
-        if ~experimentOptions.generateSourcePositions
-            error('In the real data experiments the source positions are always generated (read from file).');
-        end
-    end
-    
-    sensor = {'linearArray','tetrahedronArray'};
-    % Check the sensor specified
-    sensorFlag = 0;
-    for s = 1:numel(sensor),
-        sensorFlag = sensorFlag + strcmp(experimentOptions.sensorType,sensor{s});
-    end
-    if sensorFlag == 0
-        error('Sensor type specified not known.');
-    end    
-    
-    % The combination of real data and linear array is forbidden.
-    if strcmp(experimentOptions.dataUsed,'real') && strcmp(experimentOptions.sensorType,'linearArray')
-        error('We do not have real data for linear array.');
-    end
-    if strcmp(experimentOptions.dataUsed,'real') && experimentOptions.ism
-        fprintf('Warning: No needing for simulate the ISM with real data.');
-    end
-    if strcmp(experimentOptions.sensorType,'linearArray') && strcmp(experimentOptions.constraint,true)
-        error('The use of the geometric constraint in the linear array case makes no sense.');
-    end
-    
-    % Check the dimension
-    if experimentOptions.dimension ~= 2 && experimentOptions.dimension ~= 3
-        error('Dimension should be 2 or 3.');
-    end
-    if experimentOptions.dimension == 2 && experimentOptions.ism
-        error('Not simulating the room in the 2D case.');
-    end
-    if experimentOptions.dimension == 2 && strcmp(experimentOptions.dataUsed,'real'),
-        error('We do not have real data with dimension 2.');
-    end
-    
-    % ISM
-    if experimentOptions.ism
-        if ~isfield(experimentOptions,'absorption_weights')
-            error('If you want to use ISM, you need to specify the absortion weights.');
-        end
-        if ~isfield(experimentOptions,'ismFolder')
-            error('If you want to use ISM, you need to specify an ISM folder.');
-        end
-        if ~isfield(experimentOptions,'T60')
-            error('If you want to use ISM, you need to specify value(s) for T60.');
-        end
-    end
-
-end
 
 function sourcePositions = getSourcePositions(experimentOptions)
     % Initializing to the empty set
@@ -559,43 +465,37 @@ end
 function generateISMData(experimentOptions)
     % Sampling Frequencies
     samplingFrequencies = [16000 44100 48000];
-    % Static source case
-    if ~experimentOptions.sourceMotion
-        donePart = 0;
-        % Done part done
-        % For each value of T60
-        for nt = 1:numel(experimentOptions.T60)
-            t60 = experimentOptions.T60(nt);
-            % For each sampling frequency
-            for nSF = 1:numel(samplingFrequencies),
-            SF = samplingFrequencies(nSF);
-                % For each sound source positions
-                for np = 1:size(experimentOptions.sourcePositions,1)
-                    % Extract position
-                    position = experimentOptions.sourcePositions(np,:);
-                    % ISM file name
-                    ISMFileName = getISMFileName(experimentOptions,t60,position,SF);
-                    % If the file does not exist, create it
-                    if ~(exist(ISMFileName,'file') == 2)
-                        ISMStruct = gTDE_ISM_setup();
-                        % Modify it
-                        ISMStruct.Fs = SF;
-                        ISMStruct.room = experimentOptions.room;
-                        ISMStruct.mic_pos = experimentOptions.microphonesPositions;
-                        ISMStruct.src_traj = position;
-                        ISMStruct.T60 = t60;
-                        ISMStruct.abs_weights = experimentOptions.absorption_weights;
-                        % Create the RIR filter
-                        ISM_RIR_bank(ISMStruct,ISMFileName);
-                    end
-                    donePart = donePart + 100/(numel(experimentOptions.T60)*size(experimentOptions.sourcePositions,1)*numel(samplingFrequencies));
-                    fprintf('T60: %1.1f %d [x= %1.3f, y= %1.3f, z= %1.3f] (%1.1f %%)\n',t60,SF,position(1),position(2),position(3),donePart);
-
+    donePart = 0;
+    % Done part done
+    % For each value of T60
+    for nt = 1:numel(experimentOptions.T60)
+        t60 = experimentOptions.T60(nt);
+        % For each sampling frequency
+        for nSF = 1:numel(samplingFrequencies),
+        SF = samplingFrequencies(nSF);
+            % For each sound source positions
+            for np = 1:size(experimentOptions.sourcePositions,1)
+                % Extract position
+                position = experimentOptions.sourcePositions(np,:);
+                % ISM file name
+                ISMFileName = getISMFileName(experimentOptions,t60,position,SF);
+                % If the file does not exist, create it
+                if ~(exist(ISMFileName,'file') == 2)
+                    ISMStruct = gTDE_ISM_setup();
+                    % Modify it
+                    ISMStruct.Fs = SF;
+                    ISMStruct.room = experimentOptions.room;
+                    ISMStruct.mic_pos = experimentOptions.microphonesPositions;
+                    ISMStruct.src_traj = position;
+                    ISMStruct.T60 = t60;
+                    ISMStruct.abs_weights = experimentOptions.absorption_weights;
+                    % Create the RIR filter
+                    ISM_RIR_bank(ISMStruct,ISMFileName);
                 end
+                donePart = donePart + 100/(numel(experimentOptions.T60)*size(experimentOptions.sourcePositions,1)*numel(samplingFrequencies));
+                fprintf('T60: %1.1f %d [x= %1.3f, y= %1.3f, z= %1.3f] (%1.1f %%)\n',t60,SF,position(1),position(2),position(3),donePart);
             end
         end
-    else
-        error('Not ready for dynamic sources.');
     end
 end
 
