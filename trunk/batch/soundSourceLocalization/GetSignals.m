@@ -39,8 +39,8 @@ function experimentOptions = GetSignals(experimentOptions)
             signals = cell(NSignals,1);
             % Synthetic signals
             for ns = 1:NSignals,
-                [sinusCoefficients sinusPhases sinusFrequencies] = GenerateRandomSpectrumParameters(1/experimentOptions.samplingFrequency,experimentOptions.length);
-                signals{ns} = @(x) GenerateRandomSpectrumSignal(x,sinusCoefficients,sinusPhases,sinusFrequencies);
+                [sinusCoefficients sinusPhases sinusFrequencies] = GenerateLCSParameters(1/experimentOptions.dataOptions.samplingFrequency,200);
+                signals{ns} = @(x) GenerateLCSSignal(x,sinusCoefficients,sinusPhases,sinusFrequencies);
             end  
         case 'simulated'
             % Retrieve folder

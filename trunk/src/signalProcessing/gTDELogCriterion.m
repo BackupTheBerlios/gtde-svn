@@ -200,7 +200,7 @@ function [J GJ HJ] = gTDELogCriterion(TDEs,PCCC,microphones,samplingPeriod)
         
 %         % Precompute the inverse matrices
 %         RTildeInverse = InverseMatrixArray(RTilde);
-
+%         fd = fopen('gradientIndices.txt','a+');
         % 2. If asked, compute the gradient 
         if nargout > 1
             % 2.1. Declare the gradient
@@ -221,6 +221,9 @@ function [J GJ HJ] = gTDELogCriterion(TDEs,PCCC,microphones,samplingPeriod)
                 RTildeD(2:end,1,:) = -rd(:,tde,:);
                 RTildeD(2:end,2:end,:) = RD.*mask; 
                 for nt = 1:NTDEs,
+%                     if cond(RTilde(:,:,nt)) > 1e10,
+%                         fprintf(fd,'%d ',nt);
+%                     end
                     % Storing
                     RTildeID(:,:,tde,nt) = RTilde(:,:,nt)\RTildeD(:,:,nt);
                     % 2.5. Compute the mic-1'th derivative
@@ -228,6 +231,9 @@ function [J GJ HJ] = gTDELogCriterion(TDEs,PCCC,microphones,samplingPeriod)
                 end
             end
             GJ = GJ*samplingPeriod;
+            
+%             fprintf(fd,'\n');
+%             fclose(fd);
 %             GJ = GJ;
         end
 

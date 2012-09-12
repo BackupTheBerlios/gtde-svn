@@ -1,8 +1,8 @@
-function [TDE fVal cVal] = gTDE_parallel(sigPCCC, microphones, samplingPeriod, x0)
+function [TDE fVal cVal] = ngTDE_parallel(sigPCCC, microphones, samplingPeriod, x0)
 
-%Geometric-constrained time difference estimation
+%Unconstrained time difference estimation
 %
-% USAGE: [TDE fVal cVal] = gTDE_parallel(sigPCCC, microphones, samplingPeriod, x0)
+% USAGE: [TDE fVal cVal] = ngTDE_parallel(sigPCCC, microphones, samplingPeriod, x0)
 %
 % PARAMETERS:
 %     sigPCCC ~ polynomial cross correlation of the signals' coefficients
@@ -16,14 +16,13 @@ function [TDE fVal cVal] = gTDE_parallel(sigPCCC, microphones, samplingPeriod, x
 % DESCRIPTION:
 %     Estimates the time difference of signals (or their Polynomial 
 %     Coefficients Cross-Correlation) acquired by microphones 
-%     sampled at samplingPeriod. The method is based on a geometric-
-%     constrained maximization of the continuous estimation of the cross-
+%     sampled at samplingPeriod. The method is based on an 
+%     unconstrained maximization of the continuous estimation of the cross-
 %     correlation functions. 'signals' is a M-by-N matrix with one row per 
 %     acquired signal. 'microphoned' is a M-by-3 matrix with one row per 
-%     microphone's position. TDE is a M(M-1)/2 vector with the TDEs. 
+%     microphone's position. TDE is a M(M-1)/2 vector with the TDEs.
 % 
 %   see also PolynomialInterpolationCoefficients, ipsolver_parallel, gTDELogCriterion
-
 
 % Copyright 2012, Xavier Alameda-Pineda
 % INRIA Grenoble Rhône-Alpes
@@ -94,22 +93,21 @@ function [TDE fVal cVal] = gTDE_parallel(sigPCCC, microphones, samplingPeriod, x
     % Declare the objective function
 %     objFunction = @(x) gTDECriterion(x,PCCC,microphones,samplingPeriod);
     objFunction = @(x) gTDELogCriterion(x,PCCC,microphones,samplingPeriod);
-    consFunction = @(x,z) constraints(x,z,microphones,samplingPeriod);
+    consFunction = @(x,z) constraints(x,z);
 
     % Run the parallel local optimization
     [TDE fVal cVal] = ipsolver_parallel(x0,objFunction,consFunction);
 end
 
-function [c J W] = constraints(TDEs,z,microphones,samplingPeriod)
-    % Compute the restriction (is a positive restriction)
-    [c J W] = TDEDiscriminant(TDEs,microphones,samplingPeriod);
-    % Change the sign of the restriction and its gradient, and set the
-    % equatlity constratints to null
+function [c J W] = constraints(TDEs,z)
+    % This is a dummy restriction, -inf everywhere with 0 gradient and
+    % hessian
+    c = ones(1,size(TDEs,2));
     c = -c;
     % The computed J is the gradient, and the solver expects the
     % Jacobian...
-    J = -J;
+    J = zeros(size(TDEs));
     if ~isempty(z)
-        W = -z(1)*W;
+        W = zeros(size(TDEs,1),size(TDEs,1),size(TDEs,2));
     end
 end

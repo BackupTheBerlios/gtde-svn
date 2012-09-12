@@ -1,4 +1,5 @@
 function [SetupStruc] = gTDE_ISM_setup()
+
 %ISM_setup  Environmental parameters for image-source method simulation
 %
 % [SetupStruc] = ISM_setup()  
@@ -47,6 +48,21 @@ function [SetupStruc] = gTDE_ISM_setup()
 % impulse response to decay from -5 to -25dB. Simply define either one of
 % these fields in the file below. Set this value to 0 for anechoic
 % environments (direct path only).
+
+% This is part of the gtde program.
+% 
+% gtde is free software: you can redistribute it and/or modify
+% it under the terms of the GNU General Public License as published by
+% the Free Software Foundation, either version 3 of the License, or
+% (at your option) any later version.
+% 
+% This program is distributed in the hope that it will be useful,
+% but WITHOUT ANY WARRANTY; without even the implied warranty of
+% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+% GNU General Public License for more details.
+% 
+% You should have received a copy of the GNU General Public License
+% along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 SetupStruc.Fs = 16000;                 % sampling frequency in Hz
 

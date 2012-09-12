@@ -1,21 +1,46 @@
 function [TDE fVal cVal] = gTDEByPairs(sigPCCC, microphones, samplingPeriod, x0)
 
-% gXCE geometric-constrained time difference estimation
-% 
-%     TDE = gTDE(sigPCCC, microphones, samplingPeriod, x0, verbose)
+%By-pair time difference estimation
+%
+% USAGE: [TDE fVal cVal] = gTDEByPairs(sigPCCC, microphones, samplingPeriod, x0)
+%
+% PARAMETERS:
+%     sigPCCC ~ polynomial cross correlation of the signals' coefficients
+%     microphones ~ positions of the microphones
+%     samplingPeriod ~ sampling period of the signal
+%     x0 ~ initialization points of the local minimizer
+%
+% RESULT:
+%     The time delay estimates.
+%
+% DESCRIPTION:
 %     Estimates the time difference of signals (or their Polynomial 
 %     Coefficients Cross-Correlation) acquired by microphones 
-%     sampled at samplingPeriod. The method is based on a geometric-
-%     constrained maximization of the continuous estimation of the cross-
-%     correlation functions. 'signals' is a M-by-N matrix with one row per 
-%     acquired signal. 'microphoned' is a M-by-3 matrix with one row per 
-%     microphone's position. TDE is a M(M-1)/2 vector with the TDEs. 
-%
-%     The reference microphone will be the first one, although this 
-%     should not matter.
-%
-%     see also gTDESSL, PolynomialInterpolationCoefficients,
-%     PolynomialCoefficientsCrossCorrelation
+%     sampled at samplingPeriod. The method maximizes each
+%     cross-correlation function independently of signals' received at
+%     other microphones.
+% 
+%   see also PolynomialInterpolationCoefficients
+
+
+% Copyright 2012, Xavier Alameda-Pineda
+% INRIA Grenoble Rhône-Alpes
+% E-mail: xavi.alameda@gmail.com
+% 
+% This is part of the gtde program.
+% 
+% gtde is free software: you can redistribute it and/or modify
+% it under the terms of the GNU General Public License as published by
+% the Free Software Foundation, either version 3 of the License, or
+% (at your option) any later version.
+% 
+% This program is distributed in the hope that it will be useful,
+% but WITHOUT ANY WARRANTY; without even the implied warranty of
+% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+% GNU General Public License for more details.
+% 
+% You should have received a copy of the GNU General Public License
+% along with this program.  If not, see <http://www.gnu.org/licenses/>.
     
     %%% Input check
     if nargin < 4

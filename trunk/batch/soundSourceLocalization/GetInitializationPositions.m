@@ -49,7 +49,7 @@ function experimentOptions = GetInitializationPositions(experimentOptions)
     % Modify the initial positions depending on the method used
     switch experimentOptions.methodOptions.type
         case 'gtde'
-            Constraint = TDEDiscriminant(initializationPositions',experimentOptions.microphonesPositions);
+            Constraint = TDEDiscriminant(initializationPositions',experimentOptions.microphonePositions);
             initializationPositions = initializationPositions(Constraint>0,:);
         case 'tde'
         case 'init'

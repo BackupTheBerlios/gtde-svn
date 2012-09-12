@@ -90,7 +90,7 @@ function experimentOptions = SpecifyISMFilterOptions(experimentOptions)
         tmp = load(strcat(experimentOptions.ismOptions.folder,'experimentOptions.mat'));
         % Copy the ISM, source positions and microphone positions
         experimentOptions.ismOptions = tmp.experimentOptions.ismOptions;
-        experimentOptions.microphonePotisionOptions = tmp.experimentOptions.microphonePositionOptions;
+        experimentOptions.microphonePositionOptions = tmp.experimentOptions.microphonePositionOptions;
         experimentOptions.sourcePositionOptions = tmp.experimentOptions.sourcePositionOptions;
         experimentOptions.microphonePositions = tmp.experimentOptions.microphonePositions;
         experimentOptions.sourcePositions = tmp.experimentOptions.sourcePositions;

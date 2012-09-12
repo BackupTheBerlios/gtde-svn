@@ -1,3 +1,33 @@
+%Running TDE batch example
+%
+% USAGE: runBatchTDE
+%
+% DESCRIPTION:
+%   This is an example on how to set the options for the
+%   batchTDEExperiments script. A lot of parameters and comments are made
+%   such that it is somehow intuitive.
+% 
+%   see also batchTDEExperiments
+
+% Copyright 2012, Xavier Alameda-Pineda
+% INRIA Grenoble Rhône-Alpes
+% E-mail: xavi.alameda@gmail.com
+% 
+% This is part of the gtde program.
+% 
+% gtde is free software: you can redistribute it and/or modify
+% it under the terms of the GNU General Public License as published by
+% the Free Software Foundation, either version 3 of the License, or
+% (at your option) any later version.
+% 
+% This program is distributed in the hope that it will be useful,
+% but WITHOUT ANY WARRANTY; without even the implied warranty of
+% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+% GNU General Public License for more details.
+% 
+% You should have received a copy of the GNU General Public License
+% along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
 %%% Clearing
 close all; clc; clear;
 
@@ -34,7 +64,7 @@ experimentOptions.sourcePositionOptions = sourcePositionOptions;
 
 %%% Data options
 % Type of signal
-dataOptions.type = 'simulated';
+dataOptions.type = 'synthetic';
 % Length of the signal cuts
 dataOptions.cutLength = 0.1;
 % Depending
@@ -69,7 +99,7 @@ ismOptions.folder= strcat(experimentOptions.rootFolder,'EUSIPCO-2012/');
 experimentOptions.ismOptions = ismOptions;
 
 %%% Method options
-methodOptions.type = 'init';
+methodOptions.type = 'gtde';
 % Save it
 experimentOptions.methodOptions = methodOptions;
 
