@@ -11,7 +11,7 @@ function experimentOptions = SpecifyISMFilterOptions(experimentOptions)
 %     
 %       ismFolder [M] ~ folder in which the ism data is recorded, not to
 %         compute it every time, if it exists, we load the ISM data from
-%         this folder
+%         this folder, otherwise we compute ISM data (absolute path)
 %       absorptionWeights ~ the relative absorption weights of the walls 
 %       room ~ size of the room
 %       t60 ~ values for t60
@@ -59,8 +59,8 @@ function experimentOptions = SpecifyISMFilterOptions(experimentOptions)
     
     % Checking the installation of ISM
     if isempty(which('ISM_RIR_bank'))
-        fprintf('The software to compute ISM is not installed.');
-        fprintf('Please go to http://www.eric-lehmann.com/ism code.html to download and install.');
+        fprintf('The software to compute ISM is not installed.\n');
+        fprintf('Please go to http://www.eric-lehmann.com/ism code.html to download and install.\n');
         error('Software missing.');
     end
     
@@ -74,22 +74,36 @@ function experimentOptions = SpecifyISMFilterOptions(experimentOptions)
     end
     
     % If the ismFolder exists, we load the ism data from it
-    if isfield(experimentOptions.ismOptions,'ismFolder'),
-        tmp = load(strcat(rootFolder,experimentOptions.ismOptions.ismFolder,'experimentOptions.mat'));
+    if ~isfield(experimentOptions.ismOptions,'folder'),
+        error('The "folder" field should be specified in the "ismOptions" structure.');
+    end
+    
+    % Do we have to generate ISM
+    generateISM = false;
+    if ~exist(experimentOptions.ismOptions.folder,'dir'),
+        generateISM = true;
+    end
+    
+    % Check what to do in both cases
+    if ~generateISM
+        % The ISM folder exist (the user wants to use some precomputed ISM filters)
+        tmp = load(strcat(experimentOptions.ismOptions.folder,'experimentOptions.mat'));
         % Copy the ISM, source positions and microphone positions
         experimentOptions.ismOptions = tmp.experimentOptions.ismOptions;
-        experimentOptions.microphonePotisionOptions = tmp.experimentOptions.microphonePotisionOptions;
+        experimentOptions.microphonePotisionOptions = tmp.experimentOptions.microphonePositionOptions;
         experimentOptions.sourcePositionOptions = tmp.experimentOptions.sourcePositionOptions;
         experimentOptions.microphonePositions = tmp.experimentOptions.microphonePositions;
         experimentOptions.sourcePositions = tmp.experimentOptions.sourcePositions;
-        return;
-    end
-        
-    % Check some mandatory fields
-    mandatoryFields = {'absorptionWeights','t60','room'};
-    for f = 1:numel(mandatoryFields),
-        if ~isfield(experimentOptions.ismOptions,mandatoryFields{f})
-            error(['Field ' mandatoryFields{f} ' is mandatory in the structure "ismOptions".']);
+    else
+        % The ISM folder does not exist (we will need to compute them)
+        % Check some mandatory fields
+        mandatoryFields = {'absorptionWeights','t60','room','samplingFrequencies'};
+        for f = 1:numel(mandatoryFields),
+            if ~isfield(experimentOptions.ismOptions,mandatoryFields{f})
+                error(['Field ' mandatoryFields{f} ' is mandatory in the structure "ismOptions".']);
+            end
         end
     end
+    experimentOptions.ismOptions.generate = generateISM;
+
 end

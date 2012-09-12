@@ -62,5 +62,8 @@ function experimentOptions = ProcessExperimentOptions(experimentOptions)
     % Method options
     experimentOptions = SpecifyMethodOptions(experimentOptions);
     
+    % Results saving options
+    experimentOptions = SpecifyResultOptions(experimentOptions);
+    
 
 end

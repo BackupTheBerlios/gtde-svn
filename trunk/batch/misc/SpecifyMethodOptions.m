@@ -49,9 +49,14 @@ function experimentOptions = SpecifyMethodOptions(experimentOptions)
     % Check the method specified
     methodFlag = 0;
     for d = 1:numel(method)
-        methodFlag = methodFlag + strcmp(experimentOptions.method,method{d});
+        methodFlag = methodFlag + strcmp(experimentOptions.methodOptions.type,method{d});
     end
     if methodFlag == 0
         error('Method specified not known.');
+    end
+    
+    % Grid
+    if ~isfield(experimentOptions.methodOptions,'gridSize'),
+        experimentOptions.methodOptions.gridSize = 15;
     end
 end

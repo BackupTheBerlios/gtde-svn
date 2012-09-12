@@ -45,9 +45,9 @@ function experimentOptions = SpecifyDataOptions(experimentOptions)
     end
     
     % Check the data specified
-    mandatoryFields = {'type'};
+    mandatoryFields = {'type','cutLength'};
     for f = 1:numel(mandatoryFields),
-        if ~isfield(experimentOptions,mandatoryFields{f})
+        if ~isfield(experimentOptions.dataOptions,mandatoryFields{f})
             error(['Field ' mandatoryFields{f} ' is mandatory in the structure "dataOptions".']);
         end
     end
@@ -60,6 +60,9 @@ function experimentOptions = SpecifyDataOptions(experimentOptions)
     end
     if dataFlag == 0
         error('Data type specified not known.');
+    end
+    if strcmp(experimentOptions.dataOptions.type,'real')
+        error('Interface not read for real data');
     end
     
     % Check real in 2D does not exist

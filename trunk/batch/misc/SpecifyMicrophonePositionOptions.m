@@ -7,15 +7,8 @@ function experimentOptions = SpecifyMicrophonePositionOptions(experimentOptions)
 % PARAMETERS:
 %   experimentOptions ~ structure containing the options of the experiment.
 %     The structure should containt a sub-structure called
-%     "dataOptions". That sub-structure must contain the following points:
-%     type ~ either synthetic, simulated or real. Describes the data used.
-%
-%     if type == synthetic, the field samplingFrequency is mandatory.
-%     if type == simulated, the field wavFolder is mandatory. This is the 
-%       folder relative to rootFolder containing the emitted signals.
-%     if type == real, the structure experimentOptions.sourcePositionOptions 
-%       must contain the field, the panIndices and the tiltIndices to 
-%       retrieve the sound source position from a file.
+%     'microphonePositionOptions' with the field 'type' set to
+%     'tetrahedron', and the fields scale and offset properly set.
 %
 % DESCRIPTION: the options are checked, if something fails an error is
 %   reported.
@@ -40,34 +33,34 @@ function experimentOptions = SpecifyMicrophonePositionOptions(experimentOptions)
 % along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
     % Input check
-    if ~isfield(experimentOptions,'dataOptions')
+    if ~isfield(experimentOptions,'microphonePositionOptions')
         error('The field "dataOptions" should be specified in the experimentOtions structure.');
     end
     
     % Check the data specified
     mandatoryFields = {'type'};
     for f = 1:numel(mandatoryFields),
-        if ~isfield(experimentOptions,mandatoryFields{f})
-            error(['Field ' mandatoryFields{f} ' is mandatory in the structure "dataOptions".']);
+        if ~isfield(experimentOptions.microphonePositionOptions,mandatoryFields{f})
+            error(['Field ' mandatoryFields{f} ' is mandatory in the structure "microphonePositionOptions".']);
         end
     end
     
     % Loop searching for the data type choice
-    dataTypeOptions = {'tetrahedron'};
+    typeOptions= {'tetrahedron'};
     dataFlag = 0;
-    for d = 1:numel(dataTypeOptions)
-        dataFlag = dataFlag + strcmp(experimentOptions.dataOptions.type,dataTypeOptions{d});
+    for d = 1:numel(typeOptions)
+        dataFlag = dataFlag + strcmp(experimentOptions.microphonePositionOptions.type,typeOptions{d});
     end
     if dataFlag == 0
         error('Microphone array type specified not known.');
     end
     
     % Particular fields needed
-    if strcmp(experimentOptions.dataOptions.type,'tetrahedron')
+    if strcmp(experimentOptions.microphonePositionOptions.type,'tetrahedron')
         mandatoryFields = {'scale','offset'};
         for f = 1:numel(mandatoryFields),
-            if ~isfield(experimentOptions.dataOptions,mandatoryFields{f})
-                error(['Field ' mandatoryFields{f} ' is mandatory when using synthetic data.']);
+            if ~isfield(experimentOptions.microphonePositionOptions,mandatoryFields{f})
+                error(['Field ' mandatoryFields{f} ' is mandatory when using a tetrahedron array.']);
             end
         end
     end
