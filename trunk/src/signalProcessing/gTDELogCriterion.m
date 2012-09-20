@@ -78,6 +78,12 @@ function [J GJ HJ] = gTDELogCriterion(TDEs,PCCC,microphones,samplingPeriod)
     % Vector rdd
     rdd = zeros(Dimension,Dimension,NTDEs);
     
+    % Energies
+    SignalEnergy = zeros(NMics,1);
+    for ss = 1:NMics,
+        SignalEnergy(ss) = CrossCorrelationInterpolation(PCCC{ss,ss},0,samplingPeriod);
+    end
+    
     % Fill the three vectors
     for ss = 2:NMics,
         index = TDEis(1,ss,NMics);
@@ -85,6 +91,10 @@ function [J GJ HJ] = gTDELogCriterion(TDEs,PCCC,microphones,samplingPeriod)
         % -t_{1,ss} not at t_{1,ss}
         [r(index,:) rd(index,index,:) rdd(index,index,:)] = ...
             CrossCorrelationInterpolation(PCCC{1,ss},-TDEs(index,:),samplingPeriod);
+        % Normalize with respect to the energy
+        r(index,:) = r(index,:) / sqrt(SignalEnergy(1)*SignalEnergy(ss));
+        rd(index,index,:) = rd(index,index,:) / sqrt(SignalEnergy(1)*SignalEnergy(ss));
+        rdd(index,index,:) = rdd(index,index,:) / sqrt(SignalEnergy(1)*SignalEnergy(ss));
     end
     
     % Matrix R
@@ -96,14 +106,19 @@ function [J GJ HJ] = gTDELogCriterion(TDEs,PCCC,microphones,samplingPeriod)
     
     % Fill the three matrices
     for mic1 = 2:NMics,
-        % Autocorrelation
-        R(mic1-1,mic1-1,:) = CrossCorrelationInterpolation(PCCC{mic1,mic1},0,samplingPeriod);
+        % Normalized Autocorrelation
+        R(mic1-1,mic1-1,:) = 1;
         for mic2 = mic1+1:NMics
             % Crosscorrelation
             TDEmic1mic2 = TDEs(TDEis(1,mic2,NMics),:)-TDEs(TDEis(1,mic1,NMics),:);
             % The cross-correlation function should be interpolated at
             % -t_{mic1,mic2} not at t_{mic1,mic2}
-            [R(mic1-1,mic2-1,:) RD(mic1-1,mic2-1,:) RDD(mic1-1,mic2-1,:)] = CrossCorrelationInterpolation(PCCC{mic1,mic2},-TDEmic1mic2,samplingPeriod);
+            [R(mic1-1,mic2-1,:) RD(mic1-1,mic2-1,:) RDD(mic1-1,mic2-1,:)] = ...
+                CrossCorrelationInterpolation(PCCC{mic1,mic2},-TDEmic1mic2,samplingPeriod);
+            % Normalize with respect to the energy
+            R(mic1-1,mic2-1,:) = R(mic1-1,mic2-1,:) / sqrt(SignalEnergy(mic1)*SignalEnergy(mic2));
+            RD(mic1-1,mic2-1,:) = RD(mic1-1,mic2-1,:) / sqrt(SignalEnergy(mic1)*SignalEnergy(mic2));
+            RDD(mic1-1,mic2-1,:) = RDD(mic1-1,mic2-1,:) / sqrt(SignalEnergy(mic1)*SignalEnergy(mic2));
             % Symmetrize the matrices
             R(mic2-1,mic1-1,:) = R(mic1-1,mic2-1,:);
             RD(mic2-1,mic1-1,:) = RD(mic1-1,mic2-1,:);
@@ -115,7 +130,7 @@ function [J GJ HJ] = gTDELogCriterion(TDEs,PCCC,microphones,samplingPeriod)
 
     % 0. RTilde matrix
     RTilde = zeros(NMics,NMics,NTDEs);
-    RTilde(1,1,:) = CrossCorrelationInterpolation(PCCC{1,1},0,samplingPeriod);
+    RTilde(1,1,:) = 1;
     RTilde(1,2:end,:) = r;
     RTilde(2:end,1,:) = r;
     RTilde(2:end,2:end,:) = R;
@@ -123,7 +138,7 @@ function [J GJ HJ] = gTDELogCriterion(TDEs,PCCC,microphones,samplingPeriod)
     %%%% HERE WE NEED TO MAKE A DIFFERENCE BETWEEN NTDEs=1 and the rest
     if NTDEs == 1
         % 1. Criterion
-        J = log(det(RTilde)/prod(diag(RTilde)));
+        J = log(det(RTilde));
 
         % 2. If asked, compute the gradient 
         if nargout > 1
@@ -195,12 +210,12 @@ function [J GJ HJ] = gTDELogCriterion(TDEs,PCCC,microphones,samplingPeriod)
     %%%% Here NTDEs > 1!!!!!
     
         % 1. Criterion
-        criterionFun = @(M) log(det(M)/prod(diag(M)));
+        criterionFun = @(M) log(det(M));
         J = squeeze(cellfun( criterionFun, mat2cell(RTilde,NMics,NMics,ones(NTDEs,1))))';
         
 %         % Precompute the inverse matrices
 %         RTildeInverse = InverseMatrixArray(RTilde);
-%         fd = fopen('gradientIndices.txt','a+');
+%         fd = fopen('gradientIndices.txt','a+')
         % 2. If asked, compute the gradient 
         if nargout > 1
             % 2.1. Declare the gradient
@@ -223,6 +238,8 @@ function [J GJ HJ] = gTDELogCriterion(TDEs,PCCC,microphones,samplingPeriod)
                 for nt = 1:NTDEs,
 %                     if cond(RTilde(:,:,nt)) > 1e10,
 %                         fprintf(fd,'%d ',nt);
+%                         RTilde(:,:,nt)
+%                         TDEs(:,nt)'
 %                     end
                     % Storing
                     RTildeID(:,:,tde,nt) = RTilde(:,:,nt)\RTildeD(:,:,nt);
@@ -232,10 +249,11 @@ function [J GJ HJ] = gTDELogCriterion(TDEs,PCCC,microphones,samplingPeriod)
             end
             GJ = GJ*samplingPeriod;
             
-%             fprintf(fd,'\n');
-%             fclose(fd);
 %             GJ = GJ;
         end
+%         fprintf(fd,'\n');
+%         fclose(fd);
+%         error('out');
 
         % 3. If asked, compute the Hessian
         if nargout > 2

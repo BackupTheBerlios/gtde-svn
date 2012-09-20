@@ -79,17 +79,10 @@ function [signals fs] = GetSignalRealization(experimentOptions,sSignal,sPosition
             % THE NON REVERBERANT CASE IS T60 = 0
             %%%%%%%%%%%%% WARNING %%%%%%%%%%%%%%%
             % Load the signal
-            switch sSignal,
-                case 1,
-                    [signal fs] = wavread(experimentOptions.signals{2});
-                case 2,
-                    [signal fs] = wavread(experimentOptions.signals{9});
-                case 3,
-                    index = randi(numel(experimentOptions.signals),1);
-                    [signal fs] = wavread(experimentOptions.signals{index});
-                otherwise
-                    error('Signal should be either 1 (caugh), 2 (female speech) or 3 (random sound).');
+            if sSignal > numel(experimentOptions.signals)
+                error('sSignal should be a valid signal index.');
             end
+            [signal fs] = wavread(experimentOptions.signals{sSignal});
             % Sampling frequency index
             sFS = find(experimentOptions.ismOptions.samplingFrequencies == fs);
             if isempty(sFS)

@@ -57,7 +57,7 @@ function Positions = GenerateSphericalPositions(Radia,Azimuths,Elevations)
         error('Elevations cannot be empty');
     end
     
-    if sum(radia < 0)
+    if sum(Radia < 0)
         error('Radia should not contain negative numbers.');
     end
 

@@ -1,8 +1,8 @@
-function [cc ccd ccdd] = CCInterpolation(PCCC,Delay,SamplingPeriod,ZeroIndex)
+function [cc ccd ccdd] = CrossCorrelationInterpolation(PCCC,Delay,SamplingPeriod,ZeroIndex)
 
 %ccInterpolation Cross-correlation function interpolation
 %
-% USAGE: [cc ccd ccdd] = CCInterpolation(PCCC,Delay,T[,ZI])
+% USAGE: [cc ccd ccdd] = CrossCorrelationInterpolation(PCCC,Delay,T[,ZI])
 %
 % PARAMETERS:
 %  PCCC ~ cross-correlation signals of the polynomial coefficients.

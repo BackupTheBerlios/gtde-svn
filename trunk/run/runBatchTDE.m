@@ -64,19 +64,19 @@ experimentOptions.sourcePositionOptions = sourcePositionOptions;
 
 %%% Data options
 % Type of signal
-dataOptions.type = 'synthetic';
+dataOptions.type = 'simulated';
 % Length of the signal cuts
 dataOptions.cutLength = 0.1;
 % Depending
 if strcmp(dataOptions.type,'simulated') || ...
    strcmp(dataOptions.type,'synthetic')
-    dataOptions.snrValues = 5;
+    dataOptions.snrValues = 10;
 end
 if strcmp(dataOptions.type,'synthetic')
     dataOptions.samplingFrequency = 48000;
 end
 if strcmp(dataOptions.type,'simulated')
-    dataOptions.wavFolder = '/scratch/pictor/deleforg/the_CASA_REDMINE/emitted_sounds/timit_normalized/';
+    dataOptions.wavFolder = '/scratch/pictor/deleforg/the_CASA_REDMINE/emitted_sounds/cocktail_sounds_normalized/';
     dataOptions.subIndices = [];
 end
 % Save it
