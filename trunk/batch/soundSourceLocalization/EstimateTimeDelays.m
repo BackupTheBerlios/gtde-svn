@@ -40,6 +40,9 @@ function foundTDE = EstimateTimeDelays(signals,experimentOptions)
     % Number of samples
     NMics = size(signals,1);
     NSamples = size(signals,2);
+    % Compute maxlag
+    maxLag = TDEmax(experimentOptions.microphonePositions);
+    maxLag = ceil(experimentOptions.samplingFrequency*max(maxLag));
     % Sampling times
     samplingTimes = 0:1/experimentOptions.samplingFrequency:(NSamples-1)/experimentOptions.samplingFrequency;
     % Allocate
@@ -54,7 +57,7 @@ function foundTDE = EstimateTimeDelays(signals,experimentOptions)
     % Compute
     for mic1 = 1:NMics,
         for mic2 = mic1:NMics,
-            PCCC{mic1,mic2} = PolynomialCoefficientsCrossCorrelation(PC{mic1},PC{mic2});%,maxLAG);
+            PCCC{mic1,mic2} = PolynomialCoefficientsCrossCorrelation(PC{mic1},PC{mic2},maxLag);
         end
     end
     % Check if I want to use the constraint or not

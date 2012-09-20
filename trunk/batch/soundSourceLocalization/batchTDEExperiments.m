@@ -57,13 +57,13 @@ function batchTDEExperiments(experimentOptions)
     
     %%% Useful variables
     % Number of sound source positions
-    nSourcePositions = 1;%size(experimentOptions.sourcePositions,1);
+    nSourcePositions = size(experimentOptions.sourcePositions,1);
     % Number of SNR values
     nSNRValues = length(experimentOptions.dataOptions.snrValues);
     % Number of T60 values
     nT60 = length(experimentOptions.ismOptions.t60);
     % Number of signals
-    nSignals = 1;%numel(experimentOptions.signals);
+    nSignals = numel(experimentOptions.signals);
     % Store the results
     foundTDEs = cell(nSignals,...
                      nSourcePositions,...
@@ -83,7 +83,7 @@ function batchTDEExperiments(experimentOptions)
     
     %%% Looping over all the parameters
     % For each position
-    for sPosition = 1:nSourcePositions,
+    for sPosition = 32:nSourcePositions,
         fprintf('Position %d/%d:\n',sPosition,nSourcePositions);
         % For each signal
         for sSignal = 1:nSignals

@@ -56,7 +56,7 @@ function experimentOptions = GetSignals(experimentOptions)
                 signals{kk} = signalNames(indices(kk)+5:indices(kk+1)+3);
             end
             rI = randi(NSignals,1);
-            signals = signals([1,4,rI]);
+            signals = signals([2,4,rI]);
         case 'real'
             signals = strcat('/scratch/pictor/deleforg/the_CASA_REDMINE/audio_recordings/',experimentOptions.field,'/sound12/Recorded/');
         otherwise
