@@ -70,22 +70,32 @@ dataOptions.cutLength = 0.1;
 % Depending
 if strcmp(dataOptions.type,'simulated') || ...
    strcmp(dataOptions.type,'synthetic')
-    dataOptions.snrValues = 10;
+    dataOptions.snrValues = [-10];
 end
 if strcmp(dataOptions.type,'synthetic')
     dataOptions.samplingFrequency = 48000;
 end
 if strcmp(dataOptions.type,'simulated')
-    dataOptions.wavFolder = '/scratch/pictor/deleforg/the_CASA_REDMINE/emitted_sounds/cocktail_sounds_normalized/';
+    dataOptions.wavFolder = '/scratch/pictor/deleforg/the_CASA_REDMINE/emitted_sounds/timit_normalized/';
     dataOptions.subIndices = [];
 end
 % Save it
 experimentOptions.dataOptions = dataOptions;
 
 %%% Microphone properties
-microphonePositionOptions.type = 'tetrahedron';
+microphonePositionOptions.type = 'icosahedron';
 microphonePositionOptions.scale = 0.1;
 microphonePositionOptions.offset = [2.25 1.25 1.25];
+% Subset of the microphone set
+% 4 Microphones
+% microphonePositionOptions.subSet = [1,2,11,12];
+% 6 Microphones
+% microphonePositionOptions.subSet = [1,3,7,8,11,12];
+% 8 Microphones
+% microphonePositionOptions.subSet = [5,6,7,8,9,10,11,12];
+% Increasing # of microphones
+% microphonePositionOptions.subSet = [1,2,11,12,6,7,4,10,3,9,5,6];
+
 % Save it
 experimentOptions.microphonePositionOptions = microphonePositionOptions;
 
@@ -94,7 +104,7 @@ ismOptions.room = room;
 ismOptions.absorptionWeights =  [1 1 1 1 1 1];
 ismOptions.t60 = [0 0.1 0.2 0.4 0.6];
 ismOptions.samplingFrequencies = [16000 44100 48000];
-ismOptions.folder= strcat(experimentOptions.rootFolder,'EUSIPCO-2012/');
+ismOptions.folder= strcat(experimentOptions.rootFolder,'ICOSAHEDRON-2012/');
 % Save it
 experimentOptions.ismOptions = ismOptions;
 

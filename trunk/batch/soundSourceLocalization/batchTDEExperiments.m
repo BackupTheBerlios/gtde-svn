@@ -83,7 +83,7 @@ function batchTDEExperiments(experimentOptions)
     
     %%% Looping over all the parameters
     % For each position
-    for sPosition = 32:nSourcePositions,
+    for sPosition = 1:1%nSourcePositions,
         fprintf('Position %d/%d:\n',sPosition,nSourcePositions);
         % For each signal
         for sSignal = 1:nSignals

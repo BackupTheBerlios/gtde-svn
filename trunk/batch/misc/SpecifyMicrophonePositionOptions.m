@@ -46,7 +46,7 @@ function experimentOptions = SpecifyMicrophonePositionOptions(experimentOptions)
     end
     
     % Loop searching for the data type choice
-    typeOptions= {'tetrahedron'};
+    typeOptions= {'tetrahedron','icosahedron'};
     dataFlag = 0;
     for d = 1:numel(typeOptions)
         dataFlag = dataFlag + strcmp(experimentOptions.microphonePositionOptions.type,typeOptions{d});
@@ -55,13 +55,16 @@ function experimentOptions = SpecifyMicrophonePositionOptions(experimentOptions)
         error('Microphone array type specified not known.');
     end
     
+    % Icosahedron works in dimension 3
+    if strcmp(experimentOptions.microphonePositionOptions.type,'icosahedron') && experimentOptions.dimension ~= 3
+        error('The "icosahedron" microphone shape works only in 3D.');
+    end
+    
     % Particular fields needed
-    if strcmp(experimentOptions.microphonePositionOptions.type,'tetrahedron')
-        mandatoryFields = {'scale','offset'};
-        for f = 1:numel(mandatoryFields),
-            if ~isfield(experimentOptions.microphonePositionOptions,mandatoryFields{f})
-                error(['Field ' mandatoryFields{f} ' is mandatory when using a tetrahedron array.']);
-            end
+    mandatoryFields = {'scale','offset'};
+    for f = 1:numel(mandatoryFields),
+        if ~isfield(experimentOptions.microphonePositionOptions,mandatoryFields{f})
+            error(['Field ' mandatoryFields{f} ' is mandatory when using a tetrahedron array.']);
         end
     end
 end

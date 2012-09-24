@@ -44,34 +44,40 @@ function experimentOptions = GetMicrophonePositions(experimentOptions)
     else
         % Check different cases
         if ~strcmp(experimentOptions.dataOptions.type,'real')
-            % Default scale
-            a = 0.1;
-            % If the field
-            % experimentOptions.microphonePositionOptions.scale exists,
-            % just take it, otherwise, use the default.
-            if isfield(experimentOptions.microphonePositionOptions,'scale')
-                a = experimentOptions.microphonePositionOptions.scale;
-            end
-            % Dimension is either 2 or 3
-            if experimentOptions.dimension == 2
-                % Scale parameters
-                b = -a/2;
-                c = a*sqrt(9/12);
-                % Microphones in a regular tetrahedron
-                experimentOptions.microphonePositions = ...
-                    [ a   0 ;...
-                      b   c ;...
-                      b  -c];
-            else
-                % Scale parameters
-                c = a / sqrt(2);
-                % Microphones in a regular tetrahedron
-                experimentOptions.microphonePositions = ...
-                    [ a   0   -c ;...
-                     -a   0   -c ;...
-                      0   a    c ;...
-                      0  -a    c];
+            % Just a shorcut to the scale
+            a = experimentOptions.microphonePositionOptions.scale;
+            % Switch the type of microphone array
+            switch experimentOptions.microphonePositionOptions.type
+                case 'tetrahedron'
+                    % Dimension is either 2 or 3
+                    if experimentOptions.dimension == 2
+                        % Scale parameters
+                        b = -a/2;
+                        c = a*sqrt(9/12);
+                        % Microphones in a regular tetrahedron
+                        experimentOptions.microphonePositions = ...
+                            [ a   0 ;...
+                              b   c ;...
+                              b  -c];
+                    else
+                        % Scale parameters
+                        c = a / sqrt(2);
+                        % Microphones in a regular tetrahedron
+                        experimentOptions.microphonePositions = ...
+                            [ a   0   -c ;...
+                             -a   0   -c ;...
+                              0   a    c ;...
+                              0  -a    c];
 
+                    end
+                case 'icosahedron'
+                     mP = GenerateIcosahedron(a);
+                     % If the user desires to use a subset of the
+                     % microphones, extract this subset.
+                    if isfield(experimentOptions.microphonePositionOptions,'subSet')
+                        mP = mP(experimentOptions.microphonePositionOptions.subSet,:);
+                    end
+                    experimentOptions.microphonePositions = mP;
             end
             % If the field offset exists, add it to the microphone
             % positions

@@ -1,8 +1,8 @@
-function [J GJ HJ] = gTDELogCriterion(TDEs,PCCC,microphones,samplingPeriod)
+function [J GJ HJ errorFlag] = gTDELogCriterion(TDEs,PCCC,microphones,samplingPeriod)
 
 %gTDECriterion implements the criterion to optimize for geometric TDE
 %
-% USAGE: [J GJ HJ] = gTDECriterion(TDEs,PCCC,microphones,samplingPeriod)
+% USAGE: [J GJ HJ flag] = gTDECriterion(TDEs,PCCC,microphones,samplingPeriod)
 %
 % PARAMETERS:
 %   TDEs ~ set(s) of delays in which we want to evaluate the criterion
@@ -13,6 +13,7 @@ function [J GJ HJ] = gTDELogCriterion(TDEs,PCCC,microphones,samplingPeriod)
 %
 % RETURN VALUE:
 %   J, GJ, HJ ~ log-criterion value, its gradient and hessian.
+%   flag ~ boolean, false if we had problems evaluating the function.
 % 
 % DESCRIPTION:
 %     This function computes the determinant of the matrix of normalized
@@ -139,6 +140,7 @@ function [J GJ HJ] = gTDELogCriterion(TDEs,PCCC,microphones,samplingPeriod)
     if NTDEs == 1
         % 1. Criterion
         J = log(det(RTilde));
+        errorFlag = det(RTilde) == 0;
 
         % 2. If asked, compute the gradient 
         if nargout > 1
@@ -210,8 +212,14 @@ function [J GJ HJ] = gTDELogCriterion(TDEs,PCCC,microphones,samplingPeriod)
     %%%% Here NTDEs > 1!!!!!
     
         % 1. Criterion
-        criterionFun = @(M) log(det(M));
+        criterionFun = @(M) det(M);
         J = squeeze(cellfun( criterionFun, mat2cell(RTilde,NMics,NMics,ones(NTDEs,1))))';
+        % Retrieve errors
+        condValue = squeeze(cellfun( cond, mat2cell(RTilde,NMics,NMics,ones(NTDEs,1))))';
+        errorFlag = condValue >= 1e10;
+        % Compute the true criterion value
+        J(~errorFlag) = log(J(~errorFlag));
+        
         
 %         % Precompute the inverse matrices
 %         RTildeInverse = InverseMatrixArray(RTilde);
@@ -241,10 +249,12 @@ function [J GJ HJ] = gTDELogCriterion(TDEs,PCCC,microphones,samplingPeriod)
 %                         RTilde(:,:,nt)
 %                         TDEs(:,nt)'
 %                     end
-                    % Storing
-                    RTildeID(:,:,tde,nt) = RTilde(:,:,nt)\RTildeD(:,:,nt);
-                    % 2.5. Compute the mic-1'th derivative
-                    GJ(tde,nt) = trace(squeeze(RTildeID(:,:,tde,nt)));
+                    if ~errorFlag(nt)
+                        % Storing
+                        RTildeID(:,:,tde,nt) = RTilde(:,:,nt)\RTildeD(:,:,nt);
+                        % 2.5. Compute the mic-1'th derivative
+                        GJ(tde,nt) = trace(squeeze(RTildeID(:,:,tde,nt)));
+                    end
                 end
             end
             GJ = GJ*samplingPeriod;
@@ -278,7 +288,9 @@ function [J GJ HJ] = gTDELogCriterion(TDEs,PCCC,microphones,samplingPeriod)
                         RTildeDD(2:end,2:end,:) = auxRDD;
                         % 3.1.3. Compute the value
                         for nt = 1:NTDEs
-                            HJ(tde1,tde2,nt) = trace(-(RTildeID(:,:,tde1,nt))^2 + squeeze(RTilde(:,:,nt))\squeeze(RTildeDD(:,:,nt)));
+                            if ~errorFlag(nt)
+                                HJ(tde1,tde2,nt) = trace(-(RTildeID(:,:,tde1,nt))^2 + squeeze(RTilde(:,:,nt))\squeeze(RTildeDD(:,:,nt)));
+                            end
                         end
                     else
                     % 3.2. Not diagonal part
@@ -292,7 +304,9 @@ function [J GJ HJ] = gTDELogCriterion(TDEs,PCCC,microphones,samplingPeriod)
                         RTildeDD(2:end,2:end,:) = auxRDD;
                         % 3.2.3. Add the remaining
                         for nt = 1:NTDEs
-                            HJ(tde1,tde2,nt) = trace(-RTildeID(:,:,tde2,nt)*RTildeID(:,:,tde1,nt) + RTilde(:,:,nt)\RTildeDD(:,:,nt));
+                            if ~errorFlag(nt)
+                                HJ(tde1,tde2,nt) = trace(-RTildeID(:,:,tde2,nt)*RTildeID(:,:,tde1,nt) + RTilde(:,:,nt)\RTildeDD(:,:,nt));
+                            end
                         end
                     end
                 end
