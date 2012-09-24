@@ -36,7 +36,7 @@ function experimentOptions = GenerateISMData(experimentOptions)
             error(['An error ocurred while creating the ismFolder: ', experimentOptions.ismOptions.ismFolder]);
         end
         % Sampling Frequencies
-        samplingFrequencies = [16000 44100 48000];
+        samplingFrequencies = experimentOptions.ismOptions.samplingFrequencies;
         donePart = 0;
         % Done part done
         % For each value of T60
@@ -46,7 +46,7 @@ function experimentOptions = GenerateISMData(experimentOptions)
             for nSF = 1:numel(samplingFrequencies),
             SF = samplingFrequencies(nSF);
                 % For each sound source positions
-                for np = 1:size(experimentOptions.sourcePositions,1)
+                for np = 1:1%size(experimentOptions.sourcePositions,1)
                     % Extract position
                     position = experimentOptions.sourcePositions(np,:);
                     % ISM file name

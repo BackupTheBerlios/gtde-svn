@@ -96,7 +96,10 @@ function [signals fs] = GetSignalRealization(experimentOptions,sSignal,sPosition
             end
             % Apply RIR filter
             partialSignals = ISM_AudioData(ISMFileName,signal,'SilentFlag',1);
-            partialSignals = partialSignals'; 
+            partialSignals = partialSignals';
+            if exist(experimentOptions.microphonePositionOptions,'subSet'),
+                partialSignals = partialSignals(experimentOptions.microphonePositionOptions.subSet,:);
+            end
         case 'real'
             % Compute the recording index, from sPos
     %         numTilts = numel(experimentOptions.tiltIndices);
