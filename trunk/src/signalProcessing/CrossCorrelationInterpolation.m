@@ -91,5 +91,5 @@ function [cc ccd ccdd] = CrossCorrelationInterpolation(PCCC,Delay,SamplingPeriod
             end
         end
     end
-
 end
+

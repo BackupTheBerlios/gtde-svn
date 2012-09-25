@@ -60,6 +60,5 @@ function polynomialCoefficients = PolynomialInterpolationCoefficients(signal,tim
     else
         polynomialCoefficients(:,2) = (signal(2:end)-signal(1:end-1))./(times(2:end)-times(1:end-1));
     end
-    
-
 end
+
