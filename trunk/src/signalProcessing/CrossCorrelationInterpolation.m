@@ -29,7 +29,7 @@ function [cc ccd ccdd] = CrossCorrelationInterpolation(PCCC,Delay,SamplingPeriod
 %     see also K1, K2, InterpolateCrossCorrelation
 
 % Copyright 2012, Xavier Alameda-Pineda
-% INRIA Grenoble Rhône-Alpes
+% INRIA Grenoble Rhone-Alpes
 % E-mail: xavi.alameda@gmail.com
 % 
 % This is part of the gtde program.

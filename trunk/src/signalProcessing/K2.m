@@ -29,7 +29,7 @@ function [k2 k2d k2dd] = K2(p,q,tau,T)
 %     see also K1, CCInterpolation
 
 % Copyright 2012, Xavier Alameda-Pineda
-% INRIA Grenoble Rhône-Alpes
+% INRIA Grenoble Rhone-Alpes
 % E-mail: xavi.alameda@gmail.com
 % 
 % This is part of the gtde program.

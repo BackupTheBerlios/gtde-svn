@@ -28,7 +28,7 @@ function [J GJ HJ errorFlag] = gTDELogCriterion(TDEs,PCCC,microphones,samplingPe
 %   see also CCInterpolation, TDEis
 
 % Copyright 2012, Xavier Alameda-Pineda
-% INRIA Grenoble Rhône-Alpes
+% INRIA Grenoble Rhone-Alpes
 % E-mail: xavi.alameda@gmail.com
 % 
 % This is part of the gtde program.

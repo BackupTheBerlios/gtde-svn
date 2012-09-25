@@ -25,7 +25,7 @@ function polynomialCoefficients = PolynomialInterpolationCoefficients(signal,tim
 %   see also InterpolateCrossCorrelation
 
 % Copyright 2012, Xavier Alameda-Pineda
-% INRIA Grenoble Rhône-Alpes
+% INRIA Grenoble Rhone-Alpes
 % E-mail: xavi.alameda@gmail.com
 % 
 % This is part of the gtde program.

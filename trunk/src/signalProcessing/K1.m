@@ -29,7 +29,7 @@ function [k1 k1d k1dd] = K1(p,q,tau,T)
 %     see also K2, CCInterpolation
 
 % Copyright 2012, Xavier Alameda-Pineda
-% INRIA Grenoble Rhône-Alpes
+% INRIA Grenoble Rhone-Alpes
 % E-mail: xavi.alameda@gmail.com
 % 
 % This is part of the gtde program.
