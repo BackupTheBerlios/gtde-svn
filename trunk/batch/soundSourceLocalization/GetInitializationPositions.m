@@ -61,6 +61,15 @@ function experimentOptions = GetInitializationPositions(experimentOptions)
             for d = 1:experimentOptions.dimension,
                 initializationPositions{d} = unique(auxInit(:,d));
             end
+	case 'truth'
+	    % Interval resolution, the error should be lower than half of this quantity
+	    resolution = 10e-6;
+	    % Number of intervals (per TDE pair)
+	    initializationPositionOptions.numberOfIntervals = zeros(initializationPositionOptions.dimension);
+	    for d = 1:initializationPositionOptions.dimension
+		initializationPotisionOptions.numberOfIntervals(d) = ceil(2*maxTDEs(d)/resolution);
+	    end
+	    initializationPositions = GeneratePositions(initializationPotisionOptions.dimension,initializationPositionOptions);
     end
     
     % Save it!

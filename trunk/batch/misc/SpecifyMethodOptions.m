@@ -45,7 +45,7 @@ function experimentOptions = SpecifyMethodOptions(experimentOptions)
         error('The method type should be specified in the method options substructure.');
     end
     
-    method =  {'gtde','tde','init','bypairs'};
+    method =  {'gtde','tde','init','bypairs','truth'};
     % Check the method specified
     methodFlag = 0;
     for d = 1:numel(method)

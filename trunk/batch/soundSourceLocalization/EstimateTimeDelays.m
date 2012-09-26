@@ -81,7 +81,7 @@ function foundTDE = EstimateTimeDelays(signals,experimentOptions)
             % Select the minimum criterion
             [~,minIndex] = min(foundCriterion);
             foundTDE = foundTDE(:,minIndex)/experimentOptions.samplingFrequency;
-        case 'init'
+        case {'init','truth'}
             % Compute the criterion for all the initial values
             [foundCriterion] = gTDECriterion(...
                 experimentOptions.samplingFrequency*experimentOptions.initializationPositions',...

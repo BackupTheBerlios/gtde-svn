@@ -1,4 +1,4 @@
-function experimentOptions = GenerateISMData(experimentOptions)
+function experimentOptions = GetISMData(experimentOptions)
 
 %Generate and save the data of the ISM Models
 %
@@ -46,7 +46,7 @@ function experimentOptions = GenerateISMData(experimentOptions)
             for nSF = 1:numel(samplingFrequencies),
             SF = samplingFrequencies(nSF);
                 % For each sound source positions
-                for np = 1:1%size(experimentOptions.sourcePositions,1)
+                for np = 1:size(experimentOptions.sourcePositions,1)
                     % Extract position
                     position = experimentOptions.sourcePositions(np,:);
                     % ISM file name

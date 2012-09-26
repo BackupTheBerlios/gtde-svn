@@ -96,7 +96,7 @@ microphonePositionOptions.offset = [2.25 1.25 1.25];
 % Increasing # of microphones
 % microphonePositionOptions.subSet = [1,2,11,12,6,7,4,10,3,9,5,6];
 
-% Save it
+% Save itf
 experimentOptions.microphonePositionOptions = microphonePositionOptions;
 
 %%% ISM Options

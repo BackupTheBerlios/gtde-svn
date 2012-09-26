@@ -137,7 +137,8 @@ function batchTDEExperiments(experimentOptions)
     experimentOptions.expNum = expNum;
     % Set the file name and save
     fileName = strcat(experimentOptions.resultOptions.folder,...
-                      num2str(expNum),'.mat');
+                      int2flstr(expNum,3),'_',...
+		      experimentOptions.resultOptions.suffix,'.mat');
     save(fileName,'experimentOptions','foundTDEs');
     
 end % function
