@@ -28,6 +28,12 @@ function experimentOptions = GetISMData(experimentOptions)
 
     % If we use real data, just ignore it
     if ~strcmp(experimentOptions.dataOptions.type,'real') && experimentOptions.ismOptions.generate,
+        % Checking the installation of ISM
+        if isempty(which('ISM_RIR_bank'))
+            fprintf('The software to compute ISM is not installed.\n');
+            fprintf('Please go to http://www.eric-lehmann.com/ism code.html to download and install.\n');
+            error('Software missing.');
+        end
         % Check microphones are in the room
         checkMicrophonesRoom(experimentOptions);
         % If you want to generate, create the folder and generate data
@@ -70,7 +76,7 @@ function experimentOptions = GetISMData(experimentOptions)
             end % for nSF
         end % for nt
         % Save experiment options
-        save(strcat(experimentOptions.ismOptions.ismFolder,'experimentOptions.mat'),'experimentOptions');
+        save(strcat(experimentOptions.ismOptions.folder,'experimentOptions.mat'),'experimentOptions');
     end
 end
 

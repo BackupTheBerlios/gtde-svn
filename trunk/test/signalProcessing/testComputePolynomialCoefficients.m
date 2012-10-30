@@ -23,13 +23,13 @@ function testComputePolynomialCoefficients
 
     clc
     % Plotting period
-    plottingPeriod = 1e-3;
+    plottingPeriod = 0.01;
     % Samplingperiod
-    samplingPeriod = 1e-2;
+    samplingPeriod = 0.5;
     % Length
-    Length = 0.5;
+    Length = 1;
     % Sinus frequency
-    sinFreq = 100;
+    sinFreq = 10;
     % Plotting times
     plottingTimes = 0:plottingPeriod:Length;
     % sampling times

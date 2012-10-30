@@ -82,9 +82,6 @@ function [CrossCorrelation Derivative Curvature] = InterpolateCrossCorrelation(F
     Curvature = zeros(size(Delays));
     
     for dd = 1:numel(Delays),
-        if dd == 2651,
-            disp('stop');
-        end
         [CrossCorrelation(dd) Derivative(dd) Curvature(dd)] = CrossCorrelationInterpolation(PCCC,...
                                                                 Delays(dd),...
                                                                 SamplingPeriod);

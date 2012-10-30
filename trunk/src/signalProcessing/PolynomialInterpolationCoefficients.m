@@ -1,13 +1,12 @@
-function polynomialCoefficients = PolynomialInterpolationCoefficients(signal,times)
+function polynomialCoefficients = PolynomialInterpolationCoefficients(signal,step)
 
 %Compute the polynomial interpolation coefficients
 %
-% USAGE: polynomialCoefficients = PolynomialInterpolationCoefficients(signal,times)
+% USAGE: polynomialCoefficients = PolynomialInterpolationCoefficients(signal,step)
 %
 % PARAMETERS:
 %  signal ~ the value of the sampled signal
-%  times ~ the time values when the signal has been sampled (or the
-%     sampling period)
+%  step ~ the sampling step
 %
 % RETURN VALUE:
 %  polynomialCoefficients ~ the polynomial coefficients of the interpolated
@@ -42,23 +41,31 @@ function polynomialCoefficients = PolynomialInterpolationCoefficients(signal,tim
 % 
 % You should have received a copy of the GNU General Public License
 % along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
-    %%% Input check
-    if length(times) ~= 1 && length(times) ~= length(signal)
-        error('times length need to be either the signal length or 1');
-    end
     
-    %%% Declare output variables
-    polynomialCoefficients = zeros(length(signal)-1,2);
+    %%% State and solve the linear system for natural splines
+    % Vector
+    b = signal(1:end-2) - 2*signal(2:end-1) + signal(3:end);
+    b = b*6/step^2;
+    % Matrix
+    A = zeros(length(b));
+    A(1:end-1,2:end) = A(1:end-1,2:end) + eye(length(b)-1);
+    A(2:end,1:end-1) = A(2:end,1:end-1) + eye(length(b)-1);
+    A = A + 4*eye(length(b));
+    % Solve system
+    M = A\b';
+    % Add the two zeros to make natural splines
+    M = [0 M' 0];
     
-    %%% Compute the coefficients
+    %%% Allocate and compute polynomial coefficients
+    polynomialCoefficients = zeros(length(signal)-1,4);
     % Zero order
     polynomialCoefficients(:,1) = signal(1:end-1);
     % First order
-    if length(times) == 1
-        polynomialCoefficients(:,2) = (signal(2:end)-signal(1:end-1))/times;
-    else
-        polynomialCoefficients(:,2) = (signal(2:end)-signal(1:end-1))./(times(2:end)-times(1:end-1));
-    end
+    polynomialCoefficients(:,2) = (signal(2:end)-signal(1:end-1))/step - (M(2:end)-2*M(1:end-1))*step/6;
+    % Second order
+    polynomialCoefficients(:,3) = M(1:end-1)/2;
+    % Third order
+    polynomialCoefficients(:,4) = (M(2:end)-M(1:end-1))/(6*step);
+    
 end
 

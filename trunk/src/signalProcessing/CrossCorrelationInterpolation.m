@@ -49,7 +49,7 @@ function [cc ccd ccdd] = CrossCorrelationInterpolation(PCCC,Delay,SamplingPeriod
 
     % Input check
     if nargin < 3
-        error('Usage: [cc ccd ccdd] = CCInterpolation(PCCC,Delay,SamplingPeriod[,ZeroIndex])');
+        error('Usage: [cc ccd ccdd] = CrossCorrelationInterpolation(PCCC,Delay,SamplingPeriod[,ZeroIndex])');
     end
     if nargin < 4
         ZeroIndex = ceil(size(PCCC,3)/2);

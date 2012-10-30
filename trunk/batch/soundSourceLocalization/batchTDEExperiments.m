@@ -73,14 +73,6 @@ function batchTDEExperiments(experimentOptions)
     donePart = 0;
     tStart = clock;
     
-    % Compute the ISM data if needed.
-    if experimentOptions.ismOptions.generate
-        fprintf('Computation of the ISM models...\n');
-        experimentOptions = GenerateISMData(experimentOptions);
-        fprintf('ISM Computation done.\n');
-    end
-
-    
     %%% Looping over all the parameters
     % For each position
     for sPosition = 1:1%nSourcePositions,

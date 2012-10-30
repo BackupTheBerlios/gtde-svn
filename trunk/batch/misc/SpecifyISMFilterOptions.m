@@ -57,13 +57,6 @@ function experimentOptions = SpecifyISMFilterOptions(experimentOptions)
         return;
     end
     
-    % Checking the installation of ISM
-    if isempty(which('ISM_RIR_bank'))
-        fprintf('The software to compute ISM is not installed.\n');
-        fprintf('Please go to http://www.eric-lehmann.com/ism code.html to download and install.\n');
-        error('Software missing.');
-    end
-    
     % Checking for the structure
     if ~isfield(experimentOptions,'ismOptions')
         error('The use of the ISM model requires to specify the ismOptions substructure.');

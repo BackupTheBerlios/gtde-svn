@@ -43,58 +43,61 @@ for D1 = 0:3,
 
         % Plot k1
         figure
-        subplot(2,3,1)
+%         subplot(2,3,1)
         plot(tau,k1,'bo');
+        title(['K1 widht D1=' num2str(D1) ' D2=' num2str(D2)]);
         hold on
-        for ii = 1:numel(tau),
-            plot([tau(ii);tau(ii)+h],[k1(ii);k1(ii) + k1d(ii)*h],'r');
-        end
-        for ii = 1:numel(tau),
-            plot([tau(ii);tau(ii)+h],[k1(ii);k1(ii) + k1d(ii)*h + k1dd(ii)*h^2/2],'g');
-        end
-        hold off
-        legend('k1','k1d');
+%         for ii = 1:numel(tau),
+%             plot([tau(ii);tau(ii)+h],[k1(ii);k1(ii) + k1d(ii)*h],'r');
+%         end
+%         for ii = 1:numel(tau),
+%             plot([tau(ii);tau(ii)+h],[k1(ii);k1(ii) + k1d(ii)*h + k1dd(ii)*h^2/2],'g');
+%         end
+%         hold off
+%         legend('k1','k1d');
         
-        subplot(2,3,2)
-        hold on
+%         subplot(2,3,2)
+%         hold on
         plot(tau,k1d,'rx');
-        k1de = (k1(2:end)-k1(1:end-1))/tauinc;
-        plot(tau(1:end-1),k1de,'bo');
-        hold off
+%         k1de = (k1(2:end)-k1(1:end-1))/tauinc;
+%         plot(tau(1:end-1),k1de,'bo');
+%         hold off
         
-        subplot(2,3,3)
+%         subplot(2,3,3)
         plot(tau,k1dd,'gd');
-        hold on
-        k1dde = (k1d(2:end)-k1d(1:end-1))/tauinc;
-        plot(tau(1:end-1),k1dde,'bo');
+%         hold on
+%         k1dde = (k1d(2:end)-k1d(1:end-1))/tauinc;
+%         plot(tau(1:end-1),k1dde,'bo');
         hold off
         
 
         % Plot k2
-        subplot(2,3,4)
+%         subplot(2,3,4)
+        figure
         plot(tau,k2,'bo');
+        title(['K2 widht D1=' num2str(D1) ' D2=' num2str(D2)]);
         hold on
-        for ii = 1:numel(tau),
-            plot([tau(ii);tau(ii)+h],[k2(ii);k2(ii) + k2d(ii)*h],'r');
-        end
-        for ii = 1:numel(tau),
-            plot([tau(ii);tau(ii)+h],[k2(ii);k2(ii) + k2d(ii)*h + k2dd(ii)*h^2/2],'g');
-        end
-        hold off
-        legend('k2','k2d');
+%         for ii = 1:numel(tau),
+%             plot([tau(ii);tau(ii)+h],[k2(ii);k2(ii) + k2d(ii)*h],'r');
+%         end
+%         for ii = 1:numel(tau),
+%             plot([tau(ii);tau(ii)+h],[k2(ii);k2(ii) + k2d(ii)*h + k2dd(ii)*h^2/2],'g');
+%         end
+%         hold off
+%         legend('k2','k2d');
         
-        subplot(2,3,5)
-        hold on
+%         subplot(2,3,5)
+%         hold on
         plot(tau,k2d,'rx');
-        k2de = (k2(2:end)-k2(1:end-1))/tauinc;
-        plot(tau(1:end-1),k2de,'bo');
-        hold off
+%         k2de = (k2(2:end)-k2(1:end-1))/tauinc;
+%         plot(tau(1:end-1),k2de,'bo');
+%         hold off
         
-        subplot(2,3,6)
+%         subplot(2,3,6)
         plot(tau,k2dd,'gd');
-        hold on
-        k2dde = (k2d(2:end)-k2d(1:end-1))/tauinc;
-        plot(tau(1:end-1),k2dde,'bo');
+%         hold on
+%         k2dde = (k2d(2:end)-k2d(1:end-1))/tauinc;
+%         plot(tau(1:end-1),k2dde,'bo');
         hold off
     end
 end

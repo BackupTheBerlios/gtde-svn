@@ -78,6 +78,12 @@ function [signals fs] = GetSignalRealization(experimentOptions,sSignal,sPosition
             %%%%%%%%%%%%% WARNING %%%%%%%%%%%%%%%
             % THE NON REVERBERANT CASE IS T60 = 0
             %%%%%%%%%%%%% WARNING %%%%%%%%%%%%%%%
+            % Checking the installation of ISM
+            if isempty(which('ISM_AudioData'))
+                fprintf('The software to compute ISM is not installed.\n');
+                fprintf('Please go to http://www.eric-lehmann.com/ism code.html to download and install.\n');
+                error('Software missing.');
+            end
             % Load the signal
             if sSignal > numel(experimentOptions.signals)
                 error('sSignal should be a valid signal index.');
