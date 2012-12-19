@@ -73,9 +73,9 @@ function [cc ccd ccdd] = CrossCorrelationInterpolation(PCCC,Delay,SamplingPeriod
         for d2 = 0:D2,
             try
                 % Value of the first interpolating function
-                [k1 k1d k1dd] = K1(d1,d2,tau,SamplingPeriod);
+                [k1, k1d, k1dd] = K1(d1,d2,tau,SamplingPeriod);
                 % Value of the second interpolation function
-                [k2 k2d k2dd] = K2(d1,d2,tau,SamplingPeriod);
+                [k2, k2d, k2dd] = K2(d1,d2,tau,SamplingPeriod);
                 % First cross-correlation value
                 R1 = (squeeze(PCCC(d1+1,d2+1,ccIndex+1+ZeroIndex))');
                 % Second cross-correlation value
