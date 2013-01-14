@@ -285,4 +285,4 @@ function [J, GJ, HJ] = gTDECriterion(TDEs,PCCC,microphones,samplingPeriod)
         
     end
 
-end
+return

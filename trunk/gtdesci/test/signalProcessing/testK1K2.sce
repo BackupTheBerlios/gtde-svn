@@ -29,7 +29,7 @@ ieee(1);
 
 xdel(winsid());clear;
 
-getd('../src/')
+getd('../../src/signalProcessing')
 
 // Polynomial degrees
 for D1 = 0:3
