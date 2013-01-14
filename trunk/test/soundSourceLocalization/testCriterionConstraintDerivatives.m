@@ -155,7 +155,7 @@ end
 % end
 
 function [F, GF] = hessObjTest(x,component,PCCC,MICS,samplingPeriod)
-    [~, GO, HO] = gTDECriterion(x,PCCC,MICS,samplingPeriod);
+    [ddd, GO, HO] = gTDECriterion(x,PCCC,MICS,samplingPeriod);
     if size(x,2) == 1
         F = GO(component);
         GF = HO(component,:)';
@@ -166,7 +166,7 @@ function [F, GF] = hessObjTest(x,component,PCCC,MICS,samplingPeriod)
 end
 
 function [F, GF] = hessObjLogTest(x,component,PCCC,MICS,samplingPeriod)
-    [~, GO, HO] = gTDELogCriterion(x,PCCC,MICS,samplingPeriod);
+    [ddd, GO, HO] = gTDELogCriterion(x,PCCC,MICS,samplingPeriod);
     if size(x,2) == 1
         F = GO(component);
         GF = HO(component,:);
@@ -177,13 +177,13 @@ function [F, GF] = hessObjLogTest(x,component,PCCC,MICS,samplingPeriod)
 end
 
 function [F, GF] = hessConsTest(x,component,MICS,samplingPeriod)
-    [~, GO, HO] = TDEDiscriminant(x,MICS,samplingPeriod);
+    [ddd, GO, HO] = TDEDiscriminant(x,MICS,samplingPeriod);
     F = GO(component);
     GF = squeeze(HO(component,:,:));
 end
 
 function [F, GF] = hessChenTest(x,PCCC,micDistances,samplingPeriod)
-    [~,F,GF] = chenTDECriterion(x,PCCC,micDistances,samplingPeriod);
+    [ddd,F,GF] = chenTDECriterion(x,PCCC,micDistances,samplingPeriod);
 end
 
 function checkDerivatives(fun, X0, step, name)
@@ -227,7 +227,7 @@ function checkManyDerivatives(fun, X0, step, name)
     % Check out the dimension
     [Dimension, NPoints] = size(X0);
     % Compute the values provided by the function
-    [~, Gradient] = fun(X0);
+    [ddd, Gradient] = fun(X0);
     % Check the gradient
     NGradient = zeros(size(Gradient));
 %     for np=1:NPoints,
