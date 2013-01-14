@@ -1,8 +1,8 @@
-function [signals fs] = GetSignalRealization(experimentOptions,sSignal,sPosition,sSNR,sT60)
+function [signals, fs] = GetSignalRealization(experimentOptions,sSignal,sPosition,sSNR,sT60)
 
 %Get the realization of a signal
 %
-% [signals fs] = GetSignalRealization(experimentOptions,sSignal,sPosition,sSNR,sT60)
+% [signals, fs] = GetSignalRealization(experimentOptions,sSignal,sPosition,sSNR,sT60)
 %
 % PARAMETERS:
 %   experimentOptions ~ options of the experiment, see batchTDEExperiments
@@ -88,7 +88,7 @@ function [signals fs] = GetSignalRealization(experimentOptions,sSignal,sPosition
             if sSignal > numel(experimentOptions.signals)
                 error('sSignal should be a valid signal index.');
             end
-            [signal fs] = wavread(experimentOptions.signals{sSignal});
+            [signal, fs] = wavread(experimentOptions.signals{sSignal});
             % Sampling frequency index
             sFS = find(experimentOptions.ismOptions.samplingFrequencies == fs);
             if isempty(sFS)
@@ -115,10 +115,32 @@ function [signals fs] = GetSignalRealization(experimentOptions,sSignal,sPosition
             panIndex = 6*(sPos-6*fix(sPos/6))+1;
             wavIndex = 37*(tiltIndex-1)+panIndex;
     %         fprintf('%s\n',strcat(experimentOptions.signals,num2str(wavIndex),'.wav'));
-            [partialSignals fs] = wavread(strcat(experimentOptions.signals,num2str(wavIndex),'.wav'));
+            [partialSignals, fs] = wavread(strcat(experimentOptions.signals,num2str(wavIndex),'.wav'));
             partialSignals = partialSignals';
     end
-        
+    
+    %%% Store the signals for iorgos
+    % Shift'em
+    if exist(experimentOptions.microphonePositionOptions,'subSet'),
+        tdeSamples = TDEGeometricDirect(experimentOptions.sourcePositions(sPosition,:),experimentOptions.microphonePositions(experimentOptions.microphonePositionOptions.subSet,:));
+    else
+        tdeSamples = TDEGeometricDirect(experimentOptions.sourcePositions(sPosition,:),experimentOptions.microphonePositions);
+    end
+    tdeSamples = round(tdeSamples*fs);
+    shiftedSignals = zeros(size(partialSignals));
+    shiftedSignals(1,:) = partialSignals(1,:);
+    for mm=2:size(experimentOptions.microphonePositions,1),
+%         fprintf('%d ',tdeSamples(mm-1));
+        if tdeSamples(mm-1) < 0
+            shiftedSignals(mm,-tdeSamples(mm-1):end) = partialSignals(mm,1:end+tdeSamples(mm-1)+1);
+        elseif tdeSamples(mm-1) > 0
+            shiftedSignals(mm,1:end-tdeSamples(mm-1)+1) = partialSignals(mm,tdeSamples(mm-1):end);
+        else
+            shiftedSignals(mm,:) = partialSignals(mm,:);
+        end
+    end
+    partialSignals = shiftedSignals;
+       
     %%% Cut the signals
     pieceLength = experimentOptions.dataOptions.cutLength*fs; 
     NPieces = floor(size(partialSignals,2)/pieceLength);
@@ -133,4 +155,7 @@ function [signals fs] = GetSignalRealization(experimentOptions,sSignal,sPosition
             end
         end
     end
+    
+%     %%% Save'em
+%     save(strcat('/local_scratch/alamedap/dataGeorge/UpToSubsample_',num2str(sSignal),'_',num2str(sPosition),'_',num2str(sSNR),'_',num2str(sT60),'.mat'),'signals');
 end

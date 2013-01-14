@@ -1,4 +1,4 @@
-function [J GJ HJ errorFlag] = gTDELogCriterion(TDEs,PCCC,microphones,samplingPeriod)
+function [J, GJ, HJ, errorFlag] = gTDELogCriterion(TDEs,PCCC,microphones,samplingPeriod)
 
 %gTDECriterion implements the criterion to optimize for geometric TDE
 %
@@ -55,7 +55,7 @@ function [J GJ HJ errorFlag] = gTDELogCriterion(TDEs,PCCC,microphones,samplingPe
     % Number of microphones
     NMics = size(microphones,1);
     % TDEs dimension and number
-    [Dimension NTDEs] = size(TDEs);
+    [Dimension, NTDEs] = size(TDEs);
     
     % Dimension vs NMics
     if Dimension ~= NMics-1
@@ -90,7 +90,7 @@ function [J GJ HJ errorFlag] = gTDELogCriterion(TDEs,PCCC,microphones,samplingPe
         index = TDEis(1,ss,NMics);
         % The cross-correlation function should be interpolated at
         % -t_{1,ss} not at t_{1,ss}
-        [r(index,:) rd(index,index,:) rdd(index,index,:)] = ...
+        [r(index,:), rd(index,index,:), rdd(index,index,:)] = ...
             CrossCorrelationInterpolation(PCCC{1,ss},-TDEs(index,:),samplingPeriod);
         % Normalize with respect to the energy
         r(index,:) = r(index,:) / sqrt(SignalEnergy(1)*SignalEnergy(ss));
@@ -114,7 +114,7 @@ function [J GJ HJ errorFlag] = gTDELogCriterion(TDEs,PCCC,microphones,samplingPe
             TDEmic1mic2 = TDEs(TDEis(1,mic2,NMics),:)-TDEs(TDEis(1,mic1,NMics),:);
             % The cross-correlation function should be interpolated at
             % -t_{mic1,mic2} not at t_{mic1,mic2}
-            [R(mic1-1,mic2-1,:) RD(mic1-1,mic2-1,:) RDD(mic1-1,mic2-1,:)] = ...
+            [R(mic1-1,mic2-1,:), RD(mic1-1,mic2-1,:), RDD(mic1-1,mic2-1,:)] = ...
                 CrossCorrelationInterpolation(PCCC{mic1,mic2},-TDEmic1mic2,samplingPeriod);
             % Normalize with respect to the energy
             R(mic1-1,mic2-1,:) = R(mic1-1,mic2-1,:) / sqrt(SignalEnergy(mic1)*SignalEnergy(mic2));

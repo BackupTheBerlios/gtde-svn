@@ -1,4 +1,4 @@
-function [Delta GDelta HDelta] = TDEDiscriminant(TDEs,MICS,samplingPeriod,C)
+function [Delta, GDelta, HDelta] = TDEDiscriminant(TDEs,MICS,samplingPeriod,C)
 
 %TDEDiscriminant implements the geometric constraint for geometric TDE.
 %

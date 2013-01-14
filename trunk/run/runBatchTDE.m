@@ -70,7 +70,7 @@ dataOptions.cutLength = 0.1;
 % Depending
 if strcmp(dataOptions.type,'simulated') || ...
    strcmp(dataOptions.type,'synthetic')
-    dataOptions.snrValues = [-10];
+    dataOptions.snrValues = [10];
 end
 if strcmp(dataOptions.type,'synthetic')
     dataOptions.samplingFrequency = 48000;
@@ -83,7 +83,7 @@ end
 experimentOptions.dataOptions = dataOptions;
 
 %%% Microphone properties
-microphonePositionOptions.type = 'icosahedron';
+microphonePositionOptions.type = 'tetrahedron';
 microphonePositionOptions.scale = 0.1;
 microphonePositionOptions.offset = [2.25 1.25 1.25];
 % Subset of the microphone set
@@ -102,14 +102,14 @@ experimentOptions.microphonePositionOptions = microphonePositionOptions;
 %%% ISM Options
 ismOptions.room = room;
 ismOptions.absorptionWeights =  [1 1 1 1 1 1];
-ismOptions.t60 = [0 0.1 0.2 0.4 0.6];
+ismOptions.t60 = [0];
 ismOptions.samplingFrequencies = [16000 44100 48000];
-ismOptions.folder= strcat(experimentOptions.rootFolder,'ICOSAHEDRON-2012/');
+ismOptions.folder= strcat(experimentOptions.rootFolder,'EUSIPCO-2012/');
 % Save it
 experimentOptions.ismOptions = ismOptions;
 
 %%% Method options
-methodOptions.type = 'gtde';
+methodOptions.type = 'sqplab';
 % Save it
 experimentOptions.methodOptions = methodOptions;
 

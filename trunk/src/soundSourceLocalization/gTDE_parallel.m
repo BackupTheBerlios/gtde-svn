@@ -1,4 +1,4 @@
-function [TDE fVal cVal] = gTDE_parallel(sigPCCC, microphones, samplingPeriod, x0)
+function [TDE, fVal, cVal] = gTDE_parallel(sigPCCC, microphones, samplingPeriod, x0)
 
 %Geometric-constrained time difference estimation
 %
@@ -93,16 +93,16 @@ function [TDE fVal cVal] = gTDE_parallel(sigPCCC, microphones, samplingPeriod, x
     
     % Declare the objective function
 %     objFunction = @(x) gTDECriterion(x,PCCC,microphones,samplingPeriod);
-    objFunction = @(x) gTDELogCriterion(x,PCCC,microphones,samplingPeriod);
+    objFunction = @(x) gTDECriterion(x,PCCC,microphones,samplingPeriod);
     consFunction = @(x,z) constraints(x,z,microphones,samplingPeriod);
 
     % Run the parallel local optimization
-    [TDE fVal cVal] = ipsolver_parallel(x0,objFunction,consFunction);
+    [TDE, fVal, cVal] = ipsolver_parallel(x0,objFunction,consFunction);
 end
 
-function [c J W] = constraints(TDEs,z,microphones,samplingPeriod)
+function [c, J, W] = constraints(TDEs,z,microphones,samplingPeriod)
     % Compute the restriction (is a positive restriction)
-    [c J W] = TDEDiscriminant(TDEs,microphones,samplingPeriod);
+    [c, J, W] = TDEDiscriminant(TDEs,microphones,samplingPeriod);
     % Change the sign of the restriction and its gradient, and set the
     % equatlity constratints to null
     c = -c;

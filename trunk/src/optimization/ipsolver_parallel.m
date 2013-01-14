@@ -1,4 +1,4 @@
-function [finalX f c op] = ipsolver_parallel (x, objective, constraint, op)
+function [finalX, f, c, op] = ipsolver_parallel (x, objective, constraint, op)
 
 %ipsolver_parallel Interior-Point algorithm for several initializations at
 %
@@ -73,16 +73,14 @@ function [finalX f c op] = ipsolver_parallel (x, objective, constraint, op)
     % and the total number of primal-dual optimization variables (nv).
     % Initialize the Lagrange multipliers. Initialize the second-order
     % information.
-    [n ni] = size(x);
+    [n, ni] = size(x);
     % Which point has already converged?
     finalX = zeros(size(x));
-    saved = false(1,ni);
     
     %%%% FORCING to 1 constraint
     m  = 1;
     z  = ones(m,ni);
     nv = n + m;
-    B  = eye(n);
 
     if op.verbose
         fprintf('  i f(x)       lg(mu) sigma   ||rx||  ||rc||  alpha   #ls\n');
@@ -102,9 +100,9 @@ function [finalX f c op] = ipsolver_parallel (x, objective, constraint, op)
         % the inequality constraints, the Hessian of the Lagrangian (minus the
         % Hessian of the objective) and, optionally, the Hessian of the
         % objective.
-        [c J W] = constraint(x,z);
+        [c, J, W] = constraint(x,z);
         if strcmp(op.descentdir,'newton')
-            [f g B eF] = objective(x);
+            [f, g, B] = objective(x);
         else
             error('Do not do non-newton.');
         end
@@ -127,7 +125,7 @@ function [finalX f c op] = ipsolver_parallel (x, objective, constraint, op)
         % (If the norm of the responses is less than the specified
         % tolerance or we could not compute the oF at the point)
         % and we have not saved the point before, save it!
-        newToSave = (auxr0 < op.tolerance | eF) & ~saved;
+        newToSave = (auxr0 < op.tolerance) & ~saved;
         % Mark as saved and save
         saved(newToSave) = true;
         finalX(:,newToSave) = x(:,newToSave);

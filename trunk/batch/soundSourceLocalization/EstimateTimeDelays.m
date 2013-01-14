@@ -43,13 +43,13 @@ function foundTDE = EstimateTimeDelays(signals,experimentOptions)
     % Compute maxlag
     maxLag = TDEmax(experimentOptions.microphonePositions);
     maxLag = ceil(experimentOptions.samplingFrequency*max(maxLag));
-    % Sampling times
-    samplingTimes = 0:1/experimentOptions.samplingFrequency:(NSamples-1)/experimentOptions.samplingFrequency;
+%     % Sampling times
+%     samplingTimes = 0:1/experimentOptions.samplingFrequency:(NSamples-1)/experimentOptions.samplingFrequency;
     % Allocate
     PC = cell(NMics,1);
     % Compute
     for ss = 1:NMics,
-        PC{ss} = PolynomialInterpolationCoefficients(signals(ss,:),samplingTimes);
+        PC{ss} = PolynomialInterpolationCoefficients(signals(ss,:),1/experimentOptions.samplingFrequency);
     end
     % Compute the Cross-correlation of the interpolation coefficients
     % Allocate
@@ -64,7 +64,7 @@ function foundTDE = EstimateTimeDelays(signals,experimentOptions)
     switch experimentOptions.methodOptions.type
         case 'gtde'
             % Compute TDEs
-            [foundTDE foundCriterion foundConstraint] = gTDE_parallel(PCCC,...
+            [foundTDE, foundCriterion, foundConstraint] = gTDE_parallel(PCCC,...
                  experimentOptions.microphonePositions,...
                  1./experimentOptions.samplingFrequency,...
                  (experimentOptions.samplingFrequency*experimentOptions.initializationPositions)');
@@ -74,7 +74,7 @@ function foundTDE = EstimateTimeDelays(signals,experimentOptions)
             foundTDE = foundTDE(:,minIndex)/experimentOptions.samplingFrequency;
         case 'tde'
             % Compute TDEs
-            [foundTDE foundCriterion] = ngTDE_parallel(PCCC,...
+            [foundTDE, foundCriterion] = ngTDE_parallel(PCCC,...
                  experimentOptions.microphonePositions,...
                  1./experimentOptions.samplingFrequency,...
                  (experimentOptions.samplingFrequency*experimentOptions.initializationPositions)');
@@ -96,5 +96,10 @@ function foundTDE = EstimateTimeDelays(signals,experimentOptions)
                  experimentOptions.microphonePositions,...
                  1./experimentOptions.samplingFrequency,...
                  experimentOptions.initializationPositions);
+        case 'sqplab'
+            [foundTDE] = gTDE_SQPLAB(PCCC,...
+                 experimentOptions.microphonePositions,...
+                 1./experimentOptions.samplingFrequency,...
+                 (experimentOptions.samplingFrequency*experimentOptions.initializationPositions)');
     end
 end

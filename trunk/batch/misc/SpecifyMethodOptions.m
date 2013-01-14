@@ -45,7 +45,7 @@ function experimentOptions = SpecifyMethodOptions(experimentOptions)
         error('The method type should be specified in the method options substructure.');
     end
     
-    method =  {'gtde','tde','init','bypairs','truth'};
+    method =  {'gtde','tde','init','bypairs','truth','sqplab'};
     % Check the method specified
     methodFlag = 0;
     for d = 1:numel(method)
@@ -53,6 +53,15 @@ function experimentOptions = SpecifyMethodOptions(experimentOptions)
     end
     if methodFlag == 0
         error('Method specified not known.');
+    end
+    
+    % If sqplab, check software
+    if strcmp(experimentOptions.methodOptions.type,'sqplab'),
+        if isempty(which('sqplab'))
+            fprintf('SQPLAB not found. Please go to the following link and install it or add the right path.\n');
+            fprintf('https://who.rocq.inria.fr/Jean-Charles.Gilbert/modulopt/optimization-routines/sqplab/sqplab.html');
+            error('SQPLAB Software not found.');
+        end
     end
     
     % Grid

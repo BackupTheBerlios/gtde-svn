@@ -86,7 +86,8 @@ function batchTDEExperiments(experimentOptions)
                 for sT60 = 1:nT60,
                     
                     % Get the signals
-                    [signals fs] = GetSignalRealization(experimentOptions,sSignal,sPosition,sSNR,sT60);
+                    [signals, fs] = GetSignalRealization(experimentOptions,sSignal,sPosition,sSNR,sT60);
+                    
                     % Reassign the sampling frequency
                     experimentOptions.samplingFrequency = fs;
                     % Allocate results
@@ -116,7 +117,7 @@ function batchTDEExperiments(experimentOptions)
             tEnd = clock;
             eTime = etime(tEnd,tStart);
             rTime = eTime*(100-donePart)/donePart;
-            fprintf('>   [Done by: %s]\n',datestr(now+(rTime/86400),0));
+%             fprintf('>   [Done by: %s]\n',datestr(now+(rTime/86400),0));
             
         end % sPosition
     end % sSignal
