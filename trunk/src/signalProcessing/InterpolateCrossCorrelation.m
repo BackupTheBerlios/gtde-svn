@@ -87,5 +87,5 @@ function [CrossCorrelation Derivative Curvature] = InterpolateCrossCorrelation(F
                                                                 SamplingPeriod);
     end
     
-end
+return
     

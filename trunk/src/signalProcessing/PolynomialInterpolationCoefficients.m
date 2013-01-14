@@ -67,5 +67,5 @@ function polynomialCoefficients = PolynomialInterpolationCoefficients(signal,ste
     % Third order
     polynomialCoefficients(:,4) = (M(2:end)-M(1:end-1))/(6*step);
     
-end
+return
 

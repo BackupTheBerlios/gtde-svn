@@ -47,7 +47,7 @@ function testInterpolateCrossCorrelation
     L = 200;
 
     % Sinusoidal with exponential decay
-    myFun = @(x) SyntheticSignal(x,2,[F,L]);
+%    myFun = @(x) SyntheticSignal(x,2,[F,L]);
 
     % Sampling frequency
     samplingPeriod = 1/48000;
@@ -126,7 +126,7 @@ function testInterpolateCrossCorrelation
     plot(plottingTimes, my2Derivative,'gx');
     hold off
     legend('My 2nd derivative');
-end
+return
 
 function acc = analyticCrossCorrelation(F,lambda,length,t1,t2,tau)
     
@@ -136,4 +136,4 @@ function acc = analyticCrossCorrelation(F,lambda,length,t1,t2,tau)
     acc = (lambda/4)*exp((t1+t2+tau)/lambda).*( ( exp(-2*M/lambda).*( cos(F*(2*M-t1-tau-t2)) - F*lambda*sin(F*(2*M-t1-tau-t2)) ) - ...
         exp(-2*m/lambda).*( cos(F*(2*m-t1-t2-tau)) - F*lambda*sin(F*(2*m-t1-t2-tau)) ) )/(1+(lambda*F).^2) - cos(F*(t2+tau-t1)).*( exp(-2*M/lambda) - exp(-2*m/lambda) ) );
 
-end
+return

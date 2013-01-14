@@ -54,4 +54,4 @@ function maxValue = TDEmax(MICS,C)
         end
     end
 
-end
+return

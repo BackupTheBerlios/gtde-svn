@@ -78,5 +78,5 @@ function [k2 k2d k2dd] = K2(p,q,tau,T)
             k2dd = k2dd - (q+p)*tau.^(q+p-1);
         end
     end
-end
+return
 

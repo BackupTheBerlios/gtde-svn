@@ -172,4 +172,4 @@ function [Delta, GDelta, HDelta] = TDEDiscriminant(TDEs,MICS,samplingPeriod,C)
             HDelta = HDelta * (samplingPeriod^2);
         end
     end
-end
+return

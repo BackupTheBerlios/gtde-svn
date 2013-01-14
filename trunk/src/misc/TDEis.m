@@ -65,4 +65,4 @@ function [index sign] = TDEis(mic1,mic2,NMics)
         index = (mic2-1)*NMics - sum(1:(mic2-1)) + (mic1-mic2);
         sign = -1;
     end
-end
+return

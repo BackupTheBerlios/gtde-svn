@@ -65,4 +65,4 @@ function testDiscreteCrossCorrelation
     figure
     plot(-maxLag:maxLag,corr);
     
-end
+return

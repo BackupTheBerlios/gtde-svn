@@ -58,5 +58,5 @@ function corr = DiscreteCrossCorrelation(signal1,signal2,maxLag)
     % At 0
     corr(maxLag+1) = sum(signal1(1:chunkSize).*signal2(1:chunkSize));
 
-end
+return
 

@@ -89,6 +89,6 @@ function [signals times] = GenerateDiscreteSignals(Position,MICS,samplingPeriod,
         end
     end
     
-end
+return
     
     

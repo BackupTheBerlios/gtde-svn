@@ -107,5 +107,4 @@ function [k1 k1d k1dd] = K1(p,q,tau,T)
             k1dd = k1dd + nchoosek(q,r) * (T-tau).^(q-r-2) .* (tau).^(r+p-1) .*( (r+p)*T.^2 - 2*(q+p)*T.*tau + (q+p)*(q+p+1)*tau.^2/(r+p+1));
         end
     end
-end
-
+return

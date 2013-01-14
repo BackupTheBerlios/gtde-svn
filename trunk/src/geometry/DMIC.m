@@ -41,4 +41,4 @@ function D = DMIC(X,MIC)
     %%% Compute the distance of every row on X to the first row of MIC
     D = sqrt(sum(bsxfun(@minus,X,MIC(1,:)).^2,2));
     
-end
+return

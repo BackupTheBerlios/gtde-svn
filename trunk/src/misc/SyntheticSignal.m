@@ -41,4 +41,4 @@ function y = SyntheticSignal(x,choice,params)
             error('Not implemented');
     end
 
-end
+return

@@ -77,5 +77,5 @@ function PCCC = PolynomialCoefficientsCrossCorrelation(firstCoefficients,secondC
         end
     end
 
-end
+return
 
