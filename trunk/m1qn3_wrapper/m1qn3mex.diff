@@ -1,0 +1,80 @@
+12c12
+< //Argument Enumeration (in expected order of arguments)
+---
+> /*Argument Enumeration (in expected order of arguments)*/
+14c14
+< //PRHS Defines    
+---
+> /*PRHS Defines*/
+20c20
+< //Function handle structure
+---
+> /*Function handle structure*/
+31c31
+< //Ctrl-C Detection
+---
+> /*Ctrl-C Detection*/
+35c35
+< //Iteration callback structure
+---
+> /*Iteration callback structure*/
+43c43
+< //Macros
+---
+> /*Macros*/
+46c46
+< //Function Prototypes
+---
+> /*Function Prototypes*/
+50,51c50,51
+< //M1QN3 Routine
+< extern void M1QN3(void(*fun)(int*,int*,double*,double*,double*,int*,float*,double*),
+---
+> /*M1QN3 Routine*/
+> extern void m1qn3_(void(*fun)(int*,int*,double*,double*,double*,int*,float*,double*),
+59,62c59,62
+< //DEFAULT Routines
+< extern void EUCLID(int*,double*,double*,double*,int*,float*,double*);
+< extern void CTONBE(int*,double*,double*,int*,float*,double*);
+< extern void CTCABE(int*,double*,double*,int*,float*,double*);
+---
+> /*DEFAULT Routines*/
+> extern void euclid_(int*,double*,double*,double*,int*,float*,double*);
+> extern void ctonbe_(int*,double*,double*,int*,float*,double*);
+> extern void ctcabe_(int*,double*,double*,int*,float*,double*);
+64c64
+< //User Function Structure
+---
+> /*User Function Structure*/
+66c66
+< //Iteration Callback Structure
+---
+> /*Iteration Callback Structure*/
+68c68
+< //Max Time data
+---
+> /*Max Time data*/
+72,73c72,73
+< // Function definitions. 
+< // -----------------------------------------------------------------
+---
+> /* Function definitions. */
+> /* ----------------------------------------------------------------- */
+214c214
+<     M1QN3(SIMUL,EUCLID,CTONBE,CTCABE,&n,x,fval,g,&dxmin,&df1,&epsg,normtype,
+---
+>     m1qn3_(SIMUL,euclid_,ctonbe_,ctcabe_,&n,x,fval,g,&dxmin,&df1,&epsg,normtype,
+282,287c282,287
+<     if (utIsInterruptPending()) {
+<         utSetInterruptPending(false); /* clear Ctrl-C status */
+<         mexPrintf("\nCtrl-C Detected. Exiting M1QN3...\n\n");
+<         *indic = 0; //terminate
+<         return;
+<     }
+---
+>     //if (utIsInterruptPending()) {
+>     //    utSetInterruptPending(false); /* clear Ctrl-C status */
+>     //    mexPrintf("\nCtrl-C Detected. Exiting M1QN3...\n\n");
+>     //    *indic = 0; //terminate
+>     //    return;
+>     //}
