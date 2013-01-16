@@ -1,3 +1,24 @@
+# Requirements
+F=gfortran
+M=mex
+echo "finding $F and $M compilers."
+# gfortran
+if [ ! $(which $F) ] 
+then
+	echo "The fortran compiler $F is not in the PATH."
+	echo "Please set the shell PATH, or modify the compile.sh file accordingly to your fortran compiler."
+	echo "!!!!    Error!!!!"
+	exit
+fi
+if [ ! $(which $M) ] 
+then
+	echo "The mex compiler $M is not in the PATH."
+	echo "Please set the shell PATH."
+	echo "!!!!    Error!!!!"
+	exit
+fi
+echo "-- $F and $M compilers found."
+# mex
 # First check if we have the fortrand code
 if [ ! -f m1qn3.f ]
 then
@@ -20,11 +41,12 @@ then
 	exit
 fi
 # Patch the c file
-patch m1qn3mex.c m1qn3mex.diff
-echo "-- File m1qn3mex.c patched."
+cp m1qn3mex.c m1qn3.c
+patch m1qn3.c m1qn3.diff
+echo "-- File m1qn3.c created and patched."
 # Compile wrapper
 echo "compiling wrapper with mex"
-mex CFLAGS='$CFLAGS -std=c99' m1qn3mex.c -L. -lm1qn3
+mex CFLAGS='$CFLAGS -std=c99' m1qn3.c -L. -lm1qn3
 # Final message
 echo "-- Wrapper compiled."
 echo "-- Please do not forgot to add $(pwd) to the LD_LIBRARY_PATH before starting MATLAB."
