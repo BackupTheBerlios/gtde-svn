@@ -9,15 +9,15 @@
 
 #define M1QN3_VERSION "3.3"
 
-/*Argument Enumeration (in expected order of arguments)*/
+//Argument Enumeration (in expected order of arguments)
 enum {eFUN, eGRAD, eX0, eOPTS};
-/*PRHS Defines*/
+//PRHS Defines    
 #define pFUN    prhs[eFUN]
 #define pGRAD   prhs[eGRAD]
 #define pX0     prhs[eX0]
 #define pOPTS   prhs[eOPTS]
 
-/*Function handle structure*/
+//Function handle structure
 #define FLEN 128 /* max length of user function name */
 #define MAXRHS 2 /* max nrhs for user function */
 typedef struct {
@@ -28,11 +28,11 @@ typedef struct {
      int xrhs, nrhs, xrhs_g, nrhs_g;
 } user_function_data;
 
-/*Ctrl-C Detection*/
+//Ctrl-C Detection
 extern bool utIsInterruptPending();
 extern void utSetInterruptPending(bool);
 
-/*Iteration callback structure*/
+//Iteration callback structure
 typedef struct {
     char f[FLEN];
     mxArray *plhs[1];
@@ -40,15 +40,15 @@ typedef struct {
     bool enabled;
 } iter_fun_data;
 
-/*Macros*/
+//Macros
 #define CHECK(cond, msg) if (!(cond)) { mexErrMsgTxt(msg); }
 
-/*Function Prototypes*/
+//Function Prototypes
 void checkInputs(const mxArray *prhs[], int nrhs);
 static void SIMUL(int *indic, int *n, double *x, double *f, double *g, int *izs, float *rzs, double *dzs);
 
-/*M1QN3 Routine*/
-extern void m1qn3_(void(*fun)(int*,int*,double*,double*,double*,int*,float*,double*),
+//M1QN3 Routine
+extern void M1QN3(void(*fun)(int*,int*,double*,double*,double*,int*,float*,double*),
                   void(*prosca)(int*,double*,double*,double*,int*,float*,double*),
                   void(*ctonb)(int*,double*,double*,int*,float*,double*),
                   void(*ctcab)(int*,double*,double*,int*,float*,double*),  
@@ -56,21 +56,21 @@ extern void m1qn3_(void(*fun)(int*,int*,double*,double*,double*,int*,float*,doub
                   char *normtype, int *impres, int *io, int *imode, int *omode, int *niter, int *nsim,
                   int *iz, double *dz, int *ndz, int *reverse, int *indec, int *izs, float *rzs, double *dzs);
 
-/*DEFAULT Routines*/
-extern void euclid_(int*,double*,double*,double*,int*,float*,double*);
-extern void ctonbe_(int*,double*,double*,int*,float*,double*);
-extern void ctcabe_(int*,double*,double*,int*,float*,double*);
+//DEFAULT Routines
+extern void EUCLID(int*,double*,double*,double*,int*,float*,double*);
+extern void CTONBE(int*,double*,double*,int*,float*,double*);
+extern void CTCABE(int*,double*,double*,int*,float*,double*);
 
-/*User Function Structure*/
+//User Function Structure
 user_function_data fun;
-/*Iteration Callback Structure*/
+//Iteration Callback Structure
 iter_fun_data iterF;
-/*Max Time data*/
+//Max Time data
 double maxtime;
 clock_t start, end;
 
-/* Function definitions. */
-/* ----------------------------------------------------------------- */
+// Function definitions. 
+// -----------------------------------------------------------------
 void mexFunction (int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[]) 
 {
     //Input Args
@@ -211,7 +211,7 @@ void mexFunction (int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[])
     uiparm[1] = printLevel;
     
     //Call Algorithm
-    m1qn3_(SIMUL,euclid_,ctonbe_,ctcabe_,&n,x,fval,g,&dxmin,&df1,&epsg,normtype,
+    M1QN3(SIMUL,EUCLID,CTONBE,CTCABE,&n,x,fval,g,&dxmin,&df1,&epsg,normtype,
           &impres,&io,imode,&omode,&maxiter,&maxfev,iz,dz,&ndz,&reverse,&indic,
           uiparm,rzs,dzs);
 
@@ -279,12 +279,12 @@ static void SIMUL(int *indic, int *n, double *x, double *f, double *g, int *izs,
     evaltime = ((double)(end-start))/CLOCKS_PER_SEC;
     
     //Check for Ctrl-C
-    //if (utIsInterruptPending()) {
-    //    utSetInterruptPending(false); /* clear Ctrl-C status */
-    //    mexPrintf("\nCtrl-C Detected. Exiting M1QN3...\n\n");
-    //    *indic = 0; //terminate
-    //    return;
-    //}
+    if (utIsInterruptPending()) {
+        utSetInterruptPending(false); /* clear Ctrl-C status */
+        mexPrintf("\nCtrl-C Detected. Exiting M1QN3...\n\n");
+        *indic = 0; //terminate
+        return;
+    }
     
     //Check for maxtime expiry    
     if(evaltime > maxtime)
