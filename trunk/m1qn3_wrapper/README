@@ -1,0 +1,39 @@
+THIS IS A README FILE FOR THE M1QN3 MATLAB-LINUX wrapper.
+
+1. CONTENTS
+
+The files in this folder should be:
+  - m1qn3.f: The fortran code of the optimization routine.
+  - m1qn3mex.c: The C wrapper for M1QN3 written to be compiled with mex.
+  - m1qn3mex.diff: The patch for the wrapper above.
+  - compile.sh: A shell script to compile the fortran code and the wrapper.
+  - README: this file.
+
+After compilation you'll also get:
+  - libm1qn3.so: The shared library correspoding to the fortran routine.
+  - m1qn3mex.mexa**: The MEX file callable from MATLAB.
+
+3. CODE DETAILS
+
+M1QN3 is a optimization solver. You can find all the information in [1]. The file in this SVN repository is the original code (you can also download it from [1]).
+
+The original wrapper (written for windows) is part of the OptiToolbox, that can be found in [2].
+
+3. COMPILATION
+
+Just type: $> sh compile.sh
+
+What does the script do?
+i.   Compile the fortran code into a shared library.
+ii.  Patch the wrapper (commenting native windows calls).
+iii. Compile the wrapper linking the fortran library.
+
+4. FORTRAN-C issues.
+
+Depending on the fortran compiler the names of the frotran routines in the shared library will may be different. This is not a problem for fortran, but it is for C. So you may get some errors. That is one of the reasons I had to patch the m1qn3mex.c (the other is windows :) ). If you want more details about how to deal with fortran-c issues I found [3] very instructive.
+
+REFERENCES
+
+[1] https://who.rocq.inria.fr/Jean-Charles.Gilbert/modulopt/optimization-routines/m1qn3/m1qn3.html
+[2] http://www.i2c2.aut.ac.nz/Wiki/OPTI/index.php
+[3] http://wwwcompass.cern.ch/compass/software/offline/software/fandc/fandc.html
