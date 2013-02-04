@@ -49,14 +49,40 @@ function corr = DiscreteCrossCorrelation(signal1,signal2,maxLag)
     %%% Computation
     % Positive values of the delay
     for xcPos = 2:maxLag+1,
-        corr(maxLag+xcPos) = sum(signal1(xcPos:chunkSize-1+xcPos).*signal2(1:chunkSize));
+        nXCSamples = 0;
+        for shift = 0:maxLag+1-xcPos,
+            corr(maxLag+xcPos) = corr(maxLag+xcPos) + ...
+                sum(signal1(xcPos+shift:chunkSize-1+xcPos+shift).*signal2(shift+1:chunkSize+shift));
+            nXCSamples = nXCSamples + 1;
+        end
+        corr(maxLag+xcPos) = corr(maxLag+xcPos) / nXCSamples;
     end
     % Negative values of the delay
     for xcPos = 2:maxLag+1,
-        corr(maxLag+2-xcPos) = sum(signal2(xcPos:chunkSize-1+xcPos).*signal1(1:chunkSize));
+        nXCSamples = 0;
+        for shift = 0:maxLag+1-xcPos,
+            corr(maxLag+2-xcPos) = corr(maxLag+2-xcPos) + ...
+                sum(signal2(xcPos+shift:chunkSize-1+xcPos+shift).*signal1(shift+1:chunkSize+shift));
+            nXCSamples = nXCSamples + 1;
+        end
+        corr(maxLag+2-xcPos) = corr(maxLag+2-xcPos) / nXCSamples;
     end
     % At 0
-    corr(maxLag+1) = sum(signal1(1:chunkSize).*signal2(1:chunkSize));
+    nXCSamples = 0;
+    for shift = 0:maxLag,
+        corr(maxLag+1) = corr(maxLag+1) + ...
+            sum(signal1(shift+1:shift+chunkSize).*signal2(shift+1:shift+chunkSize));
+        nXCSamples = nXCSamples + 1;
+    end
+    corr(maxLag+1) = corr(maxLag+1) / nXCSamples;
 
+%     %%% Computation
+%     % Positive values of the delay
+%     for xcPos = 2:maxLag+1,
+%         corr(maxLag+xcPos) = sum( signal1(1:end-xcPos+1) .* signal2(xcPos:end) );
+%         corr(maxLag+2-xcPos) = sum( signal2(1:end-xcPos+1) .* signal1(xcPos:end) );
+%     end
+%     corr(maxLag+1) = sum(signal1.*signal2);
+    
 return
 

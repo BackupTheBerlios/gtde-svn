@@ -75,44 +75,52 @@ function testCriterionConstraintDerivatives
     maxLAG = max(maxTDESamples);
     
     %%% Compute the interpolation coefficients
-    % Allocate
-    PC = cell(NMics,1);
-    % Compute
-    for ss = 1:NMics,
-        PC{ss} = PolynomialInterpolationCoefficients(signals(ss,:),samplingPeriod);
-    end
-    
-    % Compute the Cross-correlation of the interpolation coefficients
-    % Allocate
-    PCCC = cell(NMics);
-    % Compute
-    for mic1 = 1:NMics,
-        for mic2 = mic1:NMics,
-            PCCC{mic1,mic2} = PolynomialCoefficientsCrossCorrelation(PC{mic1},PC{mic2},maxLAG);
-        end
+    [PCCC, EPCCC] = Signals2PCCC(signals,MICS,1/samplingPeriod);
+    %%% Compute the energy
+    Energies = zeros(1,NMics);
+    for mic = 1:NMics,
+        Energies(mic) = CrossCorrelationInterpolation(EPCCC{mic,mic},0,samplingPeriod);
     end
                    
-    X0 = TDEGeometricDirect(Positions,MICS);
-    X0 = (X0(:,1:3)/samplingPeriod)';
-    step = 1e-10;
+    %%% Generate initial minimzation points
+    % Dimension
+    IP.dimension = size(MICS,1)-1;
+    % Coordinate system
+    IP.coordinateSystem = 'cartesian';
+    % Bounds
+    maxTDEs = TDEmax(MICS);
+    IP.bounds = cell(IP.dimension,1);
+    for d = 1:IP.dimension
+        IP.bounds{d} = [-maxTDEs(d),maxTDEs(d)];
+    end
+    % Number of intervals
+    IP.numberOfIntervals = 10;
+    % Generate positions
+    X0 = GeneratePositions(IP.dimension,IP)';
+    X0 = DiscardOutBounds(X0,MICS);
+    X0 = X0/samplingPeriod;
+    
+    X0p = TDEGeometricDirect(Positions,MICS);
+    X0p = (X0p(:,1:3)/samplingPeriod)';
+    step = 1e-8;
         
     % Test gradient Objective function
-    gradObjTest = @(x) gTDECriterion(x,PCCC,MICS,samplingPeriod);
+    gradObjTest = @(x) gTDECriterion(x,PCCC,MICS,samplingPeriod,Energies);
     checkDerivatives(gradObjTest,X0,step,'Gradient');
     
     % Test hessian objective function
     for ii = 1:3,
-        funcTest = @(x) hessObjTest(x,ii,PCCC,MICS,samplingPeriod);
+        funcTest = @(x) hessObjTest(x,ii,PCCC,MICS,samplingPeriod,Energies);
         checkDerivatives(funcTest,X0,step,strcat('Hessian (',num2str(ii),')'));
     end
 
 %     % Test gradient log-Objective function
-%     gradObjTest = @(x) gTDELogCriterion(x,PCCC,MICS,samplingPeriod);
+%     gradObjTest = @(x) gTDELogCriterion(x,PCCC,MICS,samplingPeriod,Energies);
 %     checkDerivatives(gradObjTest,X0,step,'Log-Gradient');
-%     
+% %     
 %     % Test hessian log-objective function
 %     for ii = 1:3,
-%         funcTest = @(x) hessObjLogTest(x,ii,PCCC,MICS,samplingPeriod);
+%         funcTest = @(x) hessObjLogTest(x,ii,PCCC,MICS,samplingPeriod,Energies);
 %         checkDerivatives(funcTest,X0,step,strcat('Log-Hessian (',num2str(ii),')'));
 %     end
 
@@ -154,8 +162,8 @@ end
 %     GC = GC';
 % end
 
-function [F, GF] = hessObjTest(x,component,PCCC,MICS,samplingPeriod)
-    [ddd, GO, HO] = gTDECriterion(x,PCCC,MICS,samplingPeriod);
+function [F, GF] = hessObjTest(x,component,PCCC,MICS,samplingPeriod,Energies)
+    [~, GO, HO] = gTDECriterion(x,PCCC,MICS,samplingPeriod,Energies);
     if size(x,2) == 1
         F = GO(component);
         GF = HO(component,:)';
@@ -165,8 +173,8 @@ function [F, GF] = hessObjTest(x,component,PCCC,MICS,samplingPeriod)
     end
 end
 
-function [F, GF] = hessObjLogTest(x,component,PCCC,MICS,samplingPeriod)
-    [ddd, GO, HO] = gTDELogCriterion(x,PCCC,MICS,samplingPeriod);
+function [F, GF] = hessObjLogTest(x,component,PCCC,MICS,samplingPeriod,Energies)
+    [~, GO, HO] = gTDELogCriterion(x,PCCC,MICS,samplingPeriod,Energies);
     if size(x,2) == 1
         F = GO(component);
         GF = HO(component,:);
@@ -177,20 +185,20 @@ function [F, GF] = hessObjLogTest(x,component,PCCC,MICS,samplingPeriod)
 end
 
 function [F, GF] = hessConsTest(x,component,MICS,samplingPeriod)
-    [ddd, GO, HO] = TDEDiscriminant(x,MICS,samplingPeriod);
+    [~, GO, HO] = TDEDiscriminant(x,MICS,samplingPeriod);
     F = GO(component);
     GF = squeeze(HO(component,:,:));
 end
 
 function [F, GF] = hessChenTest(x,PCCC,micDistances,samplingPeriod)
-    [ddd,F,GF] = chenTDECriterion(x,PCCC,micDistances,samplingPeriod);
+    [~,F,GF] = chenTDECriterion(x,PCCC,micDistances,samplingPeriod);
 end
 
 function checkDerivatives(fun, X0, step, name)
     % Check out the dimension
     Dimension = size(X0,1);
     % Compute the values provided by the function
-    [~, Gradient] = fun(X0);
+    [Value, Gradient] = fun(X0);
     % Check the gradient
     NGradient = zeros(size(Gradient));
     for ii=1:Dimension
@@ -212,15 +220,26 @@ function checkDerivatives(fun, X0, step, name)
     fprintf('========\n');
     for ii=1:Dimension,
         AbsDiff = abs(Gradient(ii,:)-NGradient(ii,:));
-        RelDiff = AbsDiff./abs(Gradient(ii,:));
+        RelDiff = zeros(size(AbsDiff));
+        RelDiff(Gradient(ii,:)~=0) = AbsDiff(Gradient(ii,:)~=0)./abs(Gradient(ii,Gradient(ii,:)~=0));
 %         fprintf('(%d) %1.5e \t%1.5e \t%1.5e \t%1.5e\n',ii,Gradient(ii),NGradient(ii),AbsDiff,RelDiff);
-        fprintf('(%d) %1.5e \t%1.5e\n',ii,mean(AbsDiff),mean(RelDiff));
+        fprintf('(%d) %1.5e \t%1.5e\n',ii,mean(AbsDiff),mean(RelDiff(Gradient(ii,:)~=0)));
         figure;
-%         scatter3(X0(1,:),X0(2,:),X0(3,:),RelDiff);
-        global Positions;
-        scatter3(Positions(:,1),Positions(:,2),Positions(:,3),RelDiff);
-        title(name);
+        scatter3(X0(1,:),X0(2,:),X0(3,:),log(2000*(RelDiff)+2));
+%         global Positions;
+%         scatter3(Positions(:,1),Positions(:,2),Positions(:,3),20000*(RelDiff+eps));
+%         title(name);
     end
+    % New figure
+%     figure;
+%     scatter3(X0(1,:),X0(2,:),X0(3,:),3,Value);
+%     hold on;
+%     for np=1:size(X0,2),
+%     plot3([X0(1,np),X0(1,np)+5000*Gradient(1,np)],...
+%           [X0(2,np),X0(2,np)+5000*Gradient(2,np)],...
+%           [X0(3,np),X0(3,np)+5000*Gradient(3,np)],'km-');
+%     end
+%     hold off
 end
 
 function checkManyDerivatives(fun, X0, step, name)

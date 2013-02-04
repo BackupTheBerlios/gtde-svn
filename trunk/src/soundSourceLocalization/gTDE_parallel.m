@@ -1,8 +1,8 @@
-function [TDE, fVal, cVal] = gTDE_parallel(sigPCCC, microphones, samplingPeriod, x0)
+function [solverOutput] = gTDE_DIP(sigPCCC, microphones, samplingPeriod, x0)
 
 %Geometric-constrained time difference estimation
 %
-% USAGE: [TDE fVal cVal] = gTDE_parallel(sigPCCC, microphones, samplingPeriod, x0)
+% USAGE: [TDE fVal cVal] = gTDE_DIP(sigPCCC, microphones, samplingPeriod, x0)
 %
 % PARAMETERS:
 %     sigPCCC ~ polynomial cross correlation of the signals' coefficients
@@ -46,7 +46,7 @@ function [TDE, fVal, cVal] = gTDE_parallel(sigPCCC, microphones, samplingPeriod,
     
     %%% Input check
     if nargin < 4
-        error('Usage TDE = gTDE(signals, microphones, samplingPeriod, x0[, verbose])');
+        error('Usage TDE = gTDE_DIP(signals, microphones, samplingPeriod, x0[, verbose])');
     end
     if size(sigPCCC,1) ~= size(microphones,1)
         error('There should be as many signals as microphones.');
@@ -97,7 +97,9 @@ function [TDE, fVal, cVal] = gTDE_parallel(sigPCCC, microphones, samplingPeriod,
     consFunction = @(x,z) constraints(x,z,microphones,samplingPeriod);
 
     % Run the parallel local optimization
-    [TDE, fVal, cVal] = ipsolver_parallel(x0,objFunction,consFunction);
+    [solverOutput, experimentOptions.methodOptions] = ipsolver_parallel(x0,objFunction,consFunction,experimentOptions.methodOptions);
+    
+    
 end
 
 function [c, J, W] = constraints(TDEs,z,microphones,samplingPeriod)

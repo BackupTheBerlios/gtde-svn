@@ -41,18 +41,24 @@ function experimentOptions = GetInitializationPositions(experimentOptions)
     for d = 1:initializationPositionOptions.dimension
         initializationPositionOptions.bounds{d} = [-maxTDEs(d),maxTDEs(d)];
     end
+    initializationPositionOptions.useExtrema=false;
     % Number of intervals
     initializationPositionOptions.numberOfIntervals = experimentOptions.methodOptions.gridSize;
     % Generate positions
-    initializationPositions = GeneratePositions(initializationPositionOptions.dimension,initializationPositionOptions);
+    initializationPositions = GeneratePositions(initializationPositionOptions.dimension,initializationPositionOptions)';
+    % Remove those who are outside the bounds
+    initializationPositions = DiscardOutBounds(initializationPositions,experimentOptions.microphonePositions);
 
     % Modify the initial positions depending on the method used
     switch experimentOptions.methodOptions.type
-        case 'gtde'
-            Constraint = TDEDiscriminant(initializationPositions',experimentOptions.microphonePositions);
-            initializationPositions = initializationPositions(Constraint>0,:);
-        case 'tde'
-        case 'init'
+        % Nothing to do for these methods
+        case {'init','tde','m1qn3'}
+        % Remove those that do not satisfy the constraint
+        case {'dip','sqplab'}
+            Constraint = TDEDiscriminant(initializationPositions,experimentOptions.microphonePositions);
+            initializationPositions = initializationPositions(:,Constraint>0);
+        % The essence is the same as in the first case, the structure
+        % different.
         case 'bypairs'
             auxInit = initializationPositions;
             % Reallocate them
@@ -61,15 +67,16 @@ function experimentOptions = GetInitializationPositions(experimentOptions)
             for d = 1:experimentOptions.dimension,
                 initializationPositions{d} = unique(auxInit(:,d));
             end
-	case 'truth'
-	    % Interval resolution, the error should be lower than half of this quantity
-	    resolution = 10e-6;
-	    % Number of intervals (per TDE pair)
-	    initializationPositionOptions.numberOfIntervals = zeros(initializationPositionOptions.dimension);
-	    for d = 1:initializationPositionOptions.dimension
-		initializationPotisionOptions.numberOfIntervals(d) = ceil(2*maxTDEs(d)/resolution);
-	    end
-	    initializationPositions = GeneratePositions(initializationPotisionOptions.dimension,initializationPositionOptions);
+        % Much more dense data
+        case 'truth'
+            % Interval resolution, the error should be lower than half of this quantity
+            resolution = 10e-6;
+            % Number of intervals (per TDE pair)
+            initializationPositionOptions.numberOfIntervals = zeros(initializationPositionOptions.dimension);
+            for d = 1:initializationPositionOptions.dimension
+            initializationPotisionOptions.numberOfIntervals(d) = ceil(2*maxTDEs(d)/resolution);
+            end
+            initializationPositions = GeneratePositions(initializationPotisionOptions.dimension,initializationPositionOptions);
     end
     
     % Save it!

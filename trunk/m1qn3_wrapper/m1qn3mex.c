@@ -88,7 +88,7 @@ void mexFunction (int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[])
     int uiparm[2] = {1,0};  //user integer array [citer, printLevel]
     double *g, dxmin = 1e-8, df1, epsg = 1e-6, *dz;
     char *normtype = "dfn";
-    int impres = 0, io = 0, omode = 0, reverse = 0;
+    int impres = 4, io = 18, omode = 0, reverse = 0;
     int imode[3] = {0,0,0}; //DIS, cold start, no SIMUL with indic = 1
     int iz[5];
     float *rzs = NULL; double *dzs = NULL; //dummy args
@@ -209,6 +209,10 @@ void mexFunction (int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[])
     //MEX Options
     uiparm[0] = 1;
     uiparm[1] = printLevel;
+    
+//     FILE* myFile = fopen("myFile.txt","w");
+//     fprintf(myFile,"Hello world!\n");
+//     fclose(myFile);
     
     //Call Algorithm
     M1QN3(SIMUL,EUCLID,CTONBE,CTCABE,&n,x,fval,g,&dxmin,&df1,&epsg,normtype,

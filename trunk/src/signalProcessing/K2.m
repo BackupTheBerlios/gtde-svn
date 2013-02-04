@@ -68,7 +68,8 @@ function [k2 k2d k2dd] = K2(p,q,tau,T)
         k2dd = zeros(size(tau));
         % The general formula works for r < q-1
         for r = 0:q-2,
-            k2dd = k2dd + nchoosek(q,r) * (-1).^(q-r-2).*( (1+r-q)*(r-q)*(T.^p.*tau.^(q-1).*(T./tau).^(r+1)-tau.^(q+p-1))/(r+p+1) + (r-p-2*q)*(tau).^(q+p-1));
+            k2dd = k2dd + nchoosek(q,r) * (-tau).^(q-r-2).*( (1+r-q)*(r-q)*(T.^(r+p+1)-tau.^(r+p+1))/(r+p+1) + (r-p-2*q)*(tau).^(r+p+1));
+%             k2dd = k2dd + nchoosek(q,r) * (-1).^(q-r-2).*( (1+r-q)*(r-q)*(T.^p.*tau.^(q-1).*(T./tau).^(r+1)-tau.^(q+p-1))/(r+p+1) + (r-p-2*q)*(tau).^(q+p-1));
         end
         % If both q and p are 0, do not add anything
         if q+p > 0

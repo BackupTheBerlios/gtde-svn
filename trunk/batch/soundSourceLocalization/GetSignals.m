@@ -39,7 +39,7 @@ function experimentOptions = GetSignals(experimentOptions)
             signals = cell(NSignals,1);
             % Synthetic signals
             for ns = 1:NSignals,
-                [sinusCoefficients sinusPhases sinusFrequencies] = GenerateLCSParameters(1/experimentOptions.dataOptions.samplingFrequency,200);
+                [sinusCoefficients, sinusPhases, sinusFrequencies] = GenerateLCSParameters(1/experimentOptions.dataOptions.samplingFrequency,200);
                 signals{ns} = @(x) GenerateLCSSignal(x,sinusCoefficients,sinusPhases,sinusFrequencies);
             end  
         case 'simulated'
@@ -55,8 +55,8 @@ function experimentOptions = GetSignals(experimentOptions)
             for kk = 1:numel(indices)-1,
                 signals{kk} = signalNames(indices(kk)+5:indices(kk+1)+3);
             end
-            rI = randi(NSignals,1);
-            signals = signals([2,4,rI]);
+            rI = randi(NSignals,size(experimentOptions.sourcePositions,1));
+            signals = signals(rI);
         case 'real'
             signals = strcat('/scratch/pictor/deleforg/the_CASA_REDMINE/audio_recordings/',experimentOptions.field,'/sound12/Recorded/');
         otherwise

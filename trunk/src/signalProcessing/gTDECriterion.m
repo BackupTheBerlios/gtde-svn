@@ -1,8 +1,8 @@
-function [J, GJ, HJ] = gTDECriterion(TDEs,PCCC,microphones,samplingPeriod)
+function [J, GJ, HJ, FJ] = gTDECriterion(TDEs,PCCC,microphones,samplingPeriod,Energies)
 
 %gTDECriterion implements the criterion to optimize for geometric TDE
 %
-% USAGE: [J GJ HJ] = gTDECriterion(TDEs,PCCC,microphones,samplingPeriod)
+% USAGE: [J GJ HJ, FJ] = gTDECriterion(TDEs,PCCC,microphones,samplingPeriod)
 %
 % PARAMETERS:
 %   TDEs ~ set(s) of delays in which we want to evaluate the criterion
@@ -13,6 +13,8 @@ function [J, GJ, HJ] = gTDECriterion(TDEs,PCCC,microphones,samplingPeriod)
 %
 % RETURN VALUE:
 %   J, GJ, HJ ~ criterion value, its gradient and hessian.
+%   FJ ~ Have we been able to compute the function. 0: OK, 1: Not J, 2: Not
+%   GJ, 3: Not HJ
 % 
 % DESCRIPTION:
 %     This function computes the determinant of the matrix of normalized
@@ -47,7 +49,7 @@ function [J, GJ, HJ] = gTDECriterion(TDEs,PCCC,microphones,samplingPeriod)
 
     %%% Input check
     if nargin < 4
-        error('Usage: [J GJ HJ] = gTDECriterion(TDEs, PCCC, microphones, samplingPeriod)');
+        error('Usage: [J, GJ, HJ, FJ] = gTDECriterion(TDEs, PCCC, microphones, samplingPeriod[,Energies])');
     end
 
     %%% General variables & check
@@ -55,6 +57,8 @@ function [J, GJ, HJ] = gTDECriterion(TDEs,PCCC,microphones,samplingPeriod)
     NMics = size(microphones,1);
     % TDEs dimension and number
     [Dimension, NEval] = size(TDEs);
+    % Exit flag
+    exitFlag = zeros(1,NEval);
     
     % Dimension vs NMics
     if Dimension ~= NMics-1
@@ -62,6 +66,14 @@ function [J, GJ, HJ] = gTDECriterion(TDEs,PCCC,microphones,samplingPeriod)
     end
     
     TDEs = TDEs*samplingPeriod;
+    
+    %%% Compute the energies if not provided
+    if nargin < 5
+        Energies = zeros(1,NMics);
+        for mic = 1:NMics,
+            Energies(mic) = CrossCorrelationInterpolation(PCCC{mic,mic},0,samplingPeriod);
+        end
+    end
     
     %%% Auxiliar variables
     % Vector r
@@ -75,7 +87,7 @@ function [J, GJ, HJ] = gTDECriterion(TDEs,PCCC,microphones,samplingPeriod)
     for ss = 2:NMics,
         index = TDEis(1,ss,NMics);
         % The cross-correlation function should be interpolated at t_{1,ss}
-        [r(index,:), rd(index,index,:), rdd(index,index,:)] = CrossCorrelationInterpolation(PCCC{1,ss},TDEs(index,:),samplingPeriod);
+        [r(index,:), rd(index,index,:), rdd(index,index,:), exitFlag] = CrossCorrelationInterpolation(PCCC{1,ss},TDEs(index,:),samplingPeriod);
     end
     
     % Matrix R
@@ -88,13 +100,15 @@ function [J, GJ, HJ] = gTDECriterion(TDEs,PCCC,microphones,samplingPeriod)
     % Fill the three matrices
     for mic1 = 2:NMics,
         % Autocorrelation
-        R(mic1-1,mic1-1,:) = CrossCorrelationInterpolation(PCCC{mic1,mic1},0,samplingPeriod);
+        R(mic1-1,mic1-1,:) = Energies(mic1);
         for mic2 = mic1+1:NMics
             % Crosscorrelation
             TDEmic1mic2 = TDEs(TDEis(1,mic2,NMics),:)-TDEs(TDEis(1,mic1,NMics),:);
             % The cross-correlation function should be interpolated at
             % -t_{mic1,mic2} not at t_{mic1,mic2}
-            [R(mic1-1,mic2-1,:), RD(mic1-1,mic2-1,:), RDD(mic1-1,mic2-1,:)] = CrossCorrelationInterpolation(PCCC{mic1,mic2},TDEmic1mic2,samplingPeriod);
+            [R(mic1-1,mic2-1,:), RD(mic1-1,mic2-1,:), RDD(mic1-1,mic2-1,:), auxFlag] = CrossCorrelationInterpolation(PCCC{mic1,mic2},TDEmic1mic2,samplingPeriod);
+            % If other point cannot be evaluated
+            exitFlag(exitFlag==0) = auxFlag(exitFlag==0);
             % Symmetrize the matrices
             R(mic2-1,mic1-1,:) = R(mic1-1,mic2-1,:);
             RD(mic2-1,mic1-1,:) = RD(mic1-1,mic2-1,:);
@@ -104,17 +118,17 @@ function [J, GJ, HJ] = gTDECriterion(TDEs,PCCC,microphones,samplingPeriod)
     
     %%% Normalize the cross-correlations and its derivatives
     % 0.0 Normalization factors 
-    E1 = sqrt(CrossCorrelationInterpolation(PCCC{1,1},0,samplingPeriod));
+    E1 = Energies(1);
     % We can take the first one since all the diagonals are the same
-    E2M = sqrt(diag(R(:,:,1)));
+    E2M = diag(R(:,:,1));
     % 0.1 r, rd and rdd
-    normArray = (E1*repmat(E2M,1,size(r,2)));
+    normArray = sqrt((E1*repmat(E2M,1,size(r,2))));
     r = r ./ normArray;
-    normArray = (E1*repmat(E2M,[1,NMics-1,NEval]));
+    normArray = sqrt((E1*repmat(E2M,[1,NMics-1,NEval])));
     rd = rd ./ normArray;
     rdd = rdd ./ normArray;
     % 0.2 R, RD and RDD
-    normMatrix = repmat(E2M*E2M',[1,1,NEval]);
+    normMatrix = sqrt(repmat(E2M*E2M',[1,1,NEval]));
     R = R ./ normMatrix;
     RD = RD ./ normMatrix;
     RDD = RDD ./ normMatrix;
@@ -127,14 +141,24 @@ function [J, GJ, HJ] = gTDECriterion(TDEs,PCCC,microphones,samplingPeriod)
     
     %%% Compute output
     % HERE WE NEED TO MAKE A DIFFERENCE BETWEEN NTDEs=1 and the rest
-    if NEval == 1
+    if NEval == 1,
+        if exitFlag > 0
+            return;
+        end
         % 1. Criterion
         J = det(RTilde);
 
         % 2. If asked, compute the gradient 
         if nargout > 1
-            % 2.1. Declare the gradient
+            % 2.1. Declare the gradient and check
             GJ = zeros(Dimension,1);
+            if J < 0.1
+                % Set the exitFlag FJ
+                if nargout > 3
+                    FJ = 2;
+                end
+                return;
+            end
             % 2.2. Declare de auxiliar variable which stores the inverse or
             % RTilde times the first derivative of RTilde respecto to t1k
             RTildeID = zeros(NMics,NMics,Dimension);
@@ -227,6 +251,11 @@ function [J, GJ, HJ] = gTDECriterion(TDEs,PCCC,microphones,samplingPeriod)
                 RTildeD(2:end,1,:) = rd(:,tde,:);
                 RTildeD(2:end,2:end,:) = RD.*mask; 
                 for nt = 1:NEval,
+                    % Checking
+                    if J(nt) < eps && exitFlag(nt) == 0,
+                        exitFlag(nt) = 2;
+                        continue;
+                    end
                     % Storing
                     RTildeID(:,:,tde,nt) = RTilde(:,:,nt)\RTildeD(:,:,nt);
                     % 2.5. Compute the mic-1'th derivative
@@ -259,6 +288,9 @@ function [J, GJ, HJ] = gTDECriterion(TDEs,PCCC,microphones,samplingPeriod)
                         RTildeDD(2:end,2:end,:) = auxRDD;
                         % 3.1.3. Compute the value
                         for nt = 1:NEval
+                            if exitFlag(nt) > 0,
+                                continue;
+                            end
                             HJ(tde1,tde2,nt) = J(nt)*( trace(RTildeID(:,:,tde1,nt)).^2 + ...
                                             trace(-(RTildeID(:,:,tde1,nt))^2 + squeeze(RTilde(:,:,nt))\squeeze(RTildeDD(:,:,nt))));
                         end
@@ -274,6 +306,9 @@ function [J, GJ, HJ] = gTDECriterion(TDEs,PCCC,microphones,samplingPeriod)
                         RTildeDD(2:end,2:end,:) = auxRDD;
                         % 3.2.3. Add the remaining
                         for nt = 1:NEval
+                            if exitFlag(nt) > 0,
+                                continue;
+                            end
                             HJ(tde1,tde2,nt) = J(nt)*( trace(RTildeID(:,:,tde2,nt))*trace(RTildeID(:,:,tde1,nt)) + ...
                                             trace(-RTildeID(:,:,tde2,nt)*RTildeID(:,:,tde1,nt) + RTilde(:,:,nt)\RTildeDD(:,:,nt)));
                         end
@@ -283,6 +318,10 @@ function [J, GJ, HJ] = gTDECriterion(TDEs,PCCC,microphones,samplingPeriod)
             HJ = HJ * (samplingPeriod^2);
         end
         
+    end
+    % If needed, exitflag
+    if nargout > 3
+        FJ = exitFlag;
     end
 
 return

@@ -128,6 +128,11 @@ c
 c
 c --- stop if reverse < 0 (m1qn3 should not be called with reverse < 0)
 c
+      write(io,900)
+      call flush(io)
+      write (io,*) n,niter,nsim,dxmin,epsg,impres,reverse
+      call flush(io)
+
       if (reverse.lt.0) then
           write (io,'(/a,a,i0,a/)')
      &        " >>> m1qn3 should not be called with a negative reverse",
@@ -161,6 +166,7 @@ c---- impressions initiales et controle des arguments
 c
       if (impres.ge.1) then
           write (io,900) n,dxmin,df1,epsg,normtype,niter,nsim,impres
+          call flush(io)
           if (reverse.gt.0) then
               write (io,'(5x,a)') "reverse communication"
           else
@@ -184,6 +190,7 @@ c
           if (reverse.gt.0) reverse = -1
           if (impres.ge.1) write (io,'(/a)')
      &        " >>> m1qn3: n should be > 0"
+          call flush(io)
           return
       endif
       if (niter.le.0) then
@@ -191,6 +198,7 @@ c
           if (reverse.gt.0) reverse = -1
           if (impres.ge.1) write (io,'(/a)')
      &        " >>> m1qn3: niter should be > 0"
+          call flush(io)
           return
       endif
       if (nsim.le.0) then
@@ -198,6 +206,7 @@ c
           if (reverse.gt.0) reverse = -1
           if (impres.ge.1) write (io,'(/a)')
      &        " >>> m1qn3: nsim should be > 0"
+          call flush(io)
           return
       endif
       if (dxmin.le.0.d0) then
@@ -205,6 +214,7 @@ c
           if (reverse.gt.0) reverse = -1
           if (impres.ge.1) write (io,'(/a)')
      &        " >>> m1qn3: dxmin should be > 0.d0"
+          call flush(io)
           return
       endif
 c     if (epsg.le.0.d0 .or. epsg.gt.1.d0) then
@@ -213,6 +223,7 @@ c     if (epsg.le.0.d0 .or. epsg.gt.1.d0) then
           if (reverse.gt.0) reverse = -1
           if (impres.ge.1) write (io,'(/a)')
      &        " >>> m1qn3: epsg should be > 0.d0"
+          call flush(io)
           return
       endif
       if (epsg.ge.1.d0) then
@@ -223,6 +234,7 @@ c     if (epsg.le.0.d0 .or. epsg.gt.1.d0) then
           if (reverse.gt.0) reverse = -1
           if (impres.ge.1) write (io,'(/a)')
      &        " >>> m1qn3: epsg is >= 1.d0, no need to make progress"
+          call flush(io)
           goto 1000
       endif
       if ((normtype.ne.'two') .and.
@@ -232,6 +244,7 @@ c     if (epsg.le.0.d0 .or. epsg.gt.1.d0) then
           if (reverse.gt.0) reverse = -1
           write (io,'(/a,a,a/)') " >>> m1qn3: unknown norm type '",
      &        normtype, "'"
+          call flush(io)
           return
       endif
       if (impres.lt.0) then
@@ -240,6 +253,7 @@ c     if (epsg.le.0.d0 .or. epsg.gt.1.d0) then
           write (io,'(/a,i0/)')
      &        " >>> m1qn3: impres should be >= 0 and has the value ",
      &        impres
+          call flush(io)
           return
       endif
 c

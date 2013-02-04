@@ -42,12 +42,12 @@ function testIPSolver
     % Performing optimization
     fesibleX = x(:,indices);
     op.verbose = false;
-    [xP fP] = ipsolver_parallel(fesibleX,oF,cF,op);
+    [xP, fP] = ipsolver_parallel(fesibleX,oF,cF,op);
     % Ploting
     plot3(xP(1,:),xP(2,:),fP,'bd');
 end
 
-function [f Gf Hf] = objectiveFunction(x)
+function [f, Gf, Hf] = objectiveFunction(x)
     % If just one sample
     if size(x,1) == 1
         % Function
@@ -76,7 +76,7 @@ function [f Gf Hf] = objectiveFunction(x)
     end
 end
 
-function [c Gc Hc] = constraintFunction(x,z)
+function [c, Gc, Hc] = constraintFunction(x,z)
     % If just one sample
     if size(x,1) == 1
         % Constraint

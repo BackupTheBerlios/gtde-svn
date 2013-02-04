@@ -61,11 +61,15 @@ function polynomialCoefficients = PolynomialInterpolationCoefficients(signal,ste
     % Zero order
     polynomialCoefficients(:,1) = signal(1:end-1);
     % First order
-    polynomialCoefficients(:,2) = (signal(2:end)-signal(1:end-1))/step - (M(2:end)-2*M(1:end-1))*step/6;
+    polynomialCoefficients(:,2) = (signal(2:end)-signal(1:end-1))/step - (M(2:end)+2*M(1:end-1))*step/6;
     % Second order
-    polynomialCoefficients(:,3) = M(1:end-1)/2;
+    polynomialCoefficients(:,3) = M(1:end-1)/2; 
     % Third order
     polynomialCoefficients(:,4) = (M(2:end)-M(1:end-1))/(6*step);
     
+%     %%% Linear interpolation
+%     polynomialCoefficients = zeros(length(signal)-1,2);
+%     polynomialCoefficients(:,1) = signal(1:end-1);
+%     polynomialCoefficients(:,2) = (signal(2:end)-signal(1:end-1))/step;
 return
 

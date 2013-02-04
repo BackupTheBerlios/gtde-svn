@@ -1,14 +1,15 @@
-function [TDE fVal cVal] = ngTDE_parallel(sigPCCC, microphones, samplingPeriod, x0)
+function [solverOutput, methodOptions] = ngTDE_DIP(PCCC, microphones, samplingPeriod, x0, methodOptions)
 
 %Unconstrained time difference estimation
 %
 % USAGE: [TDE fVal cVal] = ngTDE_parallel(sigPCCC, microphones, samplingPeriod, x0)
 %
 % PARAMETERS:
-%     sigPCCC ~ polynomial cross correlation of the signals' coefficients
+%     PCCC ~ polynomial cross correlation of the signals' coefficients
 %     microphones ~ positions of the microphones
 %     samplingPeriod ~ sampling period of the signal
 %     x0 ~ initialization points of the local minimizer
+%     methodOptions
 %
 % RESULT:
 %     The time delay estimates.
@@ -45,9 +46,9 @@ function [TDE fVal cVal] = ngTDE_parallel(sigPCCC, microphones, samplingPeriod, 
     
     %%% Input check
     if nargin < 4
-        error('Usage TDE = gTDE(signals, microphones, samplingPeriod, x0[, verbose])');
+        error('Usage [solverOutput, methodOptions] = ngTDE_DIP(PCCC, microphones, samplingPeriod, x0, methodOptions)');
     end
-    if size(sigPCCC,1) ~= size(microphones,1)
+    if size(PCCC,1) ~= size(microphones,1)
         error('There should be as many signals as microphones.');
     end
     if size(microphones,2) ~= 3 && size(microphones,2) ~= 2
@@ -57,49 +58,15 @@ function [TDE fVal cVal] = ngTDE_parallel(sigPCCC, microphones, samplingPeriod, 
         error('The sampling period should be positive.');
     end
     
-    %%% General variables
-    % Number of microphones
-    NMics = size(microphones,1);
-    % Maximum TDE values from the microphones
-    maxTDE = TDEmax(microphones)/samplingPeriod;
-    
-    % Check if the input are signals or PCCC
-    if ~iscell(sigPCCC)
-        % Number of samples
-        NSamples = size(sigPCCC,2);
-        % Sampling times
-        samplingTimes = 0:samplingPeriod:(NSamples-1)*samplingPeriod;
-        % Maximum cross-correlation lag
-        maxTDESamples = ceil(1.1*maxTDE/samplingPeriod);
-        maxLAG = 2*max(maxTDESamples);
-        
-        % Compute the interpolation coefficients
-        PC = cell(NMics,1);
-        for ss = 1:NMics,
-            PC{ss} = PolynomialInterpolationCoefficients(sigPCCC(ss,:),samplingTimes);
-        end
-
-        % Compute the Cross-correlation of the interpolation coefficients
-        PCCC = cell(NMics);
-        for mic1 = 1:NMics,
-            for mic2 = mic1:NMics,
-                PCCC{mic1,mic2} = PolynomialCoefficientsCrossCorrelation(PC{mic1},PC{mic2});
-            end
-        end
-    else
-        PCCC = sigPCCC;
-    end
-    
     % Declare the objective function
-%     objFunction = @(x) gTDECriterion(x,PCCC,microphones,samplingPeriod);
-    objFunction = @(x) gTDELogCriterion(x,PCCC,microphones,samplingPeriod);
+    objFunction = @(x) gTDECriterion(x,PCCC,microphones,samplingPeriod);
     consFunction = @(x,z) constraints(x,z);
 
     % Run the parallel local optimization
-    [TDE fVal cVal] = ipsolver_parallel(x0,objFunction,consFunction);
+    [solverOutput, methodOptions] = ipsolver_parallel(x0,objFunction,consFunction,methodOptions);
 end
 
-function [c J W] = constraints(TDEs,z)
+function [c, J, W] = constraints(TDEs,z)
     % This is a dummy restriction, -inf everywhere with 0 gradient and
     % hessian
     c = ones(1,size(TDEs,2));

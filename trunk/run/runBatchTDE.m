@@ -70,15 +70,16 @@ dataOptions.cutLength = 0.1;
 % Depending
 if strcmp(dataOptions.type,'simulated') || ...
    strcmp(dataOptions.type,'synthetic')
-    dataOptions.snrValues = [10];
+    dataOptions.snrValues = [-10:5:10];
 end
 if strcmp(dataOptions.type,'synthetic')
     dataOptions.samplingFrequency = 48000;
 end
 if strcmp(dataOptions.type,'simulated')
-    dataOptions.wavFolder = '/scratch/pictor/deleforg/the_CASA_REDMINE/emitted_sounds/timit_normalized/';
+    dataOptions.wavFolder = '/scratch/pictor/deleforg/Sounds/TIMIT_normalized';
     dataOptions.subIndices = [];
 end
+dataOptions.t60 = [0];
 % Save it
 experimentOptions.dataOptions = dataOptions;
 
@@ -102,14 +103,15 @@ experimentOptions.microphonePositionOptions = microphonePositionOptions;
 %%% ISM Options
 ismOptions.room = room;
 ismOptions.absorptionWeights =  [1 1 1 1 1 1];
-ismOptions.t60 = [0];
+ismOptions.t60 = [0 0.1 0.2 0.4 0.6];
 ismOptions.samplingFrequencies = [16000 44100 48000];
 ismOptions.folder= strcat(experimentOptions.rootFolder,'EUSIPCO-2012/');
 % Save it
 experimentOptions.ismOptions = ismOptions;
 
 %%% Method options
-methodOptions.type = 'sqplab';
+methodOptions.type = 'dip';
+methodOptions.gridSize = 3;
 % Save it
 experimentOptions.methodOptions = methodOptions;
 

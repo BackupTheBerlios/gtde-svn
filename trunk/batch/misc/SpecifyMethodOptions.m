@@ -45,7 +45,7 @@ function experimentOptions = SpecifyMethodOptions(experimentOptions)
         error('The method type should be specified in the method options substructure.');
     end
     
-    method =  {'gtde','tde','init','bypairs','truth','sqplab'};
+    method =  {'dip','tde','init','bypairs','truth','sqplab','m1qn3'};
     % Check the method specified
     methodFlag = 0;
     for d = 1:numel(method)
@@ -64,8 +64,25 @@ function experimentOptions = SpecifyMethodOptions(experimentOptions)
         end
     end
     
+    % If m1qn3, check software
+    if strcmp(experimentOptions.methodOptions.type,'m1qn3'),
+        if isempty(which('m1qn3'))
+            fprintf('M1QN3 not found. Please go to gtde/trunk/m1qn3_wrapper and run "sh compile.sh".\n');
+            fprintf('Set the LD_LIBRARY_PATH properly and restart MATLAB.');
+            error('M1QN3 Software not found.');
+        end
+    end
+    
     % Grid
     if ~isfield(experimentOptions.methodOptions,'gridSize'),
         experimentOptions.methodOptions.gridSize = 15;
+    end
+    % Verbose
+    if ~isfield(experimentOptions.methodOptions,'verbose'),
+        experimentOptions.methodOptions.verbose = 0;
+    end
+    % Output
+    if ~isfield(experimentOptions.methodOptions,'output'),
+        experimentOptions.methodOptions.output = 0;
     end
 end

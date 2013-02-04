@@ -82,11 +82,11 @@ function experimentOptions = SpecifyISMFilterOptions(experimentOptions)
         % The ISM folder exist (the user wants to use some precomputed ISM filters)
         tmp = load(strcat(experimentOptions.ismOptions.folder,'experimentOptions.mat'));
         % Copy the ISM, source positions and microphone positions
-        experimentOptions.ismOptions = tmp.experimentOptions.ismOptions;
         experimentOptions.microphonePositionOptions = tmp.experimentOptions.microphonePositionOptions;
         experimentOptions.sourcePositionOptions = tmp.experimentOptions.sourcePositionOptions;
         experimentOptions.microphonePositions = tmp.experimentOptions.microphonePositions;
         experimentOptions.sourcePositions = tmp.experimentOptions.sourcePositions;
+        experimentOptions.ismOptions = tmp.experimentOptions.ismOptions;
     else
         % The ISM folder does not exist (we will need to compute them)
         % Check some mandatory fields

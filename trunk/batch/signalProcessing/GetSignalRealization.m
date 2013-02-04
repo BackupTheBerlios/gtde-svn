@@ -1,4 +1,4 @@
-function [signals, fs] = GetSignalRealization(experimentOptions,sSignal,sPosition,sSNR,sT60)
+function [signals, fs] = GetSignalRealization(experimentOptions,sSignal,sPosition,sSNR,t60)
 
 %Get the realization of a signal
 %
@@ -51,6 +51,10 @@ function [signals, fs] = GetSignalRealization(experimentOptions,sSignal,sPositio
                                                  experimentOptions.dataOptions.cutLength,...
                                                  experimentOptions.signals{sSignal});
                 % Sampling frequency index
+                sT60 = find(experimentOptions.ismOptions.t60 == t60);
+                if isempty(sT60)
+                    error(['ISM filters were not computed for a T60 of ' num2str(experimentOptions.dataOptions.t60(sT60)) '.']);
+                end
                 sFS = find(experimentOptions.ismOptions.samplingFrequencies == experimentOptions.dataOptions.samplingFrequency);
                 if isempty(sFS)
                     error(['ISM filters were not computed for sampling frequency of ' num2str(experimentOptions.dataOptions.samplingFrequency) '.']);
@@ -85,14 +89,20 @@ function [signals, fs] = GetSignalRealization(experimentOptions,sSignal,sPositio
                 error('Software missing.');
             end
             % Load the signal
-            if sSignal > numel(experimentOptions.signals)
+            if sPosition > numel(experimentOptions.signals)
                 error('sSignal should be a valid signal index.');
             end
-            [signal, fs] = wavread(experimentOptions.signals{sSignal});
+            fprintf('%s',experimentOptions.signals{sPosition});
+            [signal, fs] = wavread(experimentOptions.signals{sPosition});
             % Sampling frequency index
             sFS = find(experimentOptions.ismOptions.samplingFrequencies == fs);
             if isempty(sFS)
                 error(['ISM filters were not computed for sampling frequency of ' num2str(fs) '.']);
+            end
+            % Sampling frequency index
+            sT60 = find(experimentOptions.ismOptions.t60 == t60);
+            if isempty(sT60)
+                error(['ISM filters were not computed for a T60 of ' num2str(experimentOptions.dataOptions.t60(sT60)) '.']);
             end
             % File name
             ISMFileName = GetISMFileName(experimentOptions,sT60,sPosition,sFS);

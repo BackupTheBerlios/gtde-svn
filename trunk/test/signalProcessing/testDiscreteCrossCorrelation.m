@@ -21,47 +21,85 @@ function testDiscreteCrossCorrelation
 % You should have received a copy of the GNU General Public License
 % along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-%     % Scale parameters
-%     a = 0.1;
-%     c = a / sqrt(2);
-%     % Microphones in a regular tetrahedron
-%     MICS = [ a   0   -c ;...
-%             -a   0   -c ;...
-%              0    a   c ;...
-%              0   -a   c];
-% 
-%     % Frequency and decaying factor
-%     F = 800;
-%     T = 10;
-% 
-%     myFun = @(x) SyntheticSignal(x,2,[F,T]);
-% 
-%     % Sampling frequency
-%     samplingPeriod = 1/48000;
-% 
-%     % Index of the used positions
-%     truePosition = 1;
-% 
-%     % Length
-%     Length = 0.1;
-% 
-%     % Generate the signals
-%     [signals samplingTimes] = GenerateDiscreteSignals(Positions(truePosition,:),...
-%                                   MICS,...
-%                                   samplingPeriod,...
-%                                   Length,...
-%                                   myFun);
-    maxLag = 20;
-    times = 0:0.01:1;
-    signal1 = sin(10*times);
-    signal2 = sin(-30*times);
+    close all;
+
+    %%% Generate DAta
+    
+    % Scale parameters
+    a = 0.1;
+    c = a / sqrt(2);
+    % Microphones in a regular tetrahedron
+    MICS = [ a   0   -c ;...
+            -a   0   -c ;...
+             0    a   c ;...
+             0   -a   c];
+    % Random rotation
+%     Vx = rand(3,1)-0.5;
+%     Vy = rand(3,1)-0.5;
+%     alpha = 2*pi*rand(1);
+%     r = rotation(Vx,Vy,alpha);
+%     MICS = MICS * r;
+
+    % Generate potision2
+    positionOptions = struct('coordinateSystem','cartesian');
+    % Declare the bounds in the three variables
+    positionOptions.bounds = cell(1,3);
+    % Set the bounds for the radius, the azimuth and elevation will de the
+    % defaults
+    positionOptions.bounds{1} = [-2 2];
+    positionOptions.bounds{2} = [-2 2];
+    positionOptions.bounds{3} = [-2 2];
+    % Number of intervals
+    positionOptions.numberOfIntervals = [8, 8, 8];
+    % Do not use the evelation's extrema
+    positionOptions.useExtrema = true(1,3);
+    positionOptions.useExtrema(3) = false;
+    % Generate positions
+    global Positions;
+    Positions = GeneratePositions(3, positionOptions);
+    Positions(284,:) = [];
+    
+
+    % Choose the position
+    truePosition = 56;
+
+    % Sinusoidal
+    % 120Hz
+    % myFun = @(x) SyntheticSignal(x,1,120);
+    % Sinusoidal with exponential decay
+    % 120Hz and decay constant = 3
+    % myFun = @(x) SyntheticSignal(x,2,[120,3]);
+    % Exponential decay
+    myFun = @(x) SyntheticSignal(x,2,[8000,1]);
+
+    % Sampling frequency
+    samplingPeriod = 1/48000;
+
+    % Length
+    Length = 0.1;
+
+    % Generate the signals
+    [signals] = GenerateDiscreteSignals(Positions(truePosition,:),...
+                                      MICS,...
+                                      samplingPeriod,...
+                                      Length,...
+                                      myFun);
+%     signals = signals + 0.2*(rand(size(signals))-0.5);
+
+    maxLag = 40;
+%     times = 0:0.01:1;
+%     signal1 = sin(10*times);
+%     signal2 = sin(-30*times);
+
+    signal1 = signals(1,:);
+    signal2 = signals(2,:);
     
     corr = DiscreteCrossCorrelation(signal1,signal2,maxLag);
     
     figure
-    plot(times,signal1);
+    plot(signal1);
     figure
-    plot(times,signal2);
+    plot(signal2);
     figure
     plot(-maxLag:maxLag,corr);
     

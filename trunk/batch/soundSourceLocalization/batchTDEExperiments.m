@@ -61,9 +61,13 @@ function batchTDEExperiments(experimentOptions)
     % Number of SNR values
     nSNRValues = length(experimentOptions.dataOptions.snrValues);
     % Number of T60 values
-    nT60 = length(experimentOptions.ismOptions.t60);
+    nT60 = length(experimentOptions.dataOptions.t60);
     % Number of signals
-    nSignals = numel(experimentOptions.signals);
+    if strcmp(experimentOptions.dataOptions.type,'simulated')
+        nSignals = 1;
+    else
+        nSignals = numel(experimentOptions.signals);
+    end
     % Store the results
     foundTDEs = cell(nSignals,...
                      nSourcePositions,...
@@ -86,7 +90,7 @@ function batchTDEExperiments(experimentOptions)
                 for sT60 = 1:nT60,
                     
                     % Get the signals
-                    [signals, fs] = GetSignalRealization(experimentOptions,sSignal,sPosition,sSNR,sT60);
+                    [signals, fs] = GetSignalRealization(experimentOptions,sSignal,sPosition,sSNR,experimentOptions.dataOptions.t60(sT60));
                     
                     % Reassign the sampling frequency
                     experimentOptions.samplingFrequency = fs;
@@ -117,7 +121,7 @@ function batchTDEExperiments(experimentOptions)
             tEnd = clock;
             eTime = etime(tEnd,tStart);
             rTime = eTime*(100-donePart)/donePart;
-%             fprintf('>   [Done by: %s]\n',datestr(now+(rTime/86400),0));
+            fprintf('>   [Done by: %s]\n',datestr(now+(rTime/86400),0));
             
         end % sPosition
     end % sSignal

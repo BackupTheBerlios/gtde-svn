@@ -1,4 +1,4 @@
-function foundTDE = EstimateTimeDelays(signals,experimentOptions)
+function [foundTDE, solverOutput] = EstimateTimeDelays(signals,experimentOptions)
 
 %Perform the time delay estimation for a particular discrete signal
 %
@@ -35,71 +35,57 @@ function foundTDE = EstimateTimeDelays(signals,experimentOptions)
 % You should have received a copy of the GNU General Public License
 % along with this program.  If not, see <http://www.gnu.org/licenses/>.
 %
-
-    %%% Compute the interpolation coefficients
-    % Number of samples
-    NMics = size(signals,1);
-    NSamples = size(signals,2);
-    % Compute maxlag
-    maxLag = TDEmax(experimentOptions.microphonePositions);
-    maxLag = ceil(experimentOptions.samplingFrequency*max(maxLag));
-%     % Sampling times
-%     samplingTimes = 0:1/experimentOptions.samplingFrequency:(NSamples-1)/experimentOptions.samplingFrequency;
-    % Allocate
-    PC = cell(NMics,1);
-    % Compute
-    for ss = 1:NMics,
-        PC{ss} = PolynomialInterpolationCoefficients(signals(ss,:),1/experimentOptions.samplingFrequency);
-    end
-    % Compute the Cross-correlation of the interpolation coefficients
-    % Allocate
-    PCCC = cell(NMics);
-    % Compute
-    for mic1 = 1:NMics,
-        for mic2 = mic1:NMics,
-            PCCC{mic1,mic2} = PolynomialCoefficientsCrossCorrelation(PC{mic1},PC{mic2},maxLag);
-        end
-    end
+    %%% From signals to Polynomial Coefficient Cross Correlation
+%     PCCC = Signals2PCCC(signals,experimentOptions.microphonePositions,experimentOptions.samplingFrequency);
+    XCPC = Signals2XCPC(signals,experimentOptions.microphonePositions,experimentOptions.samplingFrequency);
+    
     % Check if I want to use the constraint or not
     switch experimentOptions.methodOptions.type
-        case 'gtde'
+        case 'dip'
             % Compute TDEs
-            [foundTDE, foundCriterion, foundConstraint] = gTDE_parallel(PCCC,...
+            [solverOutput, experimentOptions.methodOptions] = gTDE_DIP(XCPC,...
                  experimentOptions.microphonePositions,...
                  1./experimentOptions.samplingFrequency,...
-                 (experimentOptions.samplingFrequency*experimentOptions.initializationPositions)');
-            % Select the minimum criterion of those who satisfy the constraint
-            foundCriterion( foundConstraint > 0 ) = max(foundCriterion);
-            [~,minIndex] = min(foundCriterion);
-            foundTDE = foundTDE(:,minIndex)/experimentOptions.samplingFrequency;
+                 (experimentOptions.samplingFrequency*experimentOptions.initializationPositions),...
+                 experimentOptions.methodOptions);
         case 'tde'
             % Compute TDEs
-            [foundTDE, foundCriterion] = ngTDE_parallel(PCCC,...
+            [solverOutput, experimentOptions.methodOptions] = ngTDE_DIP(PCCC,...
                  experimentOptions.microphonePositions,...
                  1./experimentOptions.samplingFrequency,...
-                 (experimentOptions.samplingFrequency*experimentOptions.initializationPositions)');
-            % Select the minimum criterion
-            [~,minIndex] = min(foundCriterion);
-            foundTDE = foundTDE(:,minIndex)/experimentOptions.samplingFrequency;
+                 (experimentOptions.samplingFrequency*experimentOptions.initializationPositions),...
+                 experimentOptions.methodOptions);
         case {'init','truth'}
             % Compute the criterion for all the initial values
             [foundCriterion] = gTDECriterion(...
-                experimentOptions.samplingFrequency*experimentOptions.initializationPositions',...
+                experimentOptions.samplingFrequency*experimentOptions.initializationPositions,...
                 PCCC,...
                 experimentOptions.microphonePositions,...
                 1/experimentOptions.samplingFrequency);
-            % Select the minimum criterion
-            [~,minIndex] = min(foundCriterion);
-            foundTDE = experimentOptions.initializationPositions(minIndex,:);
+            % SolverOutput building
+            solverOutput.x = experimentOptions.initializationPositions;
+            solverOutput.f = foundCriterion;
         case 'bypairs'
-            [foundTDE] = gTDEByPairs(PCCC,...
+            [solverOutput] = gTDEByPairs(PCCC,...
                  experimentOptions.microphonePositions,...
                  1./experimentOptions.samplingFrequency,...
                  experimentOptions.initializationPositions);
         case 'sqplab'
-            [foundTDE] = gTDE_SQPLAB(PCCC,...
+            [solverOutput] = gTDE_SQPLAB(PCCC,...
                  experimentOptions.microphonePositions,...
                  1./experimentOptions.samplingFrequency,...
-                 (experimentOptions.samplingFrequency*experimentOptions.initializationPositions)');
+                 (experimentOptions.samplingFrequency*experimentOptions.initializationPositions));
     end
+    
+    if ~strcmp(experimentOptions.methodOptions.type,'bypairs')
+        foundTDE = getOptimalTDE(solverOutput);
+    else
+        foundTDE = solverOutput.xstar;
+    end
+end
+
+function xstar = getOptimalTDE(solverOutput)
+    % Get the optimal x
+    [~,index] = min(solverOutput.f);
+    xstar = solverOutput.x(:,index);
 end

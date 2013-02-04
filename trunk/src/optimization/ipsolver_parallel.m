@@ -1,4 +1,4 @@
-function [finalX, f, c, op] = ipsolver_parallel (x, objective, constraint, op)
+function [solverOutput, op] = ipsolver_parallel (x, objective, constraint, op)
 
 %ipsolver_parallel Interior-Point algorithm for several initializations at
 %
@@ -74,8 +74,22 @@ function [finalX, f, c, op] = ipsolver_parallel (x, objective, constraint, op)
     % Initialize the Lagrange multipliers. Initialize the second-order
     % information.
     [n, ni] = size(x);
+    
+    %%% Output
     % Which point has already converged?
     finalX = zeros(size(x));
+    % Exit flag & Number of interations
+    exitFlag = ones(ni,1);
+    nIter = zeros(ni,1);
+    % Verbose output
+    if op.output == 2,
+        xIT = [];
+        fIT = [];
+        cIT = [];
+        r0IT = [];
+        psiIT = [];
+        gradpsiIT = [];
+    end
     
     %%%% FORCING to 1 constraint
     m  = 1;
@@ -88,12 +102,9 @@ function [finalX, f, c, op] = ipsolver_parallel (x, objective, constraint, op)
 
     % Repeat while the convergence criterion has not been satisfied, and
     % we haven't reached the maximum number of iterations.
-    alpha = zeros(1,ni);
-    ls    = zeros(1,ni);
     saved = false(1,ni);
     
     for iter = 1:op.maxiter
-
         % COMPUTE OBJECTIVE, GRADIENT, CONSTRAINTS, ETC.  
         % Compute the response of the objective function, the gradient of the
         % objective, the response of the inequality constraints, the Jacobian of
@@ -102,7 +113,13 @@ function [finalX, f, c, op] = ipsolver_parallel (x, objective, constraint, op)
         % objective.
         [c, J, W] = constraint(x,z);
         if strcmp(op.descentdir,'newton')
-            [f, g, B] = objective(x);
+            [f, g, B, eF] = objective(x);
+            % Those that we cannot evaluate, stop
+            newToSave = (eF > 0) & ~saved;
+            exitFlag(newToSave) = -eF(newToSave);
+            % Mark as saved and save
+            saved(newToSave) = true;
+            finalX(:,newToSave) = x(:,newToSave);
         else
             error('Do not do non-newton.');
         end
@@ -126,13 +143,17 @@ function [finalX, f, c, op] = ipsolver_parallel (x, objective, constraint, op)
         % tolerance or we could not compute the oF at the point)
         % and we have not saved the point before, save it!
         newToSave = (auxr0 < op.tolerance) & ~saved;
+        exitFlag(newToSave) = 0;
         % Mark as saved and save
         saved(newToSave) = true;
         finalX(:,newToSave) = x(:,newToSave);
         % If everyone is done, return
         if sum(~saved) == 0
-            return
+            break;
         end
+        
+        % Increase the number of iterations
+        nIter(~saved) = nIter(~saved) + 1;
 
         % SOLUTION TO PERTURBED KKT SYSTEM.
         % Compute the search direction of x and z.
@@ -141,10 +162,12 @@ function [finalX, f, c, op] = ipsolver_parallel (x, objective, constraint, op)
         px = zeros(n,ni);
         for iii = 1:ni,
             if ~saved(iii)
-                if op.condtest && det(B(:,:,iii) + W(:,:,iii) - J(:,iii)*S(iii)*J(:,iii)') < op.eps
+%                 if op.condtest && det(B(:,:,iii) + W(:,:,iii) - J(:,iii)*S(iii)*J(:,iii)') < op.eps
+                if abs(det(B(:,:,iii) + W(:,:,iii) - J(:,iii)*S(iii)*J(:,iii)')) < eps
                     finalX(:,iii) = x(:,iii);
                     saved(iii) = true;
-                    continue
+                    % Mark the non-invertibility
+                    exitFlag(iii) = 2;
                 else     
                     px(:,iii) = (B(:,:,iii) + W(:,:,iii) - J(:,iii)*S(iii)*J(:,iii)') \ (-gb(:,iii));
                 end
@@ -152,7 +175,7 @@ function [finalX, f, c, op] = ipsolver_parallel (x, objective, constraint, op)
         end
         % If everyone is done, return
         if sum(~saved) == 0
-            return
+            break;
         end
         
         pz = -(z + mu./(c-op.eps) +  S.*sum(J.*px,1));
@@ -196,9 +219,19 @@ function [finalX, f, c, op] = ipsolver_parallel (x, objective, constraint, op)
             % Compute
             xnew(:,backtrack) = x(:,backtrack) + repmat(alpha(backtrack),n,1) .* px(:,backtrack);
             znew(backtrack) = z(backtrack) + alpha(backtrack) .* pz(backtrack);
-            f(backtrack) = objective(xnew(:,backtrack));
+            [faux,~,~,eF] = objective(xnew);
+            f(backtrack) = faux(backtrack);
             c(backtrack) = constraint(xnew(:,backtrack),[]);
             psinew(backtrack) = merit(xnew(:,backtrack),znew(backtrack),f(backtrack),c(backtrack),mu(backtrack),eps);
+            
+            % If there is an evaluation error, we should stop the
+            % backtracking and save the point
+            newToSave = (eF > 0) & ~saved & backtrack;
+            exitFlag(newToSave) = -eF(newToSave);
+            % Mark as saved and save
+            saved(newToSave) = true;
+            finalX(:,newToSave) = x(:,newToSave);
+            backtrack = backtrack & ~newToSave;
 
             % Stop backtracking search if we've found a candidate point that
             % sufficiently decreases the merit function and satisfies all the
@@ -215,6 +248,8 @@ function [finalX, f, c, op] = ipsolver_parallel (x, objective, constraint, op)
             % Mark the candidates which were backtracked and that have
             % a too small alpha
             newToSave = alpha<op.alphamin & backtrack;
+            % Save in the exit flag
+            exitFlag(newToSave) = 3;
 
             % Update backtrack variable, with those who do not have to be
             % backtracked any more, and check if there are still some
@@ -230,14 +265,44 @@ function [finalX, f, c, op] = ipsolver_parallel (x, objective, constraint, op)
             saved(newToSave) = true;  
             % If everyone is done, return
             if sum(~saved) == 0
-                return
-            end
-                       
+                break;
+            end        
+        end
+        
+        % If needed for the output
+        if op.output == 2,
+            xIT = cat(3,xIT,finalX);
+            fIT = cat(3,fIT,f);
+            cIT = cat(3,cIT,c);
+            r0IT = cat(3,r0IT,r0);
+            psiIT = cat(3,psiIT,psi);
+            gradpsiIT = cat(3,gradpsiIT,dpsi);
+        end
+        
+        % Check if done
+        if sum(~saved) == 0
+            break;
         end
     end
     % Save the final results of those initializations which did not
     % converge
     finalX(:,~saved) = x(:,~saved);
+    
+    % Build output
+    solverOutput.x = finalX;
+    solverOutput.f = f;
+    solverOutput.c = c;
+    solverOutput.flag = exitFlag;
+    solverOutput.nIter = nIter;
+    % If need more...
+    if op.output == 2
+        solverOutput.xIT = xIT;
+        solverOutput.fIT = fIT;
+        solverOutput.cIT = cIT;
+        solverOutput.r0IT = r0IT;
+        solverOutput.psiIT = psiIT;
+        solverOutput.gradpsiIT = gradpsiIT;
+    end
 end
   
 % ------------------------------------------------------------------
@@ -269,6 +334,7 @@ function options = check_options(options)
         {'alphamin',        1e-4        },...
         {'beta',            0.75        },...
         {'tau',             0.01        }...
+        {'output',          0           }...
         };
     
     % Loop on it

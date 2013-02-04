@@ -1,4 +1,4 @@
-function PCCC = PolynomialCoefficientsCrossCorrelation(firstCoefficients,secondCoefficients,MaxLag)
+function [PCCC, EPCCC] = PolynomialCoefficientsCrossCorrelation(firstCoefficients,secondCoefficients,MaxLag)
 
 %Compute the cross-correlation of two sets of coefficients.
 %
@@ -67,6 +67,9 @@ function PCCC = PolynomialCoefficientsCrossCorrelation(firstCoefficients,secondC
 
     % Declare output variable
     PCCC = zeros(M1,M2,2*MaxLag+1);
+    if nargout > 1
+        EPCCC = zeros(M1,M2);
+    end
 
     %%% Computation
     for m1 = 1:M1,
@@ -74,6 +77,9 @@ function PCCC = PolynomialCoefficientsCrossCorrelation(firstCoefficients,secondC
             PCCC(m1,m2,:) = DiscreteCrossCorrelation(firstCoefficients(:,m1),...
                                   secondCoefficients(:,m2),...
                                   MaxLag);
+            if nargout > 1
+                EPCCC(m1,m2) = DiscreteCrossCorrelation(firstCoefficients(:,m1),secondCoefficients(:,m2),0);
+            end
         end
     end
 
