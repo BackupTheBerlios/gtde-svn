@@ -52,7 +52,7 @@ function experimentOptions = SpecifyISMFilterOptions(experimentOptions)
     
     % If real data do not bother with ISM
     if strcmp(experimentOptions.dataOptions.type,'real'),
-        fprintf('Warning: ISM filters are not used in real data.');
+        fprintf('Warning: ISM filters are not used in real data.\n');
         experimentOptions.ism = false;
         return;
     end

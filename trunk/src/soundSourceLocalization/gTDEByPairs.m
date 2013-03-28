@@ -43,10 +43,10 @@ function [solverOutput] = gTDEByPairs(PCCC, microphones, samplingPeriod, x0, met
 % along with this program.  If not, see <http://www.gnu.org/licenses/>.
     
     %%% Input check
-    if nargin < 4
-        error('Usage TDE = gTDE(signals, microphones, samplingPeriod, x0[, verbose])');
+    if nargin < 5
+        error('Usage TDE = gTDE(signals, microphones, samplingPeriod, x0, methodOptions)');
     end
-    if size(sigPCCC,1) ~= size(microphones,1)
+    if size(PCCC,1) ~= size(microphones,1)
         error('There should be as many signals as microphones.');
     end
     if size(microphones,2) ~= 3 && size(microphones,2) ~= 2
@@ -56,31 +56,65 @@ function [solverOutput] = gTDEByPairs(PCCC, microphones, samplingPeriod, x0, met
         error('The sampling period should be positive.');
     end
     
+    %%% General vars
+    NMics = size(microphones,1);
+    
     %%% Declare solver output
     if methodOptions.output > 0
         solverOutput.x = cell(NMics-1,1);
         solverOutput.f = cell(NMics-1,1);
     end
-    TDE = zeros(1,NMics-1);
+    
+    if ~isfield(methodOptions,'numMaxima')
+        methodOptions.numMaxima = 1;
+    end
+    
+    TDE = nan(methodOptions.numMaxima,NMics-1);
     
     %%% Look for the minima in each TDE
     for mic= 2:NMics,
         % Declare the objective function
-        objFunction = @(x) CrossCorrelationInterpolation(PCCC{1,mic},x,samplingPeriod);
+        objFunction = @(x) C2CrossCorrelationInterpolation(PCCC{1,mic},x,samplingPeriod);
         % Evaluate at X0
-        f = objFunction(x0{mic-1}');
-        % Compute the minimum now
-        [~,index] = max(f);
-        TDE(mic-1) = x0{mic-1}(index);
-        if methodOptions.output > 0
+        f = objFunction(x0{mic-1});
+        % Compute the local maximas
+        ind = false(size(f));
+        ind(2:end-1) = f(2:end-1)>f(1:end-2) & f(2:end-1)>f(3:end);
+        % If there are local maxima
+        if sum(ind)
+            % My F and my X
+            myF = f(ind);
+            myX = x0{mic-1}(ind);
+            % Maximas
+            [myF,ind2] = sort(myF,'descend');
+            myX = myX(ind2);
+            % NtoSave (there could be less local maxima than
+            % methodOptions.numMaxima)
+            N2Save = min(methodOptions.numMaxima,sum(ind));
+            % Save
+            TDE(1:N2Save,mic-1) = myX(1:N2Save);
             % Store other results
-            outputSolver.x{mic-1} = x0{mic-1};
-            outputSolver.f{mic-1} = f;
+            if methodOptions.output > 0
+                solverOutput.x{mic-1} = myX(1:N2Save);
+                solverOutput.f{mic-1} = myF(1:N2Save);
+            end
+        % Otherwise, take the two extremes
+        else
+            % For more than one, keep the two extrema
+            if methodOptions.numMaxima > 1
+                TDE(1,mic-1) = x0{mic-1}(1);
+                TDE(2,mic-1) = x0{mic-1}(end);
+            % For just one, keep the maxima, that will be one of the
+            % extrema.
+            else
+                [~,ind] = max(f);
+                TDE(1,mic-1) = x0{mic-1}(ind);
+            end
         end
     end
     
     % Save optimal
-    outputSolver.xstar = TDE;
+    solverOutput.xstar = TDE;
 end
 
 % function f = objective(PCCC,x,samplingPeriod)

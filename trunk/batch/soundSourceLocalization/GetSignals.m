@@ -55,10 +55,24 @@ function experimentOptions = GetSignals(experimentOptions)
             for kk = 1:numel(indices)-1,
                 signals{kk} = signalNames(indices(kk)+5:indices(kk+1)+3);
             end
-            rI = randi(NSignals,size(experimentOptions.sourcePositions,1));
+            rI = randi(NSignals,size(experimentOptions.sourcePositions,1),1);
             signals = signals(rI);
         case 'real'
-            signals = strcat('/scratch/pictor/deleforg/the_CASA_REDMINE/audio_recordings/',experimentOptions.field,'/sound12/Recorded/');
+            % Get as many signals as sound* folders are in wavRootFolder
+            if isempty(experimentOptions.dataOptions.subIndices),
+                signals = dir(strcat(experimentOptions.dataOptions.wavRootFolder,'sound*'));
+                signals = {signals(:).name};
+            else
+                signals = cell(0);
+                for ii=1:length(experimentOptions.dataOptions.subIndices),
+                    signalFolder = strcat('sound',num2str(experimentOptions.dataOptions.subIndices(ii)));
+                    if exist(signalFolder,'dir'),
+                        signals = cat(1,signals,signalFolder);
+                    else
+                        warning(['Folder ' signalFolder ' does not exist.']);
+                    end
+                end
+            end                 
         otherwise
             error('Not ready yet!');
     end

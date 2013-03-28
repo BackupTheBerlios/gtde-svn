@@ -75,12 +75,7 @@ function testCriterionConstraintDerivatives
     maxLAG = max(maxTDESamples);
     
     %%% Compute the interpolation coefficients
-    [PCCC, EPCCC] = Signals2PCCC(signals,MICS,1/samplingPeriod);
-    %%% Compute the energy
-    Energies = zeros(1,NMics);
-    for mic = 1:NMics,
-        Energies(mic) = CrossCorrelationInterpolation(EPCCC{mic,mic},0,samplingPeriod);
-    end
+    [XCPC, Energies] = Signals2XCPC(signals,MICS,1/samplingPeriod);
                    
     %%% Generate initial minimzation points
     % Dimension
@@ -94,7 +89,7 @@ function testCriterionConstraintDerivatives
         IP.bounds{d} = [-maxTDEs(d),maxTDEs(d)];
     end
     % Number of intervals
-    IP.numberOfIntervals = 10;
+    IP.numberOfIntervals = 20;
     % Generate positions
     X0 = GeneratePositions(IP.dimension,IP)';
     X0 = DiscardOutBounds(X0,MICS);
@@ -102,17 +97,24 @@ function testCriterionConstraintDerivatives
     
     X0p = TDEGeometricDirect(Positions,MICS);
     X0p = (X0p(:,1:3)/samplingPeriod)';
-    step = 1e-8;
-        
-    % Test gradient Objective function
-    gradObjTest = @(x) gTDECriterion(x,PCCC,MICS,samplingPeriod,Energies);
-    checkDerivatives(gradObjTest,X0,step,'Gradient');
+    step = 1e-4;
     
-    % Test hessian objective function
-    for ii = 1:3,
-        funcTest = @(x) hessObjTest(x,ii,PCCC,MICS,samplingPeriod,Energies);
-        checkDerivatives(funcTest,X0,step,strcat('Hessian (',num2str(ii),')'));
-    end
+%     %%%% DUMMY TEST FUNCTION
+%     checkDerivatives(@dummyFunction,X0,step,'Gradient dummy function');
+%     for ii = 1:3,
+%         funcTest = @(x) hessDummyTest(x,ii);
+%         checkDerivatives(funcTest,X0,step,strcat('Hessian (',num2str(ii),')'));
+%     end    
+        
+%     % Test gradient Objective function
+%     gradObjTest = @(x) gTDECriterionMod(x,XCPC,MICS,samplingPeriod,Energies);
+%     checkDerivatives(gradObjTest,X0,step,'Gradient');
+%     
+%     % Test hessian objective function
+%     for ii = 1:3,
+%         funcTest = @(x) hessObjTest(x,ii,XCPC,MICS,samplingPeriod,Energies);
+%         checkDerivatives(funcTest,X0,step,strcat('Hessian (',num2str(ii),')'));
+%     end
 
 %     % Test gradient log-Objective function
 %     gradObjTest = @(x) gTDELogCriterion(x,PCCC,MICS,samplingPeriod,Energies);
@@ -125,19 +127,16 @@ function testCriterionConstraintDerivatives
 %     end
 
 %     
-%     % Test gradient's Constraint
-%     X0 = TDEGeometricDirect(Positions(58:59,:),MICS);
-%     X0 = (X0(:,1:3)/samplingPeriod)';
-%     
+%     % Test gradient's Constraint    
 %     gradConsTest = @(x) TDEDiscriminant(x,MICS,samplingPeriod);
-%     checkManyDerivatives(gradConsTest,X0,step,'Gradient');
+%     checkDerivatives(gradConsTest,X0,step,'Gradient');
 %     
-% %     Test hessian's constraint
+%     % Test hessian's constraint
 %     for ii = 1:3,
 %         funcTest = @(x) hessConsTest(x,ii,MICS,samplingPeriod);
-%         checkManyDerivatives(funcTest,X0,step,strcat('Hessian (',num2str(ii),')'));
+%         checkDerivatives(funcTest,X0,step,strcat('Hessian (',num2str(ii),')'));
 %     end
-    
+   
 %     % Test gradient chen's objective function
 %     gradChenTest = @(x) chenTDECriterion(x,PCCC,[0.1,0.2,0.1],samplingPeriod);
 %     checkDerivatives(gradChenTest,0,step,'Chen Gradient');
@@ -154,6 +153,36 @@ function testCriterionConstraintDerivatives
 %         funcTest = @(x) hessObjTest(x,ii,PCCC,MICS,samplingPeriod);
 %         checkManyDerivatives(funcTest,X0,step,strcat('Hessian (',num2str(ii),')'));
 %     end
+
+
+    %%% Generate initial minimzation points
+    MICS = [ 0   0   0 ;...
+             1   0   0 ;...
+             0   1   0 ;...
+             0   0   1];
+    % Dimension
+    IP.dimension = size(MICS,1)-1;
+    % Coordinate system
+    IP.coordinateSystem = 'cartesian';
+    % Bounds
+    maxTDEs = TDEmax(MICS);
+    IP.bounds = cell(IP.dimension,1);
+    for d = 1:IP.dimension
+        IP.bounds{d} = [-maxTDEs(d),maxTDEs(d)];
+    end
+    % Number of intervals
+    IP.numberOfIntervals = 20;
+    % Generate positions
+    X0 = GeneratePositions(IP.dimension,IP)';
+    X0 = DiscardOutBounds(X0,MICS);
+    step = 1e-10;
+
+    % Test dummy constraint function
+    checkDerivatives(@dummyTDEDiscriminant,X0,step,'Gradient dummy constraint.');
+    for ii = 1:3,
+        funcTest = @(x) hessDummyConstTest(x,ii);
+        checkDerivatives(funcTest,X0,step,strcat('Hessian (',num2str(ii),')'));
+    end    
 end
 
 % function [C GC] = GradTDEDiscriminant(x,MICS,samplingPeriod)
@@ -162,8 +191,8 @@ end
 %     GC = GC';
 % end
 
-function [F, GF] = hessObjTest(x,component,PCCC,MICS,samplingPeriod,Energies)
-    [~, GO, HO] = gTDECriterion(x,PCCC,MICS,samplingPeriod,Energies);
+function [F, GF] = hessObjTest(x,component,XCPC,MICS,samplingPeriod,Energies)
+    [~, GO, HO] = gTDECriterionMod(x,XCPC,MICS,samplingPeriod,Energies);
     if size(x,2) == 1
         F = GO(component);
         GF = HO(component,:)';
@@ -192,6 +221,28 @@ end
 
 function [F, GF] = hessChenTest(x,PCCC,micDistances,samplingPeriod)
     [~,F,GF] = chenTDECriterion(x,PCCC,micDistances,samplingPeriod);
+end
+
+function [F, GF] = hessDummyTest(x,component)
+    [~, GO, HO] = dummyFunction(x);
+    if size(x,2) == 1
+        F = GO(component);
+        GF = HO(component,:);
+    else
+        F = GO(component,:);
+        GF = squeeze(HO(component,:,:));
+    end
+end
+
+function [F, GF] = hessDummyConstTest(x,component)
+    [~, GO, HO] = dummyTDEDiscriminant(x);
+    if size(x,2) == 1
+        F = GO(component);
+        GF = HO(component,:);
+    else
+        F = GO(component,:);
+        GF = squeeze(HO(component,:,:));
+    end
 end
 
 function checkDerivatives(fun, X0, step, name)
@@ -223,9 +274,9 @@ function checkDerivatives(fun, X0, step, name)
         RelDiff = zeros(size(AbsDiff));
         RelDiff(Gradient(ii,:)~=0) = AbsDiff(Gradient(ii,:)~=0)./abs(Gradient(ii,Gradient(ii,:)~=0));
 %         fprintf('(%d) %1.5e \t%1.5e \t%1.5e \t%1.5e\n',ii,Gradient(ii),NGradient(ii),AbsDiff,RelDiff);
-        fprintf('(%d) %1.5e \t%1.5e\n',ii,mean(AbsDiff),mean(RelDiff(Gradient(ii,:)~=0)));
-        figure;
-        scatter3(X0(1,:),X0(2,:),X0(3,:),log(2000*(RelDiff)+2));
+        fprintf('(%d) %1.5e \t%1.5e\n',ii,mean(AbsDiff),median(RelDiff(Gradient(ii,:)~=0)));
+%         figure;
+%         scatter3(X0(1,:),X0(2,:),X0(3,:),log(2000*(RelDiff)+2));
 %         global Positions;
 %         scatter3(Positions(:,1),Positions(:,2),Positions(:,3),20000*(RelDiff+eps));
 %         title(name);
@@ -275,4 +326,11 @@ function checkManyDerivatives(fun, X0, step, name)
             fprintf('(%d) %1.5e \t%1.5e \t%1.5e \t%1.5e\n',ii,Gradient(ii,np),NGradient(ii,np),AbsDiff,RelDiff);
         end
     end
+end
+
+function [df, dfG, dfH] = dummyFunction(x)
+    %%% Stupid function to test checkDerivatives
+    df = sum(x.^2,1);
+    dfG = 2*x;
+    dfH = repmat(2*eye(size(x,1)),[1,1,size(x,2)]);
 end

@@ -86,17 +86,12 @@ function experimentOptions = GetMicrophonePositions(experimentOptions)
                     repmat(experimentOptions.microphonePositionOptions.offset,size(experimentOptions.microphonePositions,1),1);
             end
         elseif strcmp(experimentOptions.dataOptions.type,'real')
-            error('Warning: Microphone positions not ready on real data.');
-%             %%% Importdata
-%             data = importdata(strcat('/scratch/Andromeda/amat/WorkingDevLocal/CASA_RED_MINE_19122011/snapshots/',experimentOptions.field,'/points_3d_new_coord_syst.txt'));
-%             % Microphones' positions and speaker's position
-%             p = data(:,2:end);
-%             % Allocate microphones positions
-%             experimentOptions.microphonesPositions = zeros(4,3);
-%             experimentOptions.microphonesPositions(1,:) = p(3,:);
-%             experimentOptions.microphonesPositions(2,:) = p(4,:);
-%             experimentOptions.microphonesPositions(3,:) = p(2,:);
-%             experimentOptions.microphonesPositions(4,:) = p(1,:);        
+            %%% Importdata
+            fileName = strcat(experimentOptions.dataOptions.wavRootFolder,'mics.txt');
+            if ~exist(fileName,'file')
+                error(['File ' fileName ' should exist, containing the microphone positions.']);
+            end
+            experimentOptions.microphonePositions = importdata(fileName);
         end
     end
 

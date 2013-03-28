@@ -1,3 +1,4 @@
+
 %Running TDE batch example
 %
 % USAGE: runBatchTDE
@@ -32,7 +33,7 @@
 close all; clc; clear;
 
 %%% Used variables
-room = [3  4  2.5];
+room = [4  4  4];
 
 %%% Global options
 % Root folder
@@ -52,6 +53,7 @@ addpath(svngenpath(experimentOptions.rootFolder));
 
 %%% Source position options
 % Source position options
+sourcePositionOptions.file = '/local_scratch/alamedap/audispace/gTDEJournalData/sourceGT.txt';
 sourcePositionOptions.coordinateSystem = 'cartesian';
 sourcePositionOptions.dimension = experimentOptions.dimension;
 sourcePositionOptions.bounds = cell(3,1);
@@ -70,13 +72,17 @@ dataOptions.cutLength = 0.1;
 % Depending
 if strcmp(dataOptions.type,'simulated') || ...
    strcmp(dataOptions.type,'synthetic')
-    dataOptions.snrValues = [-10:5:10];
+    dataOptions.snrValues = 10;
 end
 if strcmp(dataOptions.type,'synthetic')
     dataOptions.samplingFrequency = 48000;
 end
 if strcmp(dataOptions.type,'simulated')
-    dataOptions.wavFolder = '/scratch/pictor/deleforg/Sounds/TIMIT_normalized';
+    dataOptions.wavFolder = '/scratch/pictor/deleforg/Sounds/TIMIT_normalized/';
+    dataOptions.subIndices = [];
+end
+if strcmp(dataOptions.type,'real')
+    dataOptions.wavRootFolder = '/local_scratch/alamedap/audispace/gTDEJournalData/';
     dataOptions.subIndices = [];
 end
 dataOptions.t60 = [0];
@@ -86,7 +92,7 @@ experimentOptions.dataOptions = dataOptions;
 %%% Microphone properties
 microphonePositionOptions.type = 'tetrahedron';
 microphonePositionOptions.scale = 0.1;
-microphonePositionOptions.offset = [2.25 1.25 1.25];
+microphonePositionOptions.offset = [1.9 2.1 1.9];
 % Subset of the microphone set
 % 4 Microphones
 % microphonePositionOptions.subSet = [1,2,11,12];
@@ -105,18 +111,18 @@ ismOptions.room = room;
 ismOptions.absorptionWeights =  [1 1 1 1 1 1];
 ismOptions.t60 = [0 0.1 0.2 0.4 0.6];
 ismOptions.samplingFrequencies = [16000 44100 48000];
-ismOptions.folder= strcat(experimentOptions.rootFolder,'EUSIPCO-2012/');
+ismOptions.folder= strcat(experimentOptions.rootFolder,'SPHERICAL-2013/');
 % Save it
 experimentOptions.ismOptions = ismOptions;
 
 %%% Method options
-methodOptions.type = 'dip';
-methodOptions.gridSize = 3;
+methodOptions.type = 'truth';
+methodOptions.gridSize = 10;
+methodOptions.regConstant = 10;
 % Save it
 experimentOptions.methodOptions = methodOptions;
 
 %%% Result options
-
 
 %%% Run the batch
 batchTDEExperiments(experimentOptions);

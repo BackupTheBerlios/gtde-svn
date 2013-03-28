@@ -59,9 +59,9 @@ function batchTDEExperiments(experimentOptions)
     % Number of sound source positions
     nSourcePositions = size(experimentOptions.sourcePositions,1);
     % Number of SNR values
-    nSNRValues = length(experimentOptions.dataOptions.snrValues);
+    nSNRValues = Get_N_SRN(experimentOptions);
     % Number of T60 values
-    nT60 = length(experimentOptions.dataOptions.t60);
+    nT60 = Get_N_T60(experimentOptions);
     % Number of signals
     if strcmp(experimentOptions.dataOptions.type,'simulated')
         nSignals = 1;
@@ -77,9 +77,24 @@ function batchTDEExperiments(experimentOptions)
     donePart = 0;
     tStart = clock;
     
+    %%% Print
+    fprintf('=========================================\n');
+    fprintf('Running TDE batch\n');
+    fprintf('-----------------\n');
+    fprintf('Method: %s\n',experimentOptions.methodOptions.type);
+    fprintf('Data: %s\n',experimentOptions.dataOptions.type);
+    if strcmp(experimentOptions.dataOptions.type,'simulated');
+        fprintf('Environment: %s\n',experimentOptions.ismOptions.folder);
+        fprintf('SNR:'); fprintf('\t%1.1f',experimentOptions.dataOptions.snrValues); fprintf('\n');
+        fprintf('T60:'); fprintf('\t%1.1f ',experimentOptions.dataOptions.t60); fprintf('\n');
+    else
+        fprintf('Environment: %s\n',experimentOptions.dataOptions.wavRootfolder);
+    end
+    fprintf('=========================================\n');
+    
     %%% Looping over all the parameters
     % For each position
-    for sPosition = 1:nSourcePositions,
+    for sPosition = 107:107,%nSourcePositions,
         fprintf('Position %d/%d:\n',sPosition,nSourcePositions);
         % For each signal
         for sSignal = 1:nSignals
@@ -105,7 +120,7 @@ function batchTDEExperiments(experimentOptions)
                         % Apply the method
                         foundTDE = EstimateTimeDelays(signalPiece,experimentOptions);
                         % Save the result
-                        foundTDEs{sSignal,sPosition,sSNR,sT60}(subs,:) = foundTDE; 
+                        foundTDEs{sSignal,sPosition,sSNR,sT60}(subs,:) = foundTDE;
                     end
                     
                     % Notification counter

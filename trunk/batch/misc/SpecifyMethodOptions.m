@@ -45,7 +45,7 @@ function experimentOptions = SpecifyMethodOptions(experimentOptions)
         error('The method type should be specified in the method options substructure.');
     end
     
-    method =  {'dip','tde','init','bypairs','truth','sqplab','m1qn3'};
+    method =  {'dip','init','bypairs','truth','fminunc','eusipco','bab','bp2dip','bab2dip'};
     % Check the method specified
     methodFlag = 0;
     for d = 1:numel(method)
@@ -70,6 +70,13 @@ function experimentOptions = SpecifyMethodOptions(experimentOptions)
             fprintf('M1QN3 not found. Please go to gtde/trunk/m1qn3_wrapper and run "sh compile.sh".\n');
             fprintf('Set the LD_LIBRARY_PATH properly and restart MATLAB.');
             error('M1QN3 Software not found.');
+        end
+    end
+    
+    % Check for the regularization constant on fminunc
+    if strcmp(experimentOptions.methodOptions.type,'fminunc'),
+        if ~isfield(experimentOptions.methodOptions,'regConstant')
+            experimentOptions.methodOptions.regConstant = 10;
         end
     end
     

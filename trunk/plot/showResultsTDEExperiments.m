@@ -6,7 +6,7 @@ function showResultsTDEExperiments(experimentOptions,foundTDEs)
 
     %%% General variables
     % Check options
-    checkExperimentOptions(experimentOptions);
+%     checkExperimentOptions(experimentOptions);
 
     % Get Source positions
 %     experimentOptions.sourcePositions = getSourcePositions(experimentOptions);
@@ -17,7 +17,7 @@ function showResultsTDEExperiments(experimentOptions,foundTDEs)
     
     % Generate Initialization positions
 %     experimentOptions.initializationPositions = getInitializationPositions(experimentOptions);
-    if strcmp(experimentOptions.dataUsed,'real')
+    if strcmp(experimentOptions.dataOptions.type,'real')
         experimentOptions.T60 = 0.2;
         experimentOptions.snrValues = 0;
     end
@@ -34,7 +34,7 @@ function showResultsTDEExperiments(experimentOptions,foundTDEs)
     %%% First, bias and standard deviation
     % Compute true TDE
     trueTDEs = TDEGeometricDirect(experimentOptions.sourcePositions,...
-                                 experimentOptions.microphonesPositions);    
+                                 experimentOptions.microphonePositions);    
 %     % PLOT BY SIGNALS
 %     plotBySignal(foundTDEs,experimentOptions,trueTDEs);
 
@@ -48,132 +48,33 @@ function showResultsTDEExperiments(experimentOptions,foundTDEs)
 %     plotByMethod(foundTDEs,experimentOptions,trueTDEs);
 
 %     % Plot by TDE
-    plotByTDE(foundTDEs,experimentOptions,trueTDEs);
+%     plotByTDE(foundTDEs,experimentOptions,trueTDEs);
     
 end % function
 
-function checkExperimentOptions(experimentOptions)
-    
-    % Check that there is the kind of data used and the type of sensor
-    mandatoryFields = {'dataUsed','sensorType','dimension','sourcePositionOptions','snrValues'};
-    for f = 1:numel(mandatoryFields),
-        if ~isfield(experimentOptions,mandatoryFields{f})
-            error(['Field ' mandatoryFields{f} ' is mandatory.']);
-        end
-    end
-
-    data = {'synthetic','simulated','real'};
-    % Check the data specified
-    dataFlag = 0;
-    for d = 1:numel(data)
-        dataFlag = dataFlag + strcmp(experimentOptions.dataUsed,data{d});
-    end
-    if dataFlag == 0
-        error('Data specified not known.');
-    end
-%     if strcmp(experimentOptions.dataUsed,data{3})
-%         error('Not ready to work with real data.');
+% function checkExperimentOptions(experimentOptions)
+%     
+%     % Check that there is the kind of data used and the type of sensor
+%     mandatoryFields = {'dataUsed','sensorType','dimension','sourcePositionOptions','snrValues'};
+%     for f = 1:numel(mandatoryFields),
+%         if ~isfield(experimentOptions,mandatoryFields{f})
+%             error(['Field ' mandatoryFields{f} ' is mandatory.']);
+%         end
 %     end
-end
-
-function plotByTDE(foundTDEs,experimentOptions,trueTDEs)
-
-    % Variables
-    nSNR = length(experimentOptions.snrValues);
-    nT60 = length(experimentOptions.T60);
-    nPositions = size(experimentOptions.sourcePositions,1);
-    
-    if strcmp(experimentOptions.dataUsed,'simulated')
-        nSignals = 3;
-    elseif strcmp(experimentOptions.dataUsed,'real')
-        nSignals = 1;
-    else
-        nSignals = numel(experimentOptions.signals);
-    end
-    % Plot variables
-%     lineSpec = {'-o',':x','-.s','--d'};
-    lineSpec = {'o','d','s','p','x'};
-    tdeColor = {'g','b','r','k','m'};
-%     % Random comparison
-%     randomTDE = generateRandomEstimates(experimentOptions.microphonesPositions,experimentOptions.constraint,10*size(experimentOptions.sourcePositions,1));
-%     randomErrorTDEs = [];
-%     for sPos = 1:size(experimentOptions.sourcePositions,1),
-%         randomErrorTDEs = cat(1,randomErrorTDEs,...
-%             abs(randomTDE( (10*(sPos-1)+1):10*sPos,:)-repmat(trueTDEs(sPos,1:experimentOptions.dimension),10,1)));
+% 
+%     data = {'synthetic','simulated','real'};
+%     % Check the data specified
+%     dataFlag = 0;
+%     for d = 1:numel(data)
+%         dataFlag = dataFlag + strcmp(experimentOptions.dataUsed,data{d});
 %     end
-%     rErrorTDE = cat(1,mean(randomErrorTDEs,1),std(randomErrorTDEs,0,1));
-    % For each signal
-    for sSignal = nSignals:nSignals,
-        % Signal results
-        signalErrorTDEs = cell(nSNR,nT60,nPositions);
-        errorTDEs = zeros(nSNR,nT60,nPositions,2);
-        % Recover the found TDEs for this signal
-        for sSNR = 1:nSNR,
-            for sT60 = 1:nT60,
-                % Compute the difference with each instance
-                for sPos = 1:size(experimentOptions.sourcePositions,1),
-                    errorSamples = abs(foundTDEs{sSignal,sPos,sSNR,sT60}-repmat(trueTDEs(sPos,1:experimentOptions.dimension),size(foundTDEs{sSignal,sPos,sSNR,sT60},1),1));
-%                     errorSamples = sqrt(sum( (errorSamples).^2 , 2));
-                    signalErrorTDEs{sSNR,sT60,sPos} = cat(1,signalErrorTDEs{sSNR,sT60,sPos},errorSamples);
-                    % Compute error statistics
-                    errorTDEs(sSNR,sT60,sPos,1) = mean(signalErrorTDEs{sSNR,sT60,sPos}(:));
-                    errorTDEs(sSNR,sT60,sPos,2) = std(signalErrorTDEs{sSNR,sT60,sPos}(:));
-                end
-
-%                 if errorTDEs(sSNR,sT60,sPos,2) < 1e-14
-%                     errorTDEs(sSNR,sT60,sPos,2) = 1e-14;
-%                 end
-%                 fprintf('%1.10g ',errorTDEs(sSNR,sT60,sPos,2));
-            end
-        end
-        fprintf('Signal %d:\n',sSignal);
-%         fprintf('\t SNR \t'); for sSNR=1:nSNR, fprintf('%f\t',experimentOptions.snrValues(sSNR)); end; fprintf('\n');
-%         fprintf('\t TDE1 \t'); for sSNR=1:nSNR, fprintf('%1.2e (%1.2e)\t',errorTDEs(sSNR,end,1,1),errorTDEs(sSNR,end,1,2)); end; fprintf('\n');
-%         fprintf('\t TDE2 \t'); for sSNR=1:nSNR, fprintf('%1.2e (%1.2e)\t',errorTDEs(sSNR,end,2,1),errorTDEs(sSNR,end,2,2)); end; fprintf('\n');
-%         fprintf('\t TDE3 \t'); for sSNR=1:nSNR, fprintf('%1.2e (%1.2e)\t',errorTDEs(sSNR,end,3,1),errorTDEs(sSNR,end,3,2)); end; fprintf('\n');
-
-
-        for sT60 = 1:nT60,
-            % Plot in position
-            for sSNR = 1:nSNR,
-                figure;
-                scatter3(experimentOptions.sourcePositions(:,1),...
-                         experimentOptions.sourcePositions(:,2),...
-                         experimentOptions.sourcePositions(:,3),...
-                         1e7*errorTDEs(sSNR,sT60,:,2),...
-                         errorTDEs(sSNR,sT60,:,1)...
-                         );
-                hold on
-                plot3(experimentOptions.microphonesPositions(:,1),experimentOptions.microphonesPositions(:,2),experimentOptions.microphonesPositions(:,3),'rx');
-                title(['Scatter of SNR = ' num2str(experimentOptions.snrValues(sSNR)) ' dB  and T60 = ' num2str(experimentOptions.T60(sT60)) ' s.']);
-            end
-            % Plot distance to mic array
-            figure;
-            hold on;
-            xValues = sqrt(sum( (experimentOptions.sourcePositions - repmat(experimentOptions.microphoneOffset,size(experimentOptions.sourcePositions,1),1)).^2  , 2 ));
-            myLegend = cell(nSNR,1);
-            for sSNR = 1:nSNR,
-                myLegend{sSNR} = num2str(experimentOptions.snrValues(sSNR));
-                plot(xValues,squeeze(errorTDEs(sSNR,sT60,:,1)),strcat(lineSpec{sSNR},tdeColor{sSNR}));
-            end
-            title(['Bias for T60 = ' num2str(experimentOptions.T60(sT60)) ' s.']);
-            legend(myLegend);
-            
-            % Plot distance to mic array
-            figure;
-            hold on;
-            xValues = sqrt(sum( (experimentOptions.sourcePositions - repmat(experimentOptions.microphoneOffset,size(experimentOptions.sourcePositions,1),1)).^2  , 2 ));
-            myLegend = cell(nSNR,1);
-            for sSNR = 1:nSNR,
-                myLegend{sSNR} = num2str(experimentOptions.snrValues(sSNR));
-                plot(xValues,squeeze(errorTDEs(sSNR,sT60,:,2)),strcat(lineSpec{sSNR},tdeColor{sSNR}));
-            end
-            title(['STD for T60 = ' num2str(experimentOptions.T60(sT60)) ' s.']);
-            legend(myLegend);
-        end
-    end
-
-end
+%     if dataFlag == 0
+%         error('Data specified not known.');
+%     end
+% %     if strcmp(experimentOptions.dataUsed,data{3})
+% %         error('Not ready to work with real data.');
+% %     end
+% end
 
 % The SNR values will be in the x-axis, the T60 values will produce one
 % curve each. The plots will be error bars

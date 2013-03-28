@@ -1,60 +1,25 @@
-function [Delta, GDelta, HDelta] = TDEDiscriminant(TDEs,MICS,samplingPeriod,C)
+function [Delta, GDelta, HDelta] = TDEDiscriminantEUSIPCO(TDEs,MICS,samplingPeriod,C)
 
-%TDEDiscriminant implements the geometric constraint for geometric TDE.
+% TDEDiscriminant implements the geometric constraint for TDE.
+% 
+%   Delta = TDEDiscriminant(TDEs,MICS) returns the value of such discriminant.
+%   This value is positive if the set of TDEs is consistent (i.e. correspond
+%   to a position in the space) and negative if it is not consistent. The TDEs
+%   are expected in seconds and the microphones' positions in meters.
 %
-% USAGE: [Delta GDelta HDelta] = TDEDiscriminant(TDEs,MICS,[samplingPeriod,C])
-%
-% PARAMETERS:
-%  TDEs ~ Point at which the discriminant should be evaluated.
-%  MICS ~ Positions of the microphones.
-%  samplingPeriod ~ Sampling period of the discrete signals.
-%  C ~ sound propagation speed.
-%
-% RETURN VALUE:
-%  Delta,GDelta,HDelta ~ Value of the function, the first and the second 
-%     derivatives.
-% 
-% DESCRIPTION:
-%     [Delta GDelta HDelta] = TDEDiscriminant(TDEs,MICS) returns the value 
-%     of such discriminant. This value is positive if the set of TDEs is 
-%     consistent (i.e. correspond to a position in the space) and negative 
-%     if it is not consistent. The TDEs are expected in seconds and the 
-%     microphones' positions in meters. It also returns the gradient and
-%     the Hessian.
-% 
-%     NOTE: The reference microphone for computing the TDEs is the first one
-%     in the variables MICS.
-% 
-%     Delta = TDEDiscriminant(TDEs,MICS,samplingPeriod,C) allows the specification 
-%     of the sampling Period and of the sound speed. The default is 
-%     samplingPeriod = 0 and C = 343.2. Here the units have to agree. The
-%     samplingPeriod is used to scale the optimization problem. If not
-%     specified, the problem is not scaled.
-%
-% REFERENCES:
-%     X. Alameda-Pineda and R. Horaud. Geometrically-constrained time delay
-%     estimation-based sound source localisation (gTDESSL). Research Report 
-%     RR-7988, INRIA, June 2012.
-
-% Copyright 2012, Xavier Alameda-Pineda
-% INRIA Grenoble Rhône-Alpes
-% E-mail: xavi.alameda@gmail.com
-% 
-% This is part of the gtde program.
-% 
-% gtde is free software: you can redistribute it and/or modify
-% it under the terms of the GNU General Public License as published by
-% the Free Software Foundation, either version 3 of the License, or
-% (at your option) any later version.
-% 
-% This program is distributed in the hope that it will be useful,
-% but WITHOUT ANY WARRANTY; without even the implied warranty of
-% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-% GNU General Public License for more details.
-% 
-% You should have received a copy of the GNU General Public License
-% along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
+%   NOTE: The reference microphone for computing the TDEs is the first one
+%   in the variables MICS.
+%   
+%   Delta = TDEDiscriminant(TDEs,MICS,samplingPeriod,C) allows the specification 
+%   of the sampling Period and of the sound speed. The default is 
+%   samplingPeriod = 0 and C = 343.2. Here the units have to agree. The
+%   samplingPeriod is used to scale the optimization problem. If not
+%   specified, the problem is not scaled.
+%   
+%   [Delta GDelta] = TDEDiscriminant(TDEs,MICS,samplingPeriod,C) computes 
+%   also the gradient of the discriminant with respect to the TDEs.
+%   
+%   see TDEGeometricDirect TDEGeometricInverse
 
     %%% Input check
     % Default sound speed
@@ -65,7 +30,7 @@ function [Delta, GDelta, HDelta] = TDEDiscriminant(TDEs,MICS,samplingPeriod,C)
            samplingPeriod = 0;
             % Error, bad usage
             if nargin < 2
-                error('Usage: [Delta GDelta HDelta] = TDEDiscriminant(TDEs,MICS[, samplingPeriod, C])');
+                error('Usage: [Delta JDelta] = TDEDiscriminant(TDEs,MICS[, samplingPeriod, C])');
             end
         else
             if samplingPeriod > 0
@@ -148,19 +113,18 @@ function [Delta, GDelta, HDelta] = TDEDiscriminant(TDEs,MICS,samplingPeriod,C)
         for d1 = 1:Dimension,
             for d2 = 1:Dimension,
                 PartialHess = - (A2-1) .* squeeze(EMat(d1,d2,:))';
-                PartialHess = PartialHess - ...
-                    sum( squeeze(JB(:,d2,:)).*BM1 ,1).*...
-                    sum( squeeze(JA(:,d1,:)).*A ,1);
+                PartialHess = PartialHess - 2*sum( squeeze(JB(:,d1,:)).*BM1 ,1).*...
+                    sum( squeeze(JA(:,d2,:)).*A ,1);
                 PartialHess = PartialHess - ...
                     (A2-1).*squeeze( sum( JB(:,d1,:).*JB(:,d2,:) ,1) )';
                 PartialHess = PartialHess - ...
-                    sum( squeeze(JA(:,d2,:)).*A ,1).*...
-                    sum( squeeze(JB(:,d1,:)).*BM1 ,1);
+                    2*sum( squeeze(JA(:,d1,:)).*A ,1).*...
+                    sum( squeeze(JB(:,d2,:)).*BM1 ,1);
                 PartialHess = PartialHess - ...
                     BM12.*squeeze( sum( JA(:,d1,:).*JA(:,d2,:) ,1) )';
                 PartialHess = PartialHess + ...
-                    sum( squeeze(JA(:,d2,:)).*BM1 + squeeze(JB(:,d2,:)).*A ,1).*...
-                    sum( squeeze(JA(:,d1,:)).*BM1 + squeeze(JB(:,d1,:)).*A ,1);
+                    sum( squeeze(JA(:,d1,:)).*BM1 + squeeze(JB(:,d1,:)).*A ,1).*...
+                    sum( squeeze(JA(:,d2,:)).*BM1 + squeeze(JB(:,d2,:)).*A ,1);
                 PartialHess = PartialHess + ...
                     ABM1.*squeeze( sum( JA(:,d1,:).*JB(:,d2,:),1) + DMat(d1,d2,:) +...
                     sum( JB(:,d1,:).*JA(:,d2,:),1) )';
@@ -173,4 +137,4 @@ function [Delta, GDelta, HDelta] = TDEDiscriminant(TDEs,MICS,samplingPeriod,C)
             HDelta = HDelta * (samplingPeriod^2);
         end
     end
-return
+end

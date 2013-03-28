@@ -61,9 +61,6 @@ function experimentOptions = SpecifyDataOptions(experimentOptions)
     if dataFlag == 0
         error('Data type specified not known.');
     end
-    if strcmp(experimentOptions.dataOptions.type,'real')
-        error('Interface not read for real data');
-    end
     
     % Check real in 2D does not exist
     if experimentOptions.dimension == 2 && strcmp(experimentOptions.dataUsed,'real'),
@@ -88,15 +85,14 @@ function experimentOptions = SpecifyDataOptions(experimentOptions)
         end
     end
     if strcmp(experimentOptions.dataOptions.type,'real')
-        mandatoryFields = {'field','panIndices','tiltIndices'};
+        mandatoryFields = {'wavRootFolder','subIndices'};
         for f = 1:numel(mandatoryFields),
-            if ~isfield(experimentOptions.sourcePositionOptions,mandatoryFields{f})
+            if ~isfield(experimentOptions.dataOptions,mandatoryFields{f})
                 error(['Field ' mandatoryFields{f} ' is mandatory when using real data.']);
             end
         end
-        if isfield(experimentOptions.sourcePositions)
-            fprintf('Warning: when using real data, the positions are always read from a file.');
+        if isfield(experimentOptions,'sourcePositions')
+            warning('When using real data, the sound source positions are always read from a file.');
         end
     end
-
 end

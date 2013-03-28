@@ -59,24 +59,26 @@ function experimentOptions = GetInitializationPositions(experimentOptions)
             initializationPositions = initializationPositions(:,Constraint>0);
         % The essence is the same as in the first case, the structure
         % different.
-        case 'bypairs'
+        case {'bypairs','bp2dip'}
             auxInit = initializationPositions;
             % Reallocate them
             initializationPositions = cell(1,experimentOptions.dimension);
             % Chose the unique values for each column
             for d = 1:experimentOptions.dimension,
-                initializationPositions{d} = unique(auxInit(:,d));
+                initializationPositions{d} = unique(auxInit(d,:));
             end
         % Much more dense data
         case 'truth'
             % Interval resolution, the error should be lower than half of this quantity
-            resolution = 10e-6;
+            resolution = 1e-5;
             % Number of intervals (per TDE pair)
-            initializationPositionOptions.numberOfIntervals = zeros(initializationPositionOptions.dimension);
+            initializationPositionOptions.numberOfIntervals = zeros(initializationPositionOptions.dimension,1);
             for d = 1:initializationPositionOptions.dimension
-            initializationPotisionOptions.numberOfIntervals(d) = ceil(2*maxTDEs(d)/resolution);
+                initializationPositionOptions.numberOfIntervals(d) = ceil(2*maxTDEs(d)/resolution);
             end
-            initializationPositions = GeneratePositions(initializationPotisionOptions.dimension,initializationPositionOptions);
+            initializationPositions = GeneratePositions(initializationPositionOptions.dimension,initializationPositionOptions)';
+            % Remove those who are outside the bounds
+            initializationPositions = DiscardOutBounds(initializationPositions,experimentOptions.microphonePositions);
     end
     
     % Save it!

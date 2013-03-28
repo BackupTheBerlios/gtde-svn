@@ -37,9 +37,14 @@ function experimentOptions = GetSourcePositions(experimentOptions)
         % Choose depending on the data used for the experiment
         switch experimentOptions.dataOptions.type
             case 'real'
-                experimentOptions.sourcePositions = GeneratePositionsCasaRedmine(experimentOptions.panIndices,experimentOptions.tiltIndices,experimentOptions.field);
+                experimentOptions.sourcePositions = GeneratePositionsCasaRedmine(experimentOptions);
             case 'simulated'
-                experimentOptions.sourcePositions = GeneratePositions(experimentOptions.dimension,experimentOptions.sourcePositionOptions);
+                if isfield(experimentOptions.sourcePositionOptions,'file'),
+                    tmp = importdata(experimentOptions.sourcePositionOptions.file,'\t',2);
+                    experimentOptions.sourcePositions = tmp.data(:,2:4) + repmat(experimentOptions.microphonePositionOptions.offset,size(tmp.data,1),1);
+                else
+                    experimentOptions.sourcePositions = GeneratePositions(experimentOptions.dimension,experimentOptions.sourcePositionOptions);
+                end
             case 'synthetic'
                 experimentOptions.sourcePositions = GeneratePositions(experimentOptions.dimension,experimentOptions.sourcePositionOptions);
         end
