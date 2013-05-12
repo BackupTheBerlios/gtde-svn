@@ -5,8 +5,16 @@ tmp = load('tdes_calib');
 tdes = tmp.tdes;
 clear tmp;
 
+% Mics distance
+d12 = norm(tdes.mics(1,:)-tdes.mics(2,:),2);
+d13 = norm(tdes.mics(1,:)-tdes.mics(3,:),2);
+d14 = norm(tdes.mics(1,:)-tdes.mics(4,:),2);
+d23 = norm(tdes.mics(2,:)-tdes.mics(3,:),2);
+d24 = norm(tdes.mics(2,:)-tdes.mics(4,:),2);
+d34 = norm(tdes.mics(3,:)-tdes.mics(4,:),2);
+
 % Perform calibration
-costFunction = @(x) calibration_cost(x,tdes.positions,tdes);
+costFunction = @(x) calibration_cost(x,tdes.positions,tdes,d12,d13,d14,d23,d24,d34);
 x0 = tdes.mics(:);
 options = optimset('DerivativeCheck','off','Display','iter','GradObj','on');
 xF = fminunc(costFunction,x0,options);
@@ -22,7 +30,7 @@ hold off
 
 end
 
-function [C,J] = calibration_cost(mics,positions,tdes)
+function [C,J] = calibration_cost(mics,positions,tdes,d12,d13,d14,d23,d24,d34)
 % Fixed values
 v = 334.2;
 
@@ -87,5 +95,36 @@ for p = 1:size(positions,1),
 end
 
 J = -2*J/v;
+
+%%% Constraint
+
+% Precomputing
+v12 = mic1-mic2; n12 = norm(v12,2); v12 = v12/n12;
+v13 = mic1-mic3; n13 = norm(v13,2); v13 = v13/n13;
+v14 = mic1-mic4; n14 = norm(v14,2); v14 = v14/n14;
+v23 = mic2-mic3; n23 = norm(v23,2); v23 = v23/n23;
+v24 = mic2-mic4; n24 = norm(v24,2); v24 = v24/n24;
+v34 = mic3-mic4; n34 = norm(v34,2); v34 = v34/n34;
+
+CO = (n12-d12)^2+...
+     (n13-d13)^2+...
+     (n14-d14)^2+...
+     (n23-d23)^2+...
+     (n24-d24)^2+...
+     (n34-d34)^2;
+ 
+GO = [ (n12-d12)*v12 + (n13-d13)*v13 + (n14-d14)*v14;...
+      -(n12-d12)*v12 + (n23-d23)*v23 + (n24-d24)*v24;...
+      -(n13-d13)*v13 - (n23-d23)*v23 + (n34-d34)*v34;...
+      -(n14-d14)*v14 - (n24-d24)*v24 - (n34-d34)*v34];
+
+GO = 2*GO;
+    
+% Lambda
+lambda = 10;
+
+% Regularize
+C = C + lambda*CO;
+J = J + lambda*GO;
 
 end
