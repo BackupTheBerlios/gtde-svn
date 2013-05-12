@@ -39,11 +39,13 @@ room = [4  4  4];
 % Root folder
 [~, hostname] = system('hostname');
 if strcmp(hostname(1:end-1),'cassiopeia') || strcmp(hostname(1:end-1),'peirasmos')
-    experimentOptions.rootFolder = '/local_scratch/alamedap/Software/gtde/trunk/';
+    theRootFolder = '/local_scratch/alamedap/';
 else
     cd('/scratch/cassiopeia');
-    experimentOptions.rootFolder = '/scratch/cassiopeia/alamedap/Software/gtde/trunk/';
+    theRootFolder = '/scratch/cassiopeia/alamedap/';
 end
+experimentOptions.rootFolder = strcat(theRootFolder,'Software/gtde/trunk/');
+
 % Dimension of the ambient space
 experimentOptions.dimension = 3;
 % Use of ism
@@ -53,7 +55,7 @@ addpath(svngenpath(experimentOptions.rootFolder));
 
 %%% Source position options
 % Source position options
-sourcePositionOptions.file = '/local_scratch/alamedap/audispace/gTDEJournalData/sourceGT.txt';
+sourcePositionOptions.file = strcat(theRootFolder,'audispace/gTDEJournalData/sourceGT.txt');
 sourcePositionOptions.coordinateSystem = 'cartesian';
 sourcePositionOptions.dimension = experimentOptions.dimension;
 sourcePositionOptions.bounds = cell(3,1);
@@ -66,13 +68,13 @@ experimentOptions.sourcePositionOptions = sourcePositionOptions;
 
 %%% Data options
 % Type of signal
-dataOptions.type = 'simulated';
+dataOptions.type = 'real';
 % Length of the signal cuts
 dataOptions.cutLength = 0.1;
 % Depending
 if strcmp(dataOptions.type,'simulated') || ...
    strcmp(dataOptions.type,'synthetic')
-    dataOptions.snrValues = 10;
+    dataOptions.snrValues = 0;
 end
 if strcmp(dataOptions.type,'synthetic')
     dataOptions.samplingFrequency = 48000;
@@ -82,10 +84,10 @@ if strcmp(dataOptions.type,'simulated')
     dataOptions.subIndices = [];
 end
 if strcmp(dataOptions.type,'real')
-    dataOptions.wavRootFolder = '/local_scratch/alamedap/audispace/gTDEJournalData/';
+    dataOptions.wavRootFolder = strcat(theRootFolder,'audispace/gTDEJournalData/');
     dataOptions.subIndices = [];
 end
-dataOptions.t60 = [0];
+dataOptions.t60 = 0.6;
 % Save it
 experimentOptions.dataOptions = dataOptions;
 
@@ -116,7 +118,7 @@ ismOptions.folder= strcat(experimentOptions.rootFolder,'SPHERICAL-2013/');
 experimentOptions.ismOptions = ismOptions;
 
 %%% Method options
-methodOptions.type = 'truth';
+methodOptions.type = 'dip';
 methodOptions.gridSize = 10;
 methodOptions.regConstant = 10;
 % Save it

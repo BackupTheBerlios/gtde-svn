@@ -1,0 +1,71 @@
+
+                            < M A T L A B (R) >
+                  Copyright 1984-2012 The MathWorks, Inc.
+                    R2012b (8.0.0.783) 64-bit (glnxa64)
+                              August 22, 2012
+
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/audioassoc/trunk/matlab] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/audioassoc/trunk/matlab/HMMSequences] 
+[Warning: Name is nonexistent or not a directory:
+/softs/stow/matlab-2012b/toolbox/slvnv/rmidemos] 
+ 
+To get started, type one of these: helpwin, helpdesk, or demo.
+For product information, visit www.mathworks.com.
+ 
+Warning: ISM filters are not used in real data.
+=========================================
+Running TDE batch
+-----------------
+Method: dip
+Data: real
+Environment: /local_scratch/alamedap/audispace/gTDEJournalData/
+=========================================
+Position 1/189:
+    Signal 1/2   <.-|>   [Done by: 23-May-2013 02:12:23]
+    Signal 2/2   <.-|>   [Done by: 21-May-2013 07:11:17]
+Position 2/189:
+    Signal 1/2   <.-|>   [Done by: 21-May-2013 19:18:01]
+    Signal 2/2   <.-|>   [Done by: 21-May-2013 06:43:58]
+Position 3/189:
+    Signal 1/2   <.-|>   [Done by: 21-May-2013 14:18:13]
+    Signal 2/2   <.-|>   [Done by: 22-May-2013 10:12:04]
+Position 4/189:
+    Signal 1/2   <.-|>   [Done by: 22-May-2013 11:29:06]
+    Signal 2/2   <.-|>   [Done by: 23-May-2013 09:24:22]
+Position 5/189:
+    Signal 1/2   <.-|>   [Done by: 23-May-2013 08:20:53]
+    Signal 2/2   <.-|>   [Done by: 23-May-2013 23:43:19]
+Position 6/189:
+    Signal 1/2   <.-|>   [Done by: 23-May-2013 21:47:35]
+    Signal 2/2   <.-|>   [Done by: 24-May-2013 00:38:25]
+Position 7/189:
+    Signal 1/2   <.-|>   [Done by: 23-May-2013 22:51:07]
+    Signal 2/2   <.-|>   [Done by: 24-May-2013 02:14:45]
+Position 8/189:
+    Signal 1/2   <.-|>   [Done by: 24-May-2013 00:42:27]
+    Signal 2/2   <.-|>   [Done by: 24-May-2013 08:26:49]
+Position 9/189:
+    Signal 1/2   <.-|>   [Done by: 24-May-2013 06:39:37]
+    Signal 2/2   <.-|>   [Done by: 24-May-2013 08:54:04]
+Position 10/189:
+    Signal 1/2   <.-|>   [Done by: 24-May-2013 07:24:12]
+    Signal 2/2   <.-|>   [Done by: 24-May-2013 15:54:25]
+Position 11/189:
+    Signal 1/2   <.-|>   [Done by: 24-May-2013 13:58:18]
+    Signal 2/2   <.-|>   [Done by: 24-May-2013 12:33:39]
+Position 12/189:
+    Signal 1/2   <.-|>   [Done by: 24-May-2013 11:11:40]
+    Signal 2/2   <.-|>   [Done by: 24-May-2013 08:06:27]
+Position 13/189:
+    Signal 1/2   <.-|>   [Done by: 24-May-2013 06:56:49]
+    Signal 2/2   <.-|>   [Done by: 24-May-2013 08:41:06]
+Position 14/189:
+    Signal 1/2   <.-|>   [Done by: 24-May-2013 07:13:14]
+    Signal 2/2   <.-|>   [Done by: 24-May-2013 17:40:57]
+Position 15/189:
+    Signal 1/2   <.-|>   [Done by: 24-May-2013 16:13:40]
+    Signal 2/2   <.-|>   [Done by: 25-May-2013 01:17:14]
+Position 16/189:
+    Signal 1/2   <

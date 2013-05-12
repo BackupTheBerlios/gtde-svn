@@ -70,7 +70,7 @@ function experimentOptions = GetInitializationPositions(experimentOptions)
         % Much more dense data
         case 'truth'
             % Interval resolution, the error should be lower than half of this quantity
-            resolution = 1e-5;
+            resolution = 2e-5;
             % Number of intervals (per TDE pair)
             initializationPositionOptions.numberOfIntervals = zeros(initializationPositionOptions.dimension,1);
             for d = 1:initializationPositionOptions.dimension

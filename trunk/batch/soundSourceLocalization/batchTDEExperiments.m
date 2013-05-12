@@ -88,13 +88,13 @@ function batchTDEExperiments(experimentOptions)
         fprintf('SNR:'); fprintf('\t%1.1f',experimentOptions.dataOptions.snrValues); fprintf('\n');
         fprintf('T60:'); fprintf('\t%1.1f ',experimentOptions.dataOptions.t60); fprintf('\n');
     else
-        fprintf('Environment: %s\n',experimentOptions.dataOptions.wavRootfolder);
+        fprintf('Environment: %s\n',experimentOptions.dataOptions.wavRootFolder);
     end
     fprintf('=========================================\n');
     
     %%% Looping over all the parameters
     % For each position
-    for sPosition = 107:107,%nSourcePositions,
+    for sPosition = 1:nSourcePositions,
         fprintf('Position %d/%d:\n',sPosition,nSourcePositions);
         % For each signal
         for sSignal = 1:nSignals

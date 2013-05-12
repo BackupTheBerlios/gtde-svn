@@ -1,0 +1,406 @@
+
+                            < M A T L A B (R) >
+                  Copyright 1984-2012 The MathWorks, Inc.
+                    R2012b (8.0.0.783) 64-bit (glnxa64)
+                              August 22, 2012
+
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/audioassoc/trunk/matlab] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/audioassoc/trunk/matlab/HMMSequences] 
+[Warning: Name is nonexistent or not a directory:
+/softs/stow/matlab-2012b/toolbox/slvnv/rmidemos] 
+ 
+To get started, type one of these: helpwin, helpdesk, or demo.
+For product information, visit www.mathworks.com.
+ 
+Warning: The field "sourcePositions" is set, clearing the field "sourcePositionOptions".
+Warning: The field "microphonePositions" is set, clearing the field "microphonePositionOptions".
+=========================================
+Running TDE batch
+-----------------
+Method: dip
+Data: simulated
+Environment: /local_scratch/alamedap/Software/gtde/trunk/SPHERICAL-2013/
+SNR:	10.0
+T60:	0.6 
+=========================================
+Position 1/189:
+    Signal 1/1   <.-|>   [Done by: 09-May-2013 05:35:20]
+Position 2/189:
+    Signal 1/1   <.-|>   [Done by: 09-May-2013 23:08:04]
+Position 3/189:
+    Signal 1/1   <.-|>   [Done by: 09-May-2013 22:55:10]
+Position 4/189:
+    Signal 1/1   <.-|>   [Done by: 10-May-2013 04:43:09]
+Position 5/189:
+    Signal 1/1   <.-|>   [Done by: 10-May-2013 14:42:14]
+Position 6/189:
+    Signal 1/1   <.-|>   [Done by: 10-May-2013 14:45:34]
+Position 7/189:
+    Signal 1/1   <.-|>   [Done by: 10-May-2013 11:20:18]
+Position 8/189:
+    Signal 1/1   <.-|>   [Done by: 10-May-2013 06:33:46]
+Position 9/189:
+    Signal 1/1   <.-|>   [Done by: 10-May-2013 06:42:02]
+Position 10/189:
+    Signal 1/1   <.-|>   [Done by: 10-May-2013 06:45:42]
+Position 11/189:
+    Signal 1/1   <.-|>   [Done by: 10-May-2013 09:49:39]
+Position 12/189:
+    Signal 1/1   <.-|>   [Done by: 10-May-2013 15:32:23]
+Position 13/189:
+    Signal 1/1   <.-|>   [Done by: 10-May-2013 15:24:11]
+Position 14/189:
+    Signal 1/1   <.-|>   [Done by: 10-May-2013 17:54:38]
+Position 15/189:
+    Signal 1/1   <.-|>   [Done by: 10-May-2013 11:38:02]
+Position 16/189:
+    Signal 1/1   <.-|>   [Done by: 10-May-2013 12:14:11]
+Position 17/189:
+    Signal 1/1   <.-|>   [Done by: 10-May-2013 11:27:15]
+Position 18/189:
+    Signal 1/1   <.-|>   [Done by: 10-May-2013 10:25:48]
+Position 19/189:
+    Signal 1/1   <.-|>   [Done by: 10-May-2013 11:14:07]
+Position 20/189:
+    Signal 1/1   <.-|>   [Done by: 10-May-2013 11:32:42]
+Position 21/189:
+    Signal 1/1   <.-|>   [Done by: 10-May-2013 12:56:43]
+Position 22/189:
+    Signal 1/1   <.-|>   [Done by: 10-May-2013 13:18:17]
+Position 23/189:
+    Signal 1/1   <.-|>   [Done by: 10-May-2013 12:37:58]
+Position 24/189:
+    Signal 1/1   <.-|>   [Done by: 10-May-2013 12:20:24]
+Position 25/189:
+    Signal 1/1   <.-|>   [Done by: 10-May-2013 18:53:37]
+Position 26/189:
+    Signal 1/1   <.-|>   [Done by: 10-May-2013 15:15:00]
+Position 27/189:
+    Signal 1/1   <.-|>   [Done by: 10-May-2013 19:42:47]
+Position 28/189:
+    Signal 1/1   <.-|>   [Done by: 10-May-2013 16:39:12]
+Position 29/189:
+    Signal 1/1   <.-|>   [Done by: 10-May-2013 17:53:31]
+Position 30/189:
+    Signal 1/1   <.-|>   [Done by: 10-May-2013 17:52:39]
+Position 31/189:
+    Signal 1/1   <.-|>   [Done by: 10-May-2013 18:12:26]
+Position 32/189:
+    Signal 1/1   <.-|>   [Done by: 10-May-2013 18:32:45]
+Position 33/189:
+    Signal 1/1   <.-|>   [Done by: 10-May-2013 17:38:37]
+Position 34/189:
+    Signal 1/1   <.-|>   [Done by: 10-May-2013 18:24:28]
+Position 35/189:
+    Signal 1/1   <.-|>   [Done by: 10-May-2013 18:16:30]
+Position 36/189:
+    Signal 1/1   <.-|>   [Done by: 10-May-2013 22:40:08]
+Position 37/189:
+    Signal 1/1   <.-|>   [Done by: 10-May-2013 23:00:55]
+Position 38/189:
+    Signal 1/1   <.-|>   [Done by: 10-May-2013 21:29:50]
+Position 39/189:
+    Signal 1/1   <.-|>   [Done by: 10-May-2013 22:09:38]
+Position 40/189:
+    Signal 1/1   <.-|>   [Done by: 10-May-2013 22:13:11]
+Position 41/189:
+    Signal 1/1   <.-|>   [Done by: 10-May-2013 22:39:05]
+Position 42/189:
+    Signal 1/1   <.-|>   [Done by: 10-May-2013 23:18:50]
+Position 43/189:
+    Signal 1/1   <.-|>   [Done by: 10-May-2013 22:20:56]
+Position 44/189:
+    Signal 1/1   <.-|>   [Done by: 10-May-2013 23:34:32]
+Position 45/189:
+    Signal 1/1   <.-|>   [Done by: 11-May-2013 00:01:17]
+Position 46/189:
+    Signal 1/1   <.-|>   [Done by: 10-May-2013 23:14:26]
+Position 47/189:
+    Signal 1/1   <.-|>   [Done by: 10-May-2013 23:36:21]
+Position 48/189:
+    Signal 1/1   <.-|>   [Done by: 10-May-2013 23:40:24]
+Position 49/189:
+    Signal 1/1   <.-|>   [Done by: 11-May-2013 00:39:28]
+Position 50/189:
+    Signal 1/1   <.-|>   [Done by: 11-May-2013 01:00:50]
+Position 51/189:
+    Signal 1/1   <.-|>   [Done by: 11-May-2013 02:10:14]
+Position 52/189:
+    Signal 1/1   <.-|>   [Done by: 11-May-2013 01:20:59]
+Position 53/189:
+    Signal 1/1   <.-|>   [Done by: 11-May-2013 01:45:49]
+Position 54/189:
+    Signal 1/1   <.-|>   [Done by: 11-May-2013 03:38:23]
+Position 55/189:
+    Signal 1/1   <.-|>   [Done by: 11-May-2013 03:10:29]
+Position 56/189:
+    Signal 1/1   <.-|>   [Done by: 11-May-2013 03:57:24]
+Position 57/189:
+    Signal 1/1   <.-|>   [Done by: 11-May-2013 03:38:50]
+Position 58/189:
+    Signal 1/1   <.-|>   [Done by: 11-May-2013 02:24:25]
+Position 59/189:
+    Signal 1/1   <.-|>   [Done by: 11-May-2013 04:34:29]
+Position 60/189:
+    Signal 1/1   <.-|>   [Done by: 11-May-2013 04:32:52]
+Position 61/189:
+    Signal 1/1   <.-|>   [Done by: 11-May-2013 06:13:47]
+Position 62/189:
+    Signal 1/1   <.-|>   [Done by: 11-May-2013 05:50:59]
+Position 63/189:
+    Signal 1/1   <.-|>   [Done by: 11-May-2013 05:49:21]
+Position 64/189:
+    Signal 1/1   <.-|>   [Done by: 11-May-2013 05:05:43]
+Position 65/189:
+    Signal 1/1   <.-|>   [Done by: 11-May-2013 05:18:13]
+Position 66/189:
+    Signal 1/1   <.-|>   [Done by: 11-May-2013 05:02:02]
+Position 67/189:
+    Signal 1/1   <.-|>   [Done by: 11-May-2013 04:13:47]
+Position 68/189:
+    Signal 1/1   <.-|>   [Done by: 11-May-2013 04:42:45]
+Position 69/189:
+    Signal 1/1   <.-|>   [Done by: 11-May-2013 04:56:07]
+Position 70/189:
+    Signal 1/1   <.-|>   [Done by: 11-May-2013 06:13:10]
+Position 71/189:
+    Signal 1/1   <.-|>   [Done by: 11-May-2013 07:12:40]
+Position 72/189:
+    Signal 1/1   <.-|>   [Done by: 11-May-2013 06:49:39]
+Position 73/189:
+    Signal 1/1   <.-|>   [Done by: 11-May-2013 06:04:42]
+Position 74/189:
+    Signal 1/1   <.-|>   [Done by: 11-May-2013 05:31:43]
+Position 75/189:
+    Signal 1/1   <.-|>   [Done by: 11-May-2013 05:52:31]
+Position 76/189:
+    Signal 1/1   <.-|>   [Done by: 11-May-2013 05:57:43]
+Position 77/189:
+    Signal 1/1   <.-|>   [Done by: 11-May-2013 05:57:01]
+Position 78/189:
+    Signal 1/1   <.-|>   [Done by: 11-May-2013 06:38:23]
+Position 79/189:
+    Signal 1/1   <.-|>   [Done by: 11-May-2013 06:33:51]
+Position 80/189:
+    Signal 1/1   <.-|>   [Done by: 11-May-2013 05:35:13]
+Position 81/189:
+    Signal 1/1   <.-|>   [Done by: 11-May-2013 05:42:40]
+Position 82/189:
+    Signal 1/1   <.-|>   [Done by: 11-May-2013 05:32:47]
+Position 83/189:
+    Signal 1/1   <.-|>   [Done by: 11-May-2013 06:54:07]
+Position 84/189:
+    Signal 1/1   <.-|>   [Done by: 11-May-2013 08:04:24]
+Position 85/189:
+    Signal 1/1   <.-|>   [Done by: 11-May-2013 07:38:59]
+Position 86/189:
+    Signal 1/1   <.-|>   [Done by: 11-May-2013 08:10:31]
+Position 87/189:
+    Signal 1/1   <.-|>   [Done by: 11-May-2013 06:55:36]
+Position 88/189:
+    Signal 1/1   <.-|>   [Done by: 11-May-2013 07:09:27]
+Position 89/189:
+    Signal 1/1   <.-|>   [Done by: 11-May-2013 07:23:45]
+Position 90/189:
+    Signal 1/1   <.-|>   [Done by: 11-May-2013 08:26:23]
+Position 91/189:
+    Signal 1/1   <.-|>   [Done by: 11-May-2013 08:13:45]
+Position 92/189:
+    Signal 1/1   <.-|>   [Done by: 11-May-2013 07:48:59]
+Position 93/189:
+    Signal 1/1   <.-|>   [Done by: 11-May-2013 07:56:19]
+Position 94/189:
+    Signal 1/1   <.-|>   [Done by: 11-May-2013 07:39:38]
+Position 95/189:
+    Signal 1/1   <.-|>   [Done by: 11-May-2013 07:19:46]
+Position 96/189:
+    Signal 1/1   <.-|>   [Done by: 11-May-2013 08:20:29]
+Position 97/189:
+    Signal 1/1   <.-|>   [Done by: 11-May-2013 09:22:38]
+Position 98/189:
+    Signal 1/1   <.-|>   [Done by: 11-May-2013 08:13:17]
+Position 99/189:
+    Signal 1/1   <.-|>   [Done by: 11-May-2013 08:08:29]
+Position 100/189:
+    Signal 1/1   <.-|>   [Done by: 11-May-2013 07:23:05]
+Position 101/189:
+    Signal 1/1   <.-|>   [Done by: 11-May-2013 08:11:21]
+Position 102/189:
+    Signal 1/1   <.-|>   [Done by: 11-May-2013 08:34:24]
+Position 103/189:
+    Signal 1/1   <.-|>   [Done by: 11-May-2013 08:06:35]
+Position 104/189:
+    Signal 1/1   <.-|>   [Done by: 11-May-2013 07:58:39]
+Position 105/189:
+    Signal 1/1   <.-|>   [Done by: 11-May-2013 07:15:12]
+Position 106/189:
+    Signal 1/1   <.-|>   [Done by: 11-May-2013 06:55:21]
+Position 107/189:
+    Signal 1/1   <.-|>   [Done by: 11-May-2013 07:25:44]
+Position 108/189:
+    Signal 1/1   <.-|>   [Done by: 11-May-2013 07:33:57]
+Position 109/189:
+    Signal 1/1   <.-|>   [Done by: 11-May-2013 06:50:16]
+Position 110/189:
+    Signal 1/1   <.-|>   [Done by: 11-May-2013 06:49:37]
+Position 111/189:
+    Signal 1/1   <.-|>   [Done by: 11-May-2013 06:51:19]
+Position 112/189:
+    Signal 1/1   <.-|>   [Done by: 11-May-2013 06:32:15]
+Position 113/189:
+    Signal 1/1   <.-|>   [Done by: 11-May-2013 06:22:14]
+Position 114/189:
+    Signal 1/1   <.-|>   [Done by: 11-May-2013 06:17:23]
+Position 115/189:
+    Signal 1/1   <.-|>   [Done by: 11-May-2013 06:03:12]
+Position 116/189:
+    Signal 1/1   <.-|>   [Done by: 11-May-2013 05:20:51]
+Position 117/189:
+    Signal 1/1   <.-|>   [Done by: 11-May-2013 05:12:49]
+Position 118/189:
+    Signal 1/1   <.-|>   [Done by: 11-May-2013 04:53:33]
+Position 119/189:
+    Signal 1/1   <.-|>   [Done by: 11-May-2013 04:50:47]
+Position 120/189:
+    Signal 1/1   <.-|>   [Done by: 11-May-2013 04:55:28]
+Position 121/189:
+    Signal 1/1   <.-|>   [Done by: 11-May-2013 05:03:47]
+Position 122/189:
+    Signal 1/1   <.-|>   [Done by: 11-May-2013 05:01:45]
+Position 123/189:
+    Signal 1/1   <.-|>   [Done by: 11-May-2013 05:40:59]
+Position 124/189:
+    Signal 1/1   <.-|>   [Done by: 11-May-2013 05:25:57]
+Position 125/189:
+    Signal 1/1   <.-|>   [Done by: 11-May-2013 05:25:04]
+Position 126/189:
+    Signal 1/1   <.-|>   [Done by: 11-May-2013 06:08:08]
+Position 127/189:
+    Signal 1/1   <.-|>   [Done by: 11-May-2013 05:50:45]
+Position 128/189:
+    Signal 1/1   <.-|>   [Done by: 11-May-2013 06:18:46]
+Position 129/189:
+    Signal 1/1   <.-|>   [Done by: 11-May-2013 05:58:55]
+Position 130/189:
+    Signal 1/1   <.-|>   [Done by: 11-May-2013 05:08:36]
+Position 131/189:
+    Signal 1/1   <.-|>   [Done by: 11-May-2013 06:21:40]
+Position 132/189:
+    Signal 1/1   <.-|>   [Done by: 11-May-2013 06:16:23]
+Position 133/189:
+    Signal 1/1   <.-|>   [Done by: 11-May-2013 05:46:29]
+Position 134/189:
+    Signal 1/1   <.-|>   [Done by: 11-May-2013 06:09:34]
+Position 135/189:
+    Signal 1/1   <.-|>   [Done by: 11-May-2013 05:43:56]
+Position 136/189:
+    Signal 1/1   <.-|>   [Done by: 11-May-2013 05:35:35]
+Position 137/189:
+    Signal 1/1   <.-|>   [Done by: 11-May-2013 05:44:25]
+Position 138/189:
+    Signal 1/1   <.-|>   [Done by: 11-May-2013 06:03:28]
+Position 139/189:
+    Signal 1/1   <.-|>   [Done by: 11-May-2013 06:42:35]
+Position 140/189:
+    Signal 1/1   <.-|>   [Done by: 11-May-2013 06:40:57]
+Position 141/189:
+    Signal 1/1   <.-|>   [Done by: 11-May-2013 07:47:48]
+Position 142/189:
+    Signal 1/1   <.-|>   [Done by: 11-May-2013 07:15:39]
+Position 143/189:
+    Signal 1/1   <.-|>   [Done by: 11-May-2013 07:19:17]
+Position 144/189:
+    Signal 1/1   <.-|>   [Done by: 11-May-2013 06:32:45]
+Position 145/189:
+    Signal 1/1   <.-|>   [Done by: 11-May-2013 06:56:24]
+Position 146/189:
+    Signal 1/1   <.-|>   [Done by: 11-May-2013 06:49:40]
+Position 147/189:
+    Signal 1/1   <.-|>   [Done by: 11-May-2013 06:04:32]
+Position 148/189:
+    Signal 1/1   <.-|>   [Done by: 11-May-2013 06:33:34]
+Position 149/189:
+    Signal 1/1   <.-|>   [Done by: 11-May-2013 06:06:37]
+Position 150/189:
+    Signal 1/1   <.-|>   [Done by: 11-May-2013 05:23:00]
+Position 151/189:
+    Signal 1/1   <.-|>   [Done by: 11-May-2013 05:14:29]
+Position 152/189:
+    Signal 1/1   <.-|>   [Done by: 11-May-2013 05:14:21]
+Position 153/189:
+    Signal 1/1   <.-|>   [Done by: 11-May-2013 04:33:29]
+Position 154/189:
+    Signal 1/1   <.-|>   [Done by: 11-May-2013 05:05:06]
+Position 155/189:
+    Signal 1/1   <.-|>   [Done by: 11-May-2013 04:55:38]
+Position 156/189:
+    Signal 1/1   <.-|>   [Done by: 11-May-2013 04:39:05]
+Position 157/189:
+    Signal 1/1   <.-|>   [Done by: 11-May-2013 04:13:13]
+Position 158/189:
+    Signal 1/1   <.-|>   [Done by: 11-May-2013 04:16:24]
+Position 159/189:
+    Signal 1/1   <.-|>   [Done by: 11-May-2013 03:46:09]
+Position 160/189:
+    Signal 1/1   <.-|>   [Done by: 11-May-2013 04:47:16]
+Position 161/189:
+    Signal 1/1   <.-|>   [Done by: 11-May-2013 04:18:11]
+Position 162/189:
+    Signal 1/1   <.-|>   [Done by: 11-May-2013 04:26:51]
+Position 163/189:
+    Signal 1/1   <.-|>   [Done by: 11-May-2013 03:57:20]
+Position 164/189:
+    Signal 1/1   <.-|>   [Done by: 11-May-2013 04:17:46]
+Position 165/189:
+    Signal 1/1   <.-|>   [Done by: 11-May-2013 04:11:20]
+Position 166/189:
+    Signal 1/1   <.-|>   [Done by: 11-May-2013 04:06:56]
+Position 167/189:
+    Signal 1/1   <.-|>   [Done by: 11-May-2013 03:56:53]
+Position 168/189:
+    Signal 1/1   <.-|>   [Done by: 11-May-2013 03:48:13]
+Position 169/189:
+    Signal 1/1   <.-|>   [Done by: 11-May-2013 03:25:17]
+Position 170/189:
+    Signal 1/1   <.-|>   [Done by: 11-May-2013 03:33:19]
+Position 171/189:
+    Signal 1/1   <.-|>   [Done by: 11-May-2013 03:46:46]
+Position 172/189:
+    Signal 1/1   <.-|>   [Done by: 11-May-2013 03:25:38]
+Position 173/189:
+    Signal 1/1   <.-|>   [Done by: 11-May-2013 03:04:16]
+Position 174/189:
+    Signal 1/1   <.-|>   [Done by: 11-May-2013 03:32:44]
+Position 175/189:
+    Signal 1/1   <.-|>   [Done by: 11-May-2013 03:37:33]
+Position 176/189:
+    Signal 1/1   <.-|>   [Done by: 11-May-2013 03:24:35]
+Position 177/189:
+    Signal 1/1   <.-|>   [Done by: 11-May-2013 04:00:15]
+Position 178/189:
+    Signal 1/1   <.-|>   [Done by: 11-May-2013 04:41:52]
+Position 179/189:
+    Signal 1/1   <.-|>   [Done by: 11-May-2013 04:39:22]
+Position 180/189:
+    Signal 1/1   <.-|>   [Done by: 11-May-2013 04:39:23]
+Position 181/189:
+    Signal 1/1   <.-|>   [Done by: 11-May-2013 04:20:39]
+Position 182/189:
+    Signal 1/1   <.-|>   [Done by: 11-May-2013 05:01:30]
+Position 183/189:
+    Signal 1/1   <.-|>   [Done by: 11-May-2013 05:34:45]
+Position 184/189:
+    Signal 1/1   <.-|>   [Done by: 11-May-2013 05:32:00]
+Position 185/189:
+    Signal 1/1   <.-|>   [Done by: 11-May-2013 05:32:55]
+Position 186/189:
+    Signal 1/1   <.-|>   [Done by: 11-May-2013 05:09:50]
+Position 187/189:
+    Signal 1/1   <.-|>   [Done by: 11-May-2013 05:06:24]
+Position 188/189:
+    Signal 1/1   <.-|>   [Done by: 11-May-2013 05:01:36]
+Position 189/189:
+    Signal 1/1   <.-|>   [Done by: 11-May-2013 04:39:18]
+>> Your MATLAB session has timed out.  All license keys have been returned.

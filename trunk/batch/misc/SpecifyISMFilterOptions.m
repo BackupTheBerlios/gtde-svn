@@ -86,6 +86,9 @@ function experimentOptions = SpecifyISMFilterOptions(experimentOptions)
         experimentOptions.sourcePositionOptions = tmp.experimentOptions.sourcePositionOptions;
         experimentOptions.microphonePositions = tmp.experimentOptions.microphonePositions;
         experimentOptions.sourcePositions = tmp.experimentOptions.sourcePositions;
+        % Keep the wanted folder (for different machine processing
+        % purposes).
+        tmp.experimentOptions.ismOptions.folder = experimentOptions.ismOptions.folder;
         experimentOptions.ismOptions = tmp.experimentOptions.ismOptions;
     else
         % The ISM folder does not exist (we will need to compute them)

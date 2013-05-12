@@ -113,7 +113,7 @@ function [signals, fs] = GetSignalRealization(experimentOptions,sSignal,sPositio
             % Apply RIR filter
             partialSignals = ISM_AudioData(ISMFileName,signal,'SilentFlag',1);
             partialSignals = partialSignals';
-            if exist(experimentOptions.microphonePositionOptions,'subSet'),
+            if isfield(experimentOptions.microphonePositionOptions,'subSet'),
                 partialSignals = partialSignals(experimentOptions.microphonePositionOptions.subSet,:);
             end
         case 'real'

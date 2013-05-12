@@ -1,0 +1,968 @@
+
+                            < M A T L A B (R) >
+                  Copyright 1984-2012 The MathWorks, Inc.
+                    R2012b (8.0.0.783) 64-bit (glnxa64)
+                              August 22, 2012
+
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/pmtk3-3jan11] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/pmtk3-3jan11/demos] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/pmtk3-3jan11/demos/markovLanguageEx] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/pmtk3-3jan11/docs] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/pmtk3-3jan11/docs/authors] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/pmtk3-3jan11/docs/classSystem] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/pmtk3-3jan11/docs/demoOutput] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/pmtk3-3jan11/docs/demoOutput/bookDemos] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/pmtk3-3jan11/docs/demoOutput/bookDemos/Bayesian_statistics_I] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/pmtk3-3jan11/docs/demoOutput/bookDemos/Bayesian_statistics_II] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/pmtk3-3jan11/docs/demoOutput/bookDemos/Bound_optimization_and_the_EM_algorithm] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/pmtk3-3jan11/docs/demoOutput/bookDemos/Clustering] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/pmtk3-3jan11/docs/demoOutput/bookDemos/Constrained_optimization] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/pmtk3-3jan11/docs/demoOutput/bookDemos/Convex_analysis] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/pmtk3-3jan11/docs/demoOutput/bookDemos/Decision_theory] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/pmtk3-3jan11/docs/demoOutput/bookDemos/Directed_graphical_models_Bayes_nets] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/pmtk3-3jan11/docs/demoOutput/bookDemos/Discrete_optimization] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/pmtk3-3jan11/docs/demoOutput/bookDemos/Discriminative_models_for_regression_and_classification] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/pmtk3-3jan11/docs/demoOutput/bookDemos/Frequentist_statistics] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/pmtk3-3jan11/docs/demoOutput/bookDemos/Gaussian_graphical_models] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/pmtk3-3jan11/docs/demoOutput/bookDemos/Gaussian_processes] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/pmtk3-3jan11/docs/demoOutput/bookDemos/Generalized_linear_models] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/pmtk3-3jan11/docs/demoOutput/bookDemos/Generative_models_for_classification_and_regression] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/pmtk3-3jan11/docs/demoOutput/bookDemos/Graphical_model_structure_learning] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/pmtk3-3jan11/docs/demoOutput/bookDemos/Information_theory] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/pmtk3-3jan11/docs/demoOutput/bookDemos/Introduction] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/pmtk3-3jan11/docs/demoOutput/bookDemos/Kernel_methods_for_supervised_learning] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/pmtk3-3jan11/docs/demoOutput/bookDemos/Latent_factor_models] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/pmtk3-3jan11/docs/demoOutput/bookDemos/Linear_algebra] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/pmtk3-3jan11/docs/demoOutput/bookDemos/Monte_Carlo_inference] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/pmtk3-3jan11/docs/demoOutput/bookDemos/Neural_networks] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/pmtk3-3jan11/docs/demoOutput/bookDemos/Online_inference] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/pmtk3-3jan11/docs/demoOutput/bookDemos/Probability_I] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/pmtk3-3jan11/docs/demoOutput/bookDemos/Probability_II] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/pmtk3-3jan11/docs/demoOutput/bookDemos/State_space_models] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/pmtk3-3jan11/docs/demoOutput/bookDemos/Stationary_distribution_of_Markov_chains] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/pmtk3-3jan11/docs/demoOutput/bookDemos/Support_vector_machines] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/pmtk3-3jan11/docs/demoOutput/bookDemos/The_multivariate_Gaussian_and_friends] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/pmtk3-3jan11/docs/demoOutput/bookDemos/Unconstrained_optimization] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/pmtk3-3jan11/docs/demoOutput/bookDemos/Undirected_graphical_models_Markov_random_fields] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/pmtk3-3jan11/docs/demoOutput/bookDemos/Variable_selection_and_sparsity] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/pmtk3-3jan11/docs/demoOutput/bookDemos/Variational_mean_field_inference] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/pmtk3-3jan11/docs/demoOutput/otherDemos] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/pmtk3-3jan11/docs/demoOutput/otherDemos/algorithms] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/pmtk3-3jan11/docs/demoOutput/otherDemos/basicModels] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/pmtk3-3jan11/docs/demoOutput/otherDemos/graphicalModels] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/pmtk3-3jan11/docs/demoOutput/otherDemos/latentModels] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/pmtk3-3jan11/docs/demoOutput/otherDemos/simplePlots] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/pmtk3-3jan11/docs/demoOutput/otherDemos/supervisedModels] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/pmtk3-3jan11/docs/gmInferenceTiming] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/pmtk3-3jan11/docs/modelLists] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/pmtk3-3jan11/docs/modelsByMethods] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/pmtk3-3jan11/docs/synopsis] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/pmtk3-3jan11/docs/synopsis/Algorithms] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/pmtk3-3jan11/docs/synopsis/BasicModels] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/pmtk3-3jan11/docs/synopsis/GraphicalModels] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/pmtk3-3jan11/docs/synopsis/LatentVariableModels] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/pmtk3-3jan11/docs/synopsis/SupervisedModels] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/pmtk3-3jan11/docs/tutorial] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/pmtk3-3jan11/docs/tutorial/attic] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/pmtk3-3jan11/docs/tutorial/attic/html] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/pmtk3-3jan11/docs/tutorial/extraFigures] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/pmtk3-3jan11/docs/tutorial/html] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/pmtk3-3jan11/matlabTools] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/pmtk3-3jan11/matlabTools/graph] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/pmtk3-3jan11/matlabTools/graphics] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/pmtk3-3jan11/matlabTools/metaTools] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/pmtk3-3jan11/matlabTools/oop] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/pmtk3-3jan11/matlabTools/stats] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/pmtk3-3jan11/matlabTools/util] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/pmtk3-3jan11/pmtkTools] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/pmtk3-3jan11/pmtkTools/dataTools] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/pmtk3-3jan11/pmtkTools/pml] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/pmtk3-3jan11/pmtkTools/reports] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/pmtk3-3jan11/pmtkTools/reports/sub] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/pmtk3-3jan11/pmtkTools/supportTools] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/pmtk3-3jan11/pmtkTools/systemInfo] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/pmtk3-3jan11/pmtkTools/testing] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/pmtk3-3jan11/pmtkdataCopy] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/pmtk3-3jan11/pmtkdataSmall] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/pmtk3-3jan11/pmtksupportCopy] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/pmtk3-3jan11/projects] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/pmtk3-3jan11/projects/Emt] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/pmtk3-3jan11/projects/Emt/FA] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/pmtk3-3jan11/projects/Emt/FA/1DdemosFA] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/pmtk3-3jan11/projects/Emt/FA/ArdFA] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/pmtk3-3jan11/projects/Emt/FA/BEFA] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/pmtk3-3jan11/projects/Emt/FA/BXPCA] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/pmtk3-3jan11/projects/Emt/FA/EFA] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/pmtk3-3jan11/projects/Emt/FA/EFA/old] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/pmtk3-3jan11/projects/Emt/FA/MixedDataFA] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/pmtk3-3jan11/projects/Emt/FA/MixedMF] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/pmtk3-3jan11/projects/Emt/FA/MixtureFA] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/pmtk3-3jan11/projects/Emt/FA/MvnGibbs] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/pmtk3-3jan11/projects/Emt/FA/gaussFA] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/pmtk3-3jan11/projects/Emt/FA/poissonFA] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/pmtk3-3jan11/projects/Emt/Gmm] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/pmtk3-3jan11/projects/Emt/KPM] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/pmtk3-3jan11/projects/Emt/MixModels] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/pmtk3-3jan11/projects/Emt/MixModels/Gmm] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/pmtk3-3jan11/projects/Emt/MixModels/Imm] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/pmtk3-3jan11/projects/MrfEnergyMinPlots] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/pmtk3-3jan11/projects/MrfEnergyMinPlots/panorama] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/pmtk3-3jan11/projects/MrfEnergyMinPlots/photomontage] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/pmtk3-3jan11/projects/MrfEnergyMinPlots/tsukuba] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/pmtk3-3jan11/projects/entities] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/pmtk3-3jan11/projects/sceneContext] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/pmtk3-3jan11/projects/sportsTracking] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/pmtk3-3jan11/python] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/pmtk3-3jan11/python/demos] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/pmtk3-3jan11/toolbox] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/pmtk3-3jan11/toolbox/Algorithms] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/pmtk3-3jan11/toolbox/Algorithms/control] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/pmtk3-3jan11/toolbox/Algorithms/imputation] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/pmtk3-3jan11/toolbox/Algorithms/kernels] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/pmtk3-3jan11/toolbox/Algorithms/mcmc] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/pmtk3-3jan11/toolbox/Algorithms/mlcomp] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/pmtk3-3jan11/toolbox/Algorithms/optimization] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/pmtk3-3jan11/toolbox/Algorithms/variableSelection] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/pmtk3-3jan11/toolbox/Algorithms/variableSelection/lassoExtra] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/pmtk3-3jan11/toolbox/Algorithms/variableSelection/sub] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/pmtk3-3jan11/toolbox/BasicModels] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/pmtk3-3jan11/toolbox/BasicModels/beta] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/pmtk3-3jan11/toolbox/BasicModels/beta/sub] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/pmtk3-3jan11/toolbox/BasicModels/betaBinomial] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/pmtk3-3jan11/toolbox/BasicModels/binomial] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/pmtk3-3jan11/toolbox/BasicModels/binomial/sub] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/pmtk3-3jan11/toolbox/BasicModels/chi2] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/pmtk3-3jan11/toolbox/BasicModels/chi2/sub] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/pmtk3-3jan11/toolbox/BasicModels/dirichlet] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/pmtk3-3jan11/toolbox/BasicModels/discrete] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/pmtk3-3jan11/toolbox/BasicModels/discrete/sub] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/pmtk3-3jan11/toolbox/BasicModels/gamma] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/pmtk3-3jan11/toolbox/BasicModels/gamma/sub] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/pmtk3-3jan11/toolbox/BasicModels/gauss] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/pmtk3-3jan11/toolbox/BasicModels/gauss/sub] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/pmtk3-3jan11/toolbox/BasicModels/gaussInvWishart] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/pmtk3-3jan11/toolbox/BasicModels/gaussInvWishart/sub] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/pmtk3-3jan11/toolbox/BasicModels/invChi2] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/pmtk3-3jan11/toolbox/BasicModels/invGamma] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/pmtk3-3jan11/toolbox/BasicModels/invWishart] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/pmtk3-3jan11/toolbox/BasicModels/laplace] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/pmtk3-3jan11/toolbox/BasicModels/laplace/sub] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/pmtk3-3jan11/toolbox/BasicModels/markov] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/pmtk3-3jan11/toolbox/BasicModels/markov/sub] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/pmtk3-3jan11/toolbox/BasicModels/multinomial] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/pmtk3-3jan11/toolbox/BasicModels/multinomial/sub] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/pmtk3-3jan11/toolbox/BasicModels/pareto] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/pmtk3-3jan11/toolbox/BasicModels/poisson] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/pmtk3-3jan11/toolbox/BasicModels/student] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/pmtk3-3jan11/toolbox/BasicModels/student/sub] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/pmtk3-3jan11/toolbox/BasicModels/sub] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/pmtk3-3jan11/toolbox/BasicModels/sub/normalExpGamma] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/pmtk3-3jan11/toolbox/BasicModels/sub/normalGamma] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/pmtk3-3jan11/toolbox/BasicModels/sub/normalJeffreys] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/pmtk3-3jan11/toolbox/BasicModels/uniform] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/pmtk3-3jan11/toolbox/BasicModels/uniform/sub] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/pmtk3-3jan11/toolbox/BasicModels/wishart] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/pmtk3-3jan11/toolbox/GraphicalModels] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/pmtk3-3jan11/toolbox/GraphicalModels/cpd] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/pmtk3-3jan11/toolbox/GraphicalModels/cpd/sub] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/pmtk3-3jan11/toolbox/GraphicalModels/crf2] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/pmtk3-3jan11/toolbox/GraphicalModels/dgm] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/pmtk3-3jan11/toolbox/GraphicalModels/dgm/sub] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/pmtk3-3jan11/toolbox/GraphicalModels/dgmSeq] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/pmtk3-3jan11/toolbox/GraphicalModels/dgmSeq/sub] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/pmtk3-3jan11/toolbox/GraphicalModels/factorGraph] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/pmtk3-3jan11/toolbox/GraphicalModels/ggm] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/pmtk3-3jan11/toolbox/GraphicalModels/ggm/sub] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/pmtk3-3jan11/toolbox/GraphicalModels/inference] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/pmtk3-3jan11/toolbox/GraphicalModels/inference/beliefPropagation] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/pmtk3-3jan11/toolbox/GraphicalModels/inference/beliefPropagation/sub] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/pmtk3-3jan11/toolbox/GraphicalModels/inference/junctionTree] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/pmtk3-3jan11/toolbox/GraphicalModels/inference/junctionTree/sub] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/pmtk3-3jan11/toolbox/GraphicalModels/inference/libdai] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/pmtk3-3jan11/toolbox/GraphicalModels/mrf] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/pmtk3-3jan11/toolbox/GraphicalModels/mrf/sub] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/pmtk3-3jan11/toolbox/GraphicalModels/mrf2] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/pmtk3-3jan11/toolbox/GraphicalModels/mrf2/sub] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/pmtk3-3jan11/toolbox/GraphicalModels/networks] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/pmtk3-3jan11/toolbox/GraphicalModels/tabularFactor] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/pmtk3-3jan11/toolbox/GraphicalModels/tabularFactor/sub] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/pmtk3-3jan11/toolbox/GraphicalModels/treegm] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/pmtk3-3jan11/toolbox/LatentVariableModels] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/pmtk3-3jan11/toolbox/LatentVariableModels/binaryFA] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/pmtk3-3jan11/toolbox/LatentVariableModels/catFA] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/pmtk3-3jan11/toolbox/LatentVariableModels/deepBelNet] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/pmtk3-3jan11/toolbox/LatentVariableModels/hmm] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/pmtk3-3jan11/toolbox/LatentVariableModels/hmm/sub] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/pmtk3-3jan11/toolbox/LatentVariableModels/kmeans] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/pmtk3-3jan11/toolbox/LatentVariableModels/lds] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/pmtk3-3jan11/toolbox/LatentVariableModels/lds/sub] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/pmtk3-3jan11/toolbox/LatentVariableModels/mixDiscrete] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/pmtk3-3jan11/toolbox/LatentVariableModels/mixGauss] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/pmtk3-3jan11/toolbox/LatentVariableModels/mixGaussBayes] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/pmtk3-3jan11/toolbox/LatentVariableModels/mixGaussBayes/sub] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/pmtk3-3jan11/toolbox/LatentVariableModels/mixGaussDiscrete] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/pmtk3-3jan11/toolbox/LatentVariableModels/mixStudent] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/pmtk3-3jan11/toolbox/LatentVariableModels/noisyMixModel] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/pmtk3-3jan11/toolbox/LatentVariableModels/ppca] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/pmtk3-3jan11/toolbox/LatentVariableModels/ppca/sub] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/pmtk3-3jan11/toolbox/LatentVariableModels/rbm] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/pmtk3-3jan11/toolbox/LatentVariableModels/rbm/sub] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/pmtk3-3jan11/toolbox/SupervisedModels] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/pmtk3-3jan11/toolbox/SupervisedModels/decisionTrees] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/pmtk3-3jan11/toolbox/SupervisedModels/discrimAnalysis] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/pmtk3-3jan11/toolbox/SupervisedModels/discrimAnalysis/sub] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/pmtk3-3jan11/toolbox/SupervisedModels/fisherLda] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/pmtk3-3jan11/toolbox/SupervisedModels/generativeClassifier] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/pmtk3-3jan11/toolbox/SupervisedModels/knn] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/pmtk3-3jan11/toolbox/SupervisedModels/linreg] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/pmtk3-3jan11/toolbox/SupervisedModels/linreg/linregRobustStudent] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/pmtk3-3jan11/toolbox/SupervisedModels/linreg/linregRobustStudent/sub] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/pmtk3-3jan11/toolbox/SupervisedModels/linreg/sub] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/pmtk3-3jan11/toolbox/SupervisedModels/logreg] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/pmtk3-3jan11/toolbox/SupervisedModels/logreg/sub] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/pmtk3-3jan11/toolbox/SupervisedModels/mixexp] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/pmtk3-3jan11/toolbox/SupervisedModels/mlp] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/pmtk3-3jan11/toolbox/SupervisedModels/mlp/sub] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/pmtk3-3jan11/toolbox/SupervisedModels/naiveBayes] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/pmtk3-3jan11/toolbox/SupervisedModels/oneVsRestClassif] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/pmtk3-3jan11/toolbox/SupervisedModels/probitReg] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/pmtk3-3jan11/toolbox/SupervisedModels/probitReg/sub] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/pmtk3-3jan11/toolbox/SupervisedModels/rvm] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/pmtk3-3jan11/toolbox/SupervisedModels/rvm/sub] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/pmtk3-3jan11/toolbox/SupervisedModels/smlr] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/pmtk3-3jan11/toolbox/SupervisedModels/svm] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/pmtk3-3jan11/toolbox/SupervisedModels/svm/sub] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/dmeta_submission] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/dmeta_submission/images] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/dmeta_submission/precomputedModels] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/dmeta_submission/visualModels] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/dmeta_submission/voicebox] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/dmeta_submission/voicebox/.svn] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/dmeta_submission/voicebox/.svn/prop-base] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/dmeta_submission/voicebox/.svn/props] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/dmeta_submission/voicebox/.svn/text-base] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/dmeta_submission/voicebox/.svn/tmp] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/dmeta_submission/voicebox/.svn/tmp/prop-base] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/dmeta_submission/voicebox/.svn/tmp/props] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/dmeta_submission/voicebox/.svn/tmp/text-base] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/dmeta_submission/wav] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/CalibrationSoftware/VisualCalibrationMatlab/toolbox_calib] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/RavelAnnotation] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/RavelAnnotation/ELANnterface] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/RavelAnnotation/Images] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/RavelAnnotation/Images/left] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/RavelAnnotation/Images/right] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/RavelAnnotation/SALEM] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/RavelAnnotation/TLD] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/RavelAnnotation/TLD/_output] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/RavelAnnotation/TLD/bbox] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/RavelAnnotation/TLD/img] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/RavelAnnotation/TLD/mex] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/RavelAnnotation/TLD/other] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/RavelAnnotation/TLD/test] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/RavelAnnotation/TLD/tld] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/RavelAnnotation/TLD/utils] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/RavelAnnotation/src] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/RavelAnnotation/srcRobotGestures] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/RavelAnnotation/stereo] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/RavelAnnotation/voicebox] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Sequences/Matlab] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Sequences/Matlab/HMACpackage_matlab] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/audioassoc/trunk/matlab] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/audioassoc/trunk/matlab/HMMSequences] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/gtde/trunk] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/gtde/trunk/batch] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/gtde/trunk/batch/io] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/gtde/trunk/batch/misc] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/gtde/trunk/batch/signalProcessing] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/gtde/trunk/batch/soundSourceLocalization] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/gtde/trunk/run] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/gtde/trunk/src] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/gtde/trunk/src/geometry] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/gtde/trunk/src/misc] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/gtde/trunk/src/optimization] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/gtde/trunk/src/signalProcessing] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/gtde/trunk/src/soundSourceLocalization] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/gtde/trunk/test] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/gtde/trunk/test/misc] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/gtde/trunk/test/optimization] 
+[Warning: Name is nonexistent or not a directory:
+/local_scratch/alamedap/Software/gtde/trunk/test/signalProcessing] 
+[Warning: Name is nonexistent or not a directory:
+/softs/stow/matlab-2012b/toolbox/slvnv/rmidemos] 
+ 
+To get started, type one of these: helpwin, helpdesk, or demo.
+For product information, visit www.mathworks.com.
+ 
+Warning: The field "sourcePositions" is set, clearing the field "sourcePositionOptions".
+Warning: The field "microphonePositions" is set, clearing the field "microphonePositionOptions".
+=========================================
+Running TDE batch
+-----------------
+Method: bab
+Data: simulated
+Environment: /scratch/cassiopeia/alamedap/Software/gtde/trunk/SPHERICAL-2013/
+SNR:	5.0
+T60:	0.1 
+=========================================
+Position 1/189:
+    Signal 1/1   <.-|>   [Done by: 28-Apr-2013 23:34:52]
+Position 2/189:
+    Signal 1/1   <.-|>   [Done by: 28-Apr-2013 20:37:35]
+Position 3/189:
+    Signal 1/1   <.-|>   [Done by: 28-Apr-2013 17:35:06]
+Position 4/189:
+    Signal 1/1   <.-|>   [Done by: 28-Apr-2013 21:33:15]
+Position 5/189:
+    Signal 1/1   <.-|>   [Done by: 29-Apr-2013 02:58:07]
+Position 6/189:
+    Signal 1/1   <.-|>   [Done by: 29-Apr-2013 04:34:33]
+Position 7/189:
+    Signal 1/1   <.-|>   [Done by: 29-Apr-2013 02:56:49]
+Position 8/189:
+    Signal 1/1   <.-|>   [Done by: 29-Apr-2013 00:15:50]
+Position 9/189:
+    Signal 1/1   <.-|>   [Done by: 29-Apr-2013 00:32:22]
+Position 10/189:
+    Signal 1/1   <.-|>   [Done by: 29-Apr-2013 00:49:11]
+Position 11/189:
+    Signal 1/1   <.-|>   [Done by: 29-Apr-2013 01:03:58]
+Position 12/189:
+    Signal 1/1   <.-|>   [Done by: 29-Apr-2013 02:39:45]
+Position 13/189:
+    Signal 1/1   <.-|>   [Done by: 29-Apr-2013 02:28:45]
+Position 14/189:
+    Signal 1/1   <.-|>   [Done by: 29-Apr-2013 04:06:04]
+Position 15/189:
+    Signal 1/1   <.-|>   [Done by: 29-Apr-2013 02:23:01]
+Position 16/189:
+    Signal 1/1   <.-|>   [Done by: 29-Apr-2013 02:33:39]
+Position 17/189:
+    Signal 1/1   <.-|>   [Done by: 29-Apr-2013 01:49:54]
+Position 18/189:
+    Signal 1/1   <.-|>   [Done by: 29-Apr-2013 00:29:26]
+Position 19/189:
+    Signal 1/1   <.-|>   [Done by: 29-Apr-2013 01:06:02]
+Position 20/189:
+    Signal 1/1   <.-|>   [Done by: 29-Apr-2013 01:00:35]
+Position 21/189:
+    Signal 1/1   <.-|>   [Done by: 29-Apr-2013 01:28:51]
+Position 22/189:
+    Signal 1/1   <.-|>   [Done by: 29-Apr-2013 01:32:30]
+Position 23/189:
+    Signal 1/1   <.-|>   [Done by: 29-Apr-2013 01:18:59]
+Position 24/189:
+    Signal 1/1   <.-|>   [Done by: 29-Apr-2013 01:20:40]
+Position 25/189:
+    Signal 1/1   <.-|>   [Done by: 29-Apr-2013 03:45:51]
+Position 26/189:
+    Signal 1/1   <.-|>   [Done by: 29-Apr-2013 02:54:42]
+Position 27/189:
+    Signal 1/1   <.-|>   [Done by: 29-Apr-2013 04:26:16]
+Position 28/189:
+    Signal 1/1   <.-|>   [Done by: 29-Apr-2013 03:23:55]
+Position 29/189:
+    Signal 1/1   <.-|>   [Done by: 29-Apr-2013 03:44:41]
+Position 30/189:
+    Signal 1/1   <.-|>   [Done by: 29-Apr-2013 03:31:53]
+Position 31/189:
+    Signal 1/1   <.-|>   [Done by: 29-Apr-2013 03:42:01]
+Position 32/189:
+    Signal 1/1   <.-|>   [Done by: 29-Apr-2013 03:53:22]
+Position 33/189:
+    Signal 1/1   <.-|>   [Done by: 29-Apr-2013 03:41:15]
+Position 34/189:
+    Signal 1/1   <.-|>   [Done by: 29-Apr-2013 03:21:47]
+Position 35/189:
+    Signal 1/1   <.-|>   [Done by: 29-Apr-2013 03:38:00]
+Position 36/189:
+    Signal 1/1   <.-|>   [Done by: 29-Apr-2013 05:21:11]
+Position 37/189:
+    Signal 1/1   <.-|>   [Done by: 29-Apr-2013 05:01:19]
+Position 38/189:
+    Signal 1/1   <.-|>   [Done by: 29-Apr-2013 04:39:00]
+Position 39/189:
+    Signal 1/1   <.-|>   [Done by: 29-Apr-2013 04:27:37]
+Position 40/189:
+    Signal 1/1   <.-|>   [Done by: 29-Apr-2013 04:26:06]
+Position 41/189:
+    Signal 1/1   <.-|>   [Done by: 29-Apr-2013 04:52:02]
+Position 42/189:
+    Signal 1/1   <.-|>   [Done by: 29-Apr-2013 05:03:34]
+Position 43/189:
+    Signal 1/1   <.-|>   [Done by: 29-Apr-2013 05:01:08]
+Position 44/189:
+    Signal 1/1   <.-|>   [Done by: 29-Apr-2013 05:23:11]
+Position 45/189:
+    Signal 1/1   <.-|>   [Done by: 29-Apr-2013 05:18:10]
+Position 46/189:
+    Signal 1/1   <.-|>   [Done by: 29-Apr-2013 04:50:34]
+Position 47/189:
+    Signal 1/1   <.-|>   [Done by: 29-Apr-2013 05:00:54]
+Position 48/189:
+    Signal 1/1   <.-|>   [Done by: 29-Apr-2013 04:44:56]
+Position 49/189:
+    Signal 1/1   <.-|>   [Done by: 29-Apr-2013 05:06:32]
+Position 50/189:
+    Signal 1/1   <.-|>   [Done by: 29-Apr-2013 05:12:03]
+Position 51/189:
+    Signal 1/1   <.-|>   [Done by: 29-Apr-2013 05:42:01]
+Position 52/189:
+    Signal 1/1   <.-|>   [Done by: 29-Apr-2013 05:34:29]
+Position 53/189:
+    Signal 1/1   <.-|>   [Done by: 29-Apr-2013 05:37:11]
+Position 54/189:
+    Signal 1/1   <.-|>   [Done by: 29-Apr-2013 05:26:17]
+Position 55/189:
+    Signal 1/1   <.-|>   [Done by: 29-Apr-2013 05:29:41]
+Position 56/189:
+    Signal 1/1   <.-|>   [Done by: 29-Apr-2013 05:47:53]
+Position 57/189:
+    Signal 1/1   <.-|>   [Done by: 29-Apr-2013 05:45:24]
+Position 58/189:
+    Signal 1/1   <.-|>   [Done by: 29-Apr-2013 05:29:15]
+Position 59/189:
+    Signal 1/1   <.-|>   [Done by: 29-Apr-2013 05:59:04]
+Position 60/189:
+    Signal 1/1   <.-|>   [Done by: 29-Apr-2013 05:56:22]
+Position 61/189:
+    Signal 1/1   <.-|>   [Done by: 29-Apr-2013 06:38:44]
+Position 62/189:
+    Signal 1/1   <.-|>   [Done by: 29-Apr-2013 06:38:11]
+Position 63/189:
+    Signal 1/1   <.-|>   [Done by: 29-Apr-2013 06:38:06]
+Position 64/189:
+    Signal 1/1   <.-|>   [Done by: 29-Apr-2013 06:26:09]
+Position 65/189:
+    Signal 1/1   <.-|>   [Done by: 29-Apr-2013 06:35:07]
+Position 66/189:
+    Signal 1/1   <.-|>   [Done by: 29-Apr-2013 06:31:33]
+Position 67/189:
+    Signal 1/1   <.-|>   [Done by: 29-Apr-2013 06:11:43]
+Position 68/189:
+    Signal 1/1   <.-|>   [Done by: 29-Apr-2013 06:22:23]
+Position 69/189:
+    Signal 1/1   <.-|>   [Done by: 29-Apr-2013 06:32:49]
+Position 70/189:
+    Signal 1/1   <.-|>   [Done by: 29-Apr-2013 07:01:42]
+Position 71/189:
+    Signal 1/1   <.-|>   [Done by: 29-Apr-2013 06:58:07]
+Position 72/189:
+    Signal 1/1   <.-|>   [Done by: 29-Apr-2013 06:57:36]
+Position 73/189:
+    Signal 1/1   <.-|>   [Done by: 29-Apr-2013 06:51:22]
+Position 74/189:
+    Signal 1/1   <.-|>   [Done by: 29-Apr-2013 06:30:47]
+Position 75/189:
+    Signal 1/1   <.-|>   [Done by: 29-Apr-2013 06:22:54]
+Position 76/189:
+    Signal 1/1   <.-|>   [Done by: 29-Apr-2013 06:30:00]
+Position 77/189:
+    Signal 1/1   <.-|>   [Done by: 29-Apr-2013 06:39:54]
+Position 78/189:
+    Signal 1/1   <.-|>   [Done by: 29-Apr-2013 06:56:17]
+Position 79/189:
+    Signal 1/1   <.-|>   [Done by: 29-Apr-2013 06:55:54]
+Position 80/189:
+    Signal 1/1   <.-|>   [Done by: 29-Apr-2013 06:43:08]
+Position 81/189:
+    Signal 1/1   <.-|>   [Done by: 29-Apr-2013 06:48:45]
+Position 82/189:
+    Signal 1/1   <.-|>   [Done by: 29-Apr-2013 06:43:08]
+Position 83/189:
+    Signal 1/1   <.-|>   [Done by: 29-Apr-2013 07:00:10]
+Position 84/189:
+    Signal 1/1   <.-|>   [Done by: 29-Apr-2013 07:31:20]
+Position 85/189:
+    Signal 1/1   <.-|>   [Done by: 29-Apr-2013 07:27:48]
+Position 86/189:
+    Signal 1/1   <.-|>   [Done by: 29-Apr-2013 07:42:20]
+Position 87/189:
+    Signal 1/1   <.-|>   [Done by: 29-Apr-2013 07:24:18]
+Position 88/189:
+    Signal 1/1   <.-|>   [Done by: 29-Apr-2013 07:29:36]
+Position 89/189:
+    Signal 1/1   <.-|>   [Done by: 29-Apr-2013 07:32:58]
+Position 90/189:
+    Signal 1/1   <.-|>   [Done by: 29-Apr-2013 07:42:46]
+Position 91/189:
+    Signal 1/1   <.-|>   [Done by: 29-Apr-2013 07:41:46]
+Position 92/189:
+    Signal 1/1   <.-|>   [Done by: 29-Apr-2013 07:34:42]
+Position 93/189:
+    Signal 1/1   <.-|>   [Done by: 29-Apr-2013 07:26:17]
+Position 94/189:
+    Signal 1/1   <.-|>   [Done by: 29-Apr-2013 07:21:50]
+Position 95/189:
+    Signal 1/1   <.-|>   [Done by: 29-Apr-2013 07:19:18]
+Position 96/189:
+    Signal 1/1   <.-|>   [Done by: 29-Apr-2013 07:42:55]
+Position 97/189:
+    Signal 1/1   <.-|>   [Done by: 29-Apr-2013 07:50:07]
+Position 98/189:
+    Signal 1/1   <.-|>   [Done by: 29-Apr-2013 07:34:06]
+Position 99/189:
+    Signal 1/1   <.-|>   [Done by: 29-Apr-2013 07:42:25]
+Position 100/189:
+    Signal 1/1   <.-|>   [Done by: 29-Apr-2013 07:29:37]
+Position 101/189:
+    Signal 1/1   <.-|>   [Done by: 29-Apr-2013 07:19:06]
+Position 102/189:
+    Signal 1/1   <.-|>   [Done by: 29-Apr-2013 07:27:47]
+Position 103/189:
+    Signal 1/1   <.-|>   [Done by: 29-Apr-2013 07:12:40]
+Position 104/189:
+    Signal 1/1   <.-|>   [Done by: 29-Apr-2013 07:17:33]
+Position 105/189:
+    Signal 1/1   <.-|>   [Done by: 29-Apr-2013 07:00:28]
+Position 106/189:
+    Signal 1/1   <.-|>   [Done by: 29-Apr-2013 06:51:57]
+Position 107/189:
+    Signal 1/1   <.-|>   [Done by: 29-Apr-2013 07:03:45]
+Position 108/189:
+    Signal 1/1   <.-|>   [Done by: 29-Apr-2013 07:06:50]
+Position 109/189:
+    Signal 1/1   <.-|>   [Done by: 29-Apr-2013 06:56:36]
+Position 110/189:
+    Signal 1/1   <.-|>   [Done by: 29-Apr-2013 06:58:02]
+Position 111/189:
+    Signal 1/1   <.-|>   [Done by: 29-Apr-2013 07:00:53]
+Position 112/189:
+    Signal 1/1   <.-|>   [Done by: 29-Apr-2013 06:56:55]
+Position 113/189:
+    Signal 1/1   <.-|>   [Done by: 29-Apr-2013 06:51:09]
+Position 114/189:
+    Signal 1/1   <.-|>   [Done by: 29-Apr-2013 06:52:03]
+Position 115/189:
+    Signal 1/1   <.-|>   [Done by: 29-Apr-2013 06:51:54]
+Position 116/189:
+    Signal 1/1   <.-|>   [Done by: 29-Apr-2013 06:33:58]
+Position 117/189:
+    Signal 1/1   <.-|>   [Done by: 29-Apr-2013 06:32:27]
+Position 118/189:
+    Signal 1/1   <.-|>   [Done by: 29-Apr-2013 06:27:46]
+Position 119/189:
+    Signal 1/1   <.-|>   [Done by: 29-Apr-2013 06:27:44]
+Position 120/189:
+    Signal 1/1   <.-|>   [Done by: 29-Apr-2013 06:35:46]
+Position 121/189:
+    Signal 1/1   <.-|>   [Done by: 29-Apr-2013 06:34:48]
+Position 122/189:
+    Signal 1/1   <.-|>   [Done by: 29-Apr-2013 06:36:00]
+Position 123/189:
+    Signal 1/1   <.-|>   [Done by: 29-Apr-2013 06:55:00]
+Position 124/189:
+    Signal 1/1   <.-|>   [Done by: 29-Apr-2013 06:50:16]
+Position 125/189:
+    Signal 1/1   <.-|>   [Done by: 29-Apr-2013 06:49:49]
+Position 126/189:
+    Signal 1/1   <.-|>   [Done by: 29-Apr-2013 07:01:50]
+Position 127/189:
+    Signal 1/1   <.-|>   [Done by: 29-Apr-2013 06:57:16]
+Position 128/189:
+    Signal 1/1   <.-|>   [Done by: 29-Apr-2013 07:13:56]
+Position 129/189:
+    Signal 1/1   <.-|>   [Done by: 29-Apr-2013 07:13:50]
+Position 130/189:
+    Signal 1/1   <.-|>   [Done by: 29-Apr-2013 07:00:33]
+Position 131/189:
+    Signal 1/1   <.-|>   [Done by: 29-Apr-2013 07:22:25]
+Position 132/189:
+    Signal 1/1   <.-|>   [Done by: 29-Apr-2013 07:22:18]
+Position 133/189:
+    Signal 1/1   <.-|>   [Done by: 29-Apr-2013 07:14:49]
+Position 134/189:
+    Signal 1/1   <.-|>   [Done by: 29-Apr-2013 07:24:16]
+Position 135/189:
+    Signal 1/1   <.-|>   [Done by: 29-Apr-2013 07:11:56]
+Position 136/189:
+    Signal 1/1   <.-|>   [Done by: 29-Apr-2013 07:14:02]
+Position 137/189:
+    Signal 1/1   <.-|>   [Done by: 29-Apr-2013 07:22:57]
+Position 138/189:
+    Signal 1/1   <.-|>   [Done by: 29-Apr-2013 07:29:30]
+Position 139/189:
+    Signal 1/1   <.-|>   [Done by: 29-Apr-2013 07:46:59]
+Position 140/189:
+    Signal 1/1   <.-|>   [Done by: 29-Apr-2013 07:41:33]
+Position 141/189:
+    Signal 1/1   <.-|>   [Done by: 29-Apr-2013 08:08:56]
+Position 142/189:
+    Signal 1/1   <.-|>   [Done by: 29-Apr-2013 07:54:39]
+Position 143/189:
+    Signal 1/1   <.-|>   [Done by: 29-Apr-2013 07:57:49]
+Position 144/189:
+    Signal 1/1   <.-|>   [Done by: 29-Apr-2013 07:45:28]
+Position 145/189:
+    Signal 1/1   <.-|>   [Done by: 29-Apr-2013 08:00:04]
+Position 146/189:
+    Signal 1/1   <.-|>   [Done by: 29-Apr-2013 07:59:05]
+Position 147/189:
+    Signal 1/1   <.-|>   [Done by: 29-Apr-2013 07:45:46]
+Position 148/189:
+    Signal 1/1   <.-|>   [Done by: 29-Apr-2013 07:54:51]
+Position 149/189:
+    Signal 1/1   <.-|>   [Done by: 29-Apr-2013 07:47:56]
+Position 150/189:
+    Signal 1/1   <.-|>   [Done by: 29-Apr-2013 07:34:56]
+Position 151/189:
+    Signal 1/1   <.-|>   [Done by: 29-Apr-2013 07:37:04]
+Position 152/189:
+    Signal 1/1   <.-|>   [Done by: 29-Apr-2013 07:39:05]
+Position 153/189:
+    Signal 1/1   <.-|>   [Done by: 29-Apr-2013 07:27:39]
+Position 154/189:
+    Signal 1/1   <.-|>   [Done by: 29-Apr-2013 07:32:09]
+Position 155/189:
+    Signal 1/1   <.-|>   [Done by: 29-Apr-2013 07:22:12]
+Position 156/189:
+    Signal 1/1   <.-|>   [Done by: 29-Apr-2013 07:13:12]
+Position 157/189:
+    Signal 1/1   <.-|>   [Done by: 29-Apr-2013 07:06:54]
+Position 158/189:
+    Signal 1/1   <.-|>   [Done by: 29-Apr-2013 07:10:21]
+Position 159/189:
+    Signal 1/1   <.-|>   [Done by: 29-Apr-2013 07:04:23]
+Position 160/189:
+    Signal 1/1   <.-|>   [Done by: 29-Apr-2013 07:27:50]
+Position 161/189:
+    Signal 1/1   <.-|>   [Done by: 29-Apr-2013 07:20:10]
+Position 162/189:
+    Signal 1/1   <.-|>   [Done by: 29-Apr-2013 07:25:22]
+Position 163/189:
+    Signal 1/1   <.-|>   [Done by: 29-Apr-2013 07:18:58]
+Position 164/189:
+    Signal 1/1   <.-|>   [Done by: 29-Apr-2013 07:29:48]
+Position 165/189:
+    Signal 1/1   <.-|>   [Done by: 29-Apr-2013 07:31:42]
+Position 166/189:
+    Signal 1/1   <.-|>   [Done by: 29-Apr-2013 07:32:17]
+Position 167/189:
+    Signal 1/1   <.-|>   [Done by: 29-Apr-2013 07:28:25]
+Position 168/189:
+    Signal 1/1   <.-|>   [Done by: 29-Apr-2013 07:26:48]
+Position 169/189:
+    Signal 1/1   <.-|>   [Done by: 29-Apr-2013 07:20:51]
+Position 170/189:
+    Signal 1/1   <.-|>   [Done by: 29-Apr-2013 07:21:29]
+Position 171/189:
+    Signal 1/1   <.-|>   [Done by: 29-Apr-2013 07:25:06]
+Position 172/189:
+    Signal 1/1   <.-|>   [Done by: 29-Apr-2013 07:20:08]
+Position 173/189:
+    Signal 1/1   <.-|>   [Done by: 29-Apr-2013 07:14:15]
+Position 174/189:
+    Signal 1/1   <.-|>   [Done by: 29-Apr-2013 07:20:18]
+Position 175/189:
+    Signal 1/1   <.-|>   [Done by: 29-Apr-2013 07:22:54]
+Position 176/189:
+    Signal 1/1   <.-|>   [Done by: 29-Apr-2013 07:20:19]
+Position 177/189:
+    Signal 1/1   <.-|>   [Done by: 29-Apr-2013 07:24:53]
+Position 178/189:
+    Signal 1/1   <.-|>   [Done by: 29-Apr-2013 07:37:11]
+Position 179/189:
+    Signal 1/1   <.-|>   [Done by: 29-Apr-2013 07:33:28]
+Position 180/189:
+    Signal 1/1   <.-|>   [Done by: 29-Apr-2013 07:33:46]
+Position 181/189:
+    Signal 1/1   <.-|>   [Done by: 29-Apr-2013 07:25:45]
+Position 182/189:
+    Signal 1/1   <.-|>   [Done by: 29-Apr-2013 07:37:05]
+Position 183/189:
+    Signal 1/1   <.-|>   [Done by: 29-Apr-2013 07:49:10]
+Position 184/189:
+    Signal 1/1   <.-|>   [Done by: 29-Apr-2013 07:48:04]
+Position 185/189:
+    Signal 1/1   <.-|>   [Done by: 29-Apr-2013 07:50:52]
+Position 186/189:
+    Signal 1/1   <.-|>   [Done by: 29-Apr-2013 07:44:03]
+Position 187/189:
+    Signal 1/1   <.-|>   [Done by: 29-Apr-2013 07:45:32]
+Position 188/189:
+    Signal 1/1   <.-|>   [Done by: 29-Apr-2013 07:41:51]
+Position 189/189:
+    Signal 1/1   <.-|>   [Done by: 29-Apr-2013 07:35:07]
+>> Your MATLAB session has timed out.  All license keys have been returned.
